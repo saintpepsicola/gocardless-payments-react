@@ -4,7 +4,7 @@ import axiosMiddleware from 'redux-axios-middleware'
 import rootReducer from './redux'
 
 const client = axios.create({
-    baseURL: 'https://api.github.com'
+    baseURL: 'https://api.84r.co/'
 })
 
 export default function configureStore() {

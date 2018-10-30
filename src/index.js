@@ -11,5 +11,4 @@ const rootElement = <Provider store={configureStore()}>
 </Provider>
 
 ReactDOM.render(rootElement, document.getElementById('root'))
-
 serviceWorker.unregister()
