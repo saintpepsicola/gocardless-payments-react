@@ -7,7 +7,9 @@
     "axios": "^0.18.0",
     "flexboxgrid": "^6.3.1",
     "flow": "^0.2.3",
+    "jwt-decode": "^2.2.0",
     "react": "^16.6.0",
+    "react-cookie": "^3.0.4",
     "react-dom": "^16.6.0",
     "react-flexbox-grid": "^2.1.2",
     "react-redux": "^5.0.7",
@@ -18,7 +20,8 @@
     "redux": "^4.0.1",
     "redux-axios-middleware": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^4.0.2"
+    "styled-components": "^4.0.2",
+    "universal-cookie": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

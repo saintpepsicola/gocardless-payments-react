@@ -36,9 +36,9 @@ export default class RepeatsList extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map(row => {
+                        {rows.map((row, index) => {
                             return (
-                                <OrderRow key={row.id}>
+                                <OrderRow key={index}>
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell>{row.order}</TableCell>
                                     <TableCell>{row.date}</TableCell>
