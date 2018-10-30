@@ -5,19 +5,6 @@ import AuthUser from './auth_user'
 import { connect } from 'react-redux'
 import * as actions from './redux/authentication'
 
-// const isAuthenticated = () => {
-//     const cookies = new Cookies();
-//     const token = cookies.get('podToken-189247ca-76de-45c8-8d29-de3f4d8ff360');
-//     if (token) {
-//         console.log('Authenticated');
-//         return true;
-//     }
-//     console.log('Not authenticated');
-//     const url = `${process.env.REACT_APP_AUTH_URL}/login?client_id=${process.env.REACT_APP_CLIENT_ID}`;
-//     window.location = url;
-//     return false;
-// }
-
 class Routes extends Component {
 
     componentWillMount() {
@@ -27,21 +14,13 @@ class Routes extends Component {
 
     render() {
         console.log(this.props)
-        // Check if authenticated
-        setTimeout(() => {
-            if (!this.props.authenticated) {
-                console.log('Not authed')
-                const url = `${process.env.REACT_APP_AUTH_URL}/login?client_id=${process.env.REACT_APP_CLIENT_ID}`
-                window.location = url
-                return false;
-            }
-        }, 10)
-
         return (
             <BrowserRouter>
                 <Switch>
                     <Route exact path='/auth' component={AuthUser} />
-                    <Route exact path='/' component={App} />
+                    {/* Check if authenticated */}
+                    {!this.props.authenticated && this.props.redirectToAuth()}
+                    {this.props.authenticated && <Route exact path='/' component={App} />}
                 </Switch>
             </BrowserRouter>
         )
@@ -49,7 +28,7 @@ class Routes extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    authenticated: true
+    authenticated: state.authentication.authenticated
 })
 
 export default connect(mapStateToProps, actions)(Routes)
