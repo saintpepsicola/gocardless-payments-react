@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './components/App'
-import AuthUser from './auth_user'
+import AuthUser from './components/Authentication/Authentication'
 import { connect } from 'react-redux'
 import * as actions from './redux/authentication'
 
@@ -13,7 +13,6 @@ class Routes extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <BrowserRouter>
                 <Switch>
