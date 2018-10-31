@@ -1,5 +1,13 @@
+// @flow
 import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
+
+
+// function concat(a: string, b: string) {
+//     return a + b;
+// }
+
+// concat(1, 2);
 
 // Consts
 const cookies = new Cookies()
