@@ -1,4 +1,3 @@
-// @flow
 import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
 
