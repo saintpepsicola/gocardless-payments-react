@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import AppBar from './AppBar/AppBarContainer'
-import Repeats from './RepeatsList/RepeatsList'
 import styled from 'styled-components'
+import { BrowserRouter } from 'react-router-dom'
+import { ProtectedRoutes } from './Routes/ProtectedRoutes'
 
 class App extends Component {
   render() {
@@ -9,7 +10,9 @@ class App extends Component {
       <div>
         <AppBar />
         <Container center="xs" middle="xs">
-          <Repeats />
+          <BrowserRouter>
+            <ProtectedRoutes />
+          </BrowserRouter>
         </Container>
       </div>
     );
@@ -20,6 +23,6 @@ export default App
 
 // Styled Components
 const Container = styled.section`
-      margin:0 auto;
-      width:1100px;
+          margin:0 auto;
+          width:1100px;
 `;
