@@ -6,7 +6,8 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 import headerBackground from '../../resources/header-bg.png'
 import { Row, Col } from 'react-flexbox-grid'
 
-export default class AppBar extends Component {
+type Props ={}
+export default class AppBar extends Component<Props> {
 
     render() {
         return (

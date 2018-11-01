@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 // import styled from 'styled-components'
 import logo from '../../resources/logo-white.png'
 
-export default class Logo extends Component {
+type Props ={}
+export default class Logo extends Component<Props> {
 
     render() {
         return (

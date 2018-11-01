@@ -5,7 +5,8 @@ import React, { Component } from 'react'
 // import headerBackground from '../../resources/header-bg.png'
 // import { Row, Col } from 'react-flexbox-grid'
 
-export default class User extends Component {
+type Props ={}
+export default class User extends Component<Props> {
 
     render() {
         return (

@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ProtectedRoutes } from './Routes/ProtectedRoutes'
 
-class App extends Component {
+type Props ={}
+class App extends Component<Props> {
   render() {
     return (
       <div>
@@ -15,7 +16,7 @@ class App extends Component {
           </BrowserRouter>
         </Container>
       </div>
-    );
+    )
   }
 }
 
@@ -23,6 +24,6 @@ export default App
 
 // Styled Components
 const Container = styled.section`
-          margin:0 auto;
-          width:1100px;
-`;
+  margin:0 auto;
+  width:1100px;
+`

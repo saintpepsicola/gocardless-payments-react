@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-export default class UserAvatar extends Component {
+type Props ={}
+export default class UserAvatar extends Component<Props> {
 
     render() {
         return (
