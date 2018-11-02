@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Logo from '../Logo/Logo'
-import UserAvatar from '../UserAvatar/UserAvatar'
+import UserAvatar from '../UserAvatar/UserAvatarContainer'
 import headerBackground from '../../resources/header-bg.png'
 import { Row, Col } from 'react-flexbox-grid'
 
-type Props ={}
-export default class AppBar extends Component<Props> {
+export default class AppBar extends Component {
 
     render() {
         return (

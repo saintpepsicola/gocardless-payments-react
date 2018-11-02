@@ -12,17 +12,16 @@ import Paper from '@material-ui/core/Paper';
 function createData(name :string, order:string, date:string, status:string) {
     return { name, order, date, status }
 }
-const rows :Array<{}>= [
+const rows= [
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
-];
+]
 
-type Props ={}
-export default class RepeatsList extends Component<Props> {
+export default class RepeatsList extends Component{
 
     render() {
         return (

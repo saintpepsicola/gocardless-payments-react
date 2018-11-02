@@ -2,13 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../../redux/authentication'
 
-type Props ={ 
-    location:{ search :string }, 
-    history:{push: () => mixed},
-     authenticate: (x:string, y:{} ) => mixed
-     }
-
-class Authentication extends React.Component<Props>  {
+class Authentication extends React.Component  {
     componentDidMount() {
         // Authenticate User
         console.log('LOGINSERVICE: ', this.props, this.props.location, this.props.history)
