@@ -2,17 +2,11 @@ import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
 
 //Flow
-const REACT_APP_AUTH_TOKEN: string = process.env.REACT_APP_AUTH_TOKEN != null
-  ? process.env.REACT_APP_AUTH_TOKEN
-  : ''
+const REACT_APP_AUTH_TOKEN = process.env.REACT_APP_AUTH_TOKEN
 
-const REACT_APP_CLIENT_ID: string = process.env.REACT_APP_CLIENT_ID != null
-  ? process.env.REACT_APP_CLIENT_ID
-  : ''
+const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 
-const REACT_APP_AUTH_URL: string = process.env.REACT_APP_AUTH_URL != null
-  ? process.env.REACT_APP_AUTH_URL
-  : '' 
+const REACT_APP_AUTH_URL = process.env.NODE_ENV === 'production' ? `https://auth.84r.co` : process.env.REACT_APP_AUTH_URL
 
 // Consts
 const cookies = new Cookies()
@@ -23,10 +17,10 @@ const initialState = {
     authenticated: checkforAuthToken(),
     error: null
 }
- 
+
 // Action constants
 const REDIRECT_TO_AUTH = 'REDIRECT_TO_AUTH'
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER' 
+const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
 
 // Action creators
 export const redirectToAuth = () => ({ type: REDIRECT_TO_AUTH })
@@ -59,7 +53,7 @@ export default (state = initialState, action) => {
                 ...state,
                 authenticated: true
             }
-        default: 
+        default:
             return state
     }
 }
