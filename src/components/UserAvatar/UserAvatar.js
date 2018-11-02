@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import avatarSrc from '../../resources/avatar.jpg'
 
-export default class UserAvatar extends Component{
+export default class UserAvatar extends Component {
 
     render() {
         return (
             <Avatar>
-                <img alt='user-avatar' src='http://placehold.it/300' />
+                <img alt='user-avatar' src={avatarSrc} />
             </Avatar>
         )
     }
@@ -21,6 +22,6 @@ const Avatar = styled.div`
     max-height:60px;
     width:auto;
     border-radius:50%;
-    border:3px solid coral;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 `

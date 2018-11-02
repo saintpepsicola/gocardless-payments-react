@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ProtectedRoutes } from './Routes/ProtectedRoutes'
 
-type Props ={}
-class App extends Component<Props> {
+class App extends Component {
   render() {
     return (
       <div>
