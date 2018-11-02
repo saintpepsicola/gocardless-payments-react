@@ -6,12 +6,13 @@ export default class Logo extends Component{
 
     render() {
         return (
-            <HealtheraLogo src={logo} alt='Healthera Logo' />
+            <HealtheraLogo src={logo} align="right" alt='Healthera Logo' />
         )
     }
 }
 
 // Styled Components
 const HealtheraLogo = styled.img`
-  text-align:right;
+border:1px solid red;
+text
 `;
