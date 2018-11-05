@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 // Public Routes
 import LoginService from '../LoginService/LoginService'
 
-// Protected Router (not a typo!)
 import App from '../App'
 
 export default class Routes extends Component {
@@ -21,8 +20,9 @@ export default class Routes extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path='/auth' component={LoginService} />
-                    <PrivateRoute path='/' component={App} />
+                    <Route exact path={process.env.PUBLIC_URL + '/auth'} component={LoginService} />
+                    <Route exact path={process.env.PUBLIC_URL + '/hey'} component={App} />
+                    <PrivateRoute path={process.env.PUBLIC_URL + '/'} component={App} />
                 </Switch>
             </BrowserRouter>
         )

@@ -4,7 +4,7 @@ export default class Search extends React.Component {
 
     render() {
         return (
-            <p>Searchbox</p>
+            <h1>Searchbox</h1>
         )
     }
 }

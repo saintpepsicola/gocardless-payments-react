@@ -1,11 +1,10 @@
 import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
 
-//Flow
 const REACT_APP_AUTH_TOKEN = process.env.REACT_APP_AUTH_TOKEN
 
-const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
-
+// We need to do this better later on
+const REACT_APP_CLIENT_ID = process.env.NODE_ENV === 'production' ? `Ac51a1bc845457` : process.env.REACT_APP_CLIENT_ID
 const REACT_APP_AUTH_URL = process.env.NODE_ENV === 'production' ? `https://auth.84r.co` : process.env.REACT_APP_AUTH_URL
 
 // Consts
@@ -36,7 +35,6 @@ function checkforAuthToken() {
 export default (state = initialState, action) => {
     switch (action.type) {
         case REDIRECT_TO_AUTH:
-            console.log('Redirecting for auth')
             const url = `${REACT_APP_AUTH_URL}/login?client_id=${REACT_APP_CLIENT_ID}`
             window.location = url
             return {
