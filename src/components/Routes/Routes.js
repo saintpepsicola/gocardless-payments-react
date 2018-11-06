@@ -16,12 +16,10 @@ export default class Routes extends Component {
             }
             />)
         }
-        console.log('PROPS: ', this.props)
         return (
             <BrowserRouter>
                 <Switch>
                     <Route exact path={process.env.PUBLIC_URL + '/auth'} component={LoginService} />
-                    <Route exact path={process.env.PUBLIC_URL + '/hey'} component={App} />
                     <PrivateRoute path={process.env.PUBLIC_URL + '/'} component={App} />
                 </Switch>
             </BrowserRouter>

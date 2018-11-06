@@ -7,12 +7,12 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper';
- 
+
 // Dummy Data 
-function createData(name :string, order:string, date:string, status:string) {
+function createData(name, order, date, status) {
     return { name, order, date, status }
 }
-const rows= [
+const rows = [
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
@@ -21,7 +21,7 @@ const rows= [
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
 ]
 
-export default class RepeatsList extends Component{
+export default class RepeatsList extends Component {
 
     render() {
         return (
