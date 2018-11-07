@@ -23,7 +23,6 @@ const rows = [
 ]
 
 class RepeatsList extends Component {
-
     render() {
         return (
             <Paper>
@@ -61,4 +60,4 @@ export default withRouter(RepeatsList)
 const OrderRow = styled(TableRow)`
     height:66px !important;
     cursor:pointer;
-`;
+`
