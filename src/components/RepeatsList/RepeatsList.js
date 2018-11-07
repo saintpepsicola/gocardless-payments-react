@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 
 // Dummy Data 
 function createData(name, order, date, status) {
@@ -40,10 +41,10 @@ class RepeatsList extends Component {
                         {rows.map((row, index) => {
                             return (
                                 <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/qorder/${index}`)} key={index}>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.order}</TableCell>
-                                    <TableCell>{row.date}</TableCell>
-                                    <TableCell>{row.status}</TableCell>
+                                    <Cell>{row.name}</Cell>
+                                    <Cell>{row.order}</Cell>
+                                    <Cell>{row.date}</Cell>
+                                    <Cell>{row.status}</Cell>
                                 </OrderRow>
                             )
                         })}
@@ -53,6 +54,10 @@ class RepeatsList extends Component {
         )
     }
 }
+
+//     <Typography variant='h6'>
+
+const Cell = (props) => <TableCell><Typography variant='subtitle1'>{props.children}</Typography></TableCell>
 
 export default withRouter(RepeatsList)
 
