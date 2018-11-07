@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
 import NominatedSurgery from './NominatedSurgery'
+import PreviousOrder from './PreviousOrder'
+import Comments from './Comments'
 
 export default class SidePanel extends React.Component {
 
@@ -9,9 +11,9 @@ export default class SidePanel extends React.Component {
     console.log(this.props)
     return (
       <PanelContainer panels={this.props.panels}>
-        <Panel> <h1>Panel 1</h1></Panel>
+        <Panel> <Comments /></Panel>
         <Panel> <NominatedSurgery /></Panel>
-        <Panel> <h1>Panel 3</h1></Panel>
+        <Panel> <PreviousOrder /> </Panel>
       </PanelContainer>
     )
   }
@@ -34,15 +36,15 @@ const PanelContainer = styled(Flex)`
   ${Panel}:nth-child(1)
   {
           transform: translateX(${props => props.panels[0].position}px);
-      }
+  }
     
   ${Panel}:nth-child(2)
   {
           transform: translateX(${props => props.panels[1].position}px);
-      }
+  }
     
   ${Panel}:nth-child(3)
   {
           transform: translateX(${props => props.panels[2].position}px);
-      }
+  }
     `
