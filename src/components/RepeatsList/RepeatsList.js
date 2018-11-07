@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { withRouter } from "react-router"
 import styled from 'styled-components'
 import Table from '@material-ui/core/Table'
@@ -55,14 +54,8 @@ class RepeatsList extends Component {
     }
 }
 
-//     <Typography variant='h6'>
-
 const Cell = (props) => <TableCell><Typography variant='subtitle1'>{props.children}</Typography></TableCell>
-
 export default withRouter(RepeatsList)
-
-// Proptypes
-
 
 // Styled Components
 const OrderRow = styled(TableRow)`
