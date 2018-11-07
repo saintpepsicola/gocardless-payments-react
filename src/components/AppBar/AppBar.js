@@ -9,11 +9,11 @@ export default class AppBar extends Component {
 
     render() {
         return (
-           <FullWidthBlueBar>
+            <FullWidthBlueBar>
                 <Container p={2} align='center'>
-                    <Box w={1/2}><UserAvatar /></Box>
-                    <Box  w={1/2}><Logo /></Box>
-                </Container>          
+                    <Box w={1 / 2}><UserAvatar /></Box>
+                    <Box w={1 / 2}><Logo /></Box>
+                </Container>
             </ FullWidthBlueBar>
         )
     }
@@ -30,4 +30,5 @@ const FullWidthBlueBar = styled.div`
    background-image:url(${headerBackground});
    background-repeat: repeat-x;
    background-size:contain;
+   background:#007a47;
 `
