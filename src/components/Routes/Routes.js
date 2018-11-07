@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // Public Routes
 import LoginService from '../LoginService/LoginService'
-
 import App from '../App'
 
 export default class Routes extends Component {
