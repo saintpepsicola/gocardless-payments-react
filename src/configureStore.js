@@ -4,7 +4,8 @@ import axiosMiddleware from 'redux-axios-middleware'
 import rootReducer from './redux'
 
 const client = axios.create({
-    baseURL: 'https://api.84r.co/'
+    baseURL: 'https://api.84r.co/',
+    responseType: 'json'
 })
 
 export default function configureStore() {

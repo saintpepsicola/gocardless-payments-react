@@ -24,6 +24,7 @@ const rows = [
 
 class RepeatsList extends Component {
     render() {
+        console.log(this.props.getRepeats(23))
         return (
             <Paper>
                 <Table>

@@ -1,28 +1,48 @@
 // Initial State
 let initialState = {
-    panels: [{ id: 1, show: true, start: 0, position: 0 }, { id: 2, show: false, start: 320, position: 320 }, { id: 3, show: false, start: 640, position: 640 }]
+    repeats: []
 }
 
-// Set Default positions
-// initialState.panels.maps(panel => panel.position = panel.start)
-
 // Action constants
-const SELECT_PANEL = 'SELECT_PANEL'
-
+const GET_REPEATS = 'GET_REPEATS'
+const GET_REPEATS_SUCCESS = 'GET_REPEATS_SUCCESS'
+const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
+//https://api.84r.co/pods/42a9d970-ba8e-11e8-910c-e34a14d05923/repeats?is_active=true
+//client-id mrv31k5Ar1aXaod
+//Token  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjIwMTc3NzcwLWJiNDAtMTFlOC1hOTdkLTc5YjU0OWQwZjYxMyIsImV4cCI6MTU0NTkxNDQ3MiwiaWF0IjoxNTM3Mjc0NDcyLCJ1c2VyX2lkIjoiNWI5YTFlNjAtMTU2NC0xMWU4LWFmMzMtZGQwMTdhNzBjMGM5In0.VqF2eRO2ldFMPkyYuBhsRdJaqvtKUgbS22RUFMCQOMM
 // Action creators
-export const selectPanel = (id) => ({ type: SELECT_PANEL, payload: id })
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjIwMTc3NzcwLWJiNDAtMTFlOC1hOTdkLTc5YjU0OWQwZjYxMyIsImV4cCI6MTU0NTkxNDQ3MiwiaWF0IjoxNTM3Mjc0NDcyLCJ1c2VyX2lkIjoiNWI5YTFlNjAtMTU2NC0xMWU4LWFmMzMtZGQwMTdhNzBjMGM5In0.VqF2eRO2ldFMPkyYuBhsRdJaqvtKUgbS22RUFMCQOMM'
+
+export const getRepeats = (podID) => {
+    return ({
+        types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
+        payload: {
+            request: {
+                url: 'https://api.84r.co/pods/42a9d970-ba8e-11e8-910c-e34a14d05923/repeats?is_active=true',
+                headers:
+                {
+                    'Token': token,
+                    'client-id': 'mrv31k5Ar1aXaod'
+                }
+            }
+        }
+    })
+}
 
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case SELECT_PANEL:
+        case GET_REPEATS:
             return {
                 ...state,
-                panels: state.panels.map(panel => {
-                    panel.position = panel.start - (action.payload - 1) * 320
-                    panel.show = action.payload === panel.id
-                    return panel
-                })
+                fetching: true
+            }
+        case GET_REPEATS_SUCCESS:
+            console.log(action)
+            return {
+                ...state,
+                fetching: false
             }
         default:
             return state

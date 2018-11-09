@@ -8,7 +8,6 @@ import Comments from './Comments'
 export default class SidePanel extends React.Component {
 
   render() {
-    console.log(this.props)
     return (
       <PanelContainer panels={this.props.panels}>
         <Panel> <Comments /></Panel>
