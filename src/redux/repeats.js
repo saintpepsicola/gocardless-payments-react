@@ -1,6 +1,8 @@
 // Initial State
 let initialState = {
-    repeats: []
+    repeats: [],
+    error: null,
+    fetching: false
 }
 
 // Action constants
@@ -20,9 +22,11 @@ export const getRepeats = (podID) => {
         payload: {
             request: {
                 url: 'https://api.84r.co/pods/42a9d970-ba8e-11e8-910c-e34a14d05923/repeats?is_active=true',
+                mode: 'no-cors',
                 headers:
                 {
                     'Token': token,
+                    'crossDomain': true,
                     'client-id': 'mrv31k5Ar1aXaod'
                 }
             }
@@ -42,6 +46,13 @@ export default (state = initialState, action) => {
             console.log(action)
             return {
                 ...state,
+                fetching: false
+            }
+        case GET_REPEATS_FAILURE:
+            console.log(action)
+            return {
+                ...state,
+                error: action.error,
                 fetching: false
             }
         default:

@@ -49,7 +49,8 @@ export default (state = initialState, action) => {
             action.payload.history.push('/')
             return {
                 ...state,
-                authenticated: true
+                authenticated: true,
+                token: token
             }
         default:
             return state

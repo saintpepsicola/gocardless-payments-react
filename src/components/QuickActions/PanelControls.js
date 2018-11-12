@@ -6,8 +6,6 @@ import AddIcon from '@material-ui/icons/AddCircleOutlined'
 import IconButton from '@material-ui/core/IconButton'
 
 export default class PanelControls extends React.Component {
-
-
     showPanel(id) {
         this.props.selectPanel(id)
     }
