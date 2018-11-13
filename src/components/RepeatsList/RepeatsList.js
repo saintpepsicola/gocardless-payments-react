@@ -6,35 +6,56 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
+import commentIcon from '../../resources/comment.png'
 
 class RepeatsList extends Component {
     render() {
+        console.log(this.props.repeats)
         return (
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Patient Name</TableCell>
-                            <TableCell>Order</TableCell>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.props.repeats && this.props.repeats.map((row, index) => {
-                            return (
-                                <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
-                                    <PatientName>{row.name}</PatientName>
-                                    <TableCell>{row.order}</TableCell>
-                                    <TableCell>{row.date}</TableCell>
-                                    <Status>{row.status}</Status>
-                                </OrderRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Patient Name</TableCell>
+                        <TableCell>Order</TableCell>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
+                {/* PENDING ORDERS */}
+                <PendingOrders>
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.status === 'Pending').map((row, index) => {
+                        return (
+                            <OrderRow pending='true' onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
+                                <PatientName>{row.name}</PatientName>
+                                <TableCell>{row.order}</TableCell>
+                                <TableCell>{row.date}</TableCell>
+                                <Status>{row.status}</Status>
+                                <TableCell>
+                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                </TableCell>
+                            </OrderRow>
+                        )
+                    })}
+
+                </PendingOrders>
+                {/* OTHER ORDERS */}
+                <TableBody>
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.status !== 'Pending').map((row, index) => {
+                        return (
+                            <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
+                                <PatientName>{row.name}</PatientName>
+                                <TableCell>{row.order}</TableCell>
+                                <TableCell>{row.date}</TableCell>
+                                <Status>{row.status}</Status>
+                                <TableCell>
+                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                </TableCell>
+                            </OrderRow>
+                        )
+                    })}
+                </TableBody>
+            </Table>
         )
     }
 }
@@ -50,7 +71,12 @@ const OrderRow = styled(TableRow)`
     {
         color:#282828;
         font-size: 16px;
-    }
+    } 
+`
+const PendingOrders = styled(TableBody)`
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
 `
 
 const PatientName = styled(TableCell)`
