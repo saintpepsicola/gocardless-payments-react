@@ -71,7 +71,7 @@ const OrderRow = styled(TableRow)`
     {
         color:#282828;
         font-size: 16px;
-    }
+    } 
 `
 const PendingOrders = styled(TableBody)`
   border-radius: 5px;
