@@ -57,11 +57,15 @@ const SearchGlass = styled(SearchIcon)`
   color: grey;
 `
 const SearchBox = styled(TextField)`
-  margin-bottom: 16px !important;
+  && {
+    margin-bottom: 16px;
+  }
 `
 
 const SearchTab = styled(Tab)`
-  min-width: 0px !important;
+  && {
+    min-width: 0px;
+  }
 `
 
 const QuickReviewButton = styled(Button)`
@@ -73,6 +77,8 @@ const QuickReviewBox = styled(Box)`
 `
 
 const FlexContainer = styled(Flex)`
-  max-height: 47px !important;
+  && {
+    max-height: 47px;
+  }
 `
 
