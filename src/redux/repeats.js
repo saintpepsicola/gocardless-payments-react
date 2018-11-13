@@ -6,14 +6,14 @@ let initialState = {
 }
 
 // Dummy Data 
-function createData(name, order, date, status) {
-    return { name, order, date, status }
+function createData(name, order, date, status, comments) {
+    return { name, order, date, status, comments }
 }
 initialState.repeats = [
+    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending', true),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
+    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted', true),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
 ]

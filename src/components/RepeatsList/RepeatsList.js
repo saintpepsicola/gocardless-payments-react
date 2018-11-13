@@ -26,8 +26,8 @@ class RepeatsList extends Component {
                             return (
                                 <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
                                     <PatientName>{row.name}</PatientName>
-                                    <Order>{row.order}</Order>
-                                    <Date>{row.date}</Date>
+                                    <TableCell>{row.order}</TableCell>
+                                    <TableCell>{row.date}</TableCell>
                                     <Status>{row.status}</Status>
                                 </OrderRow>
                             )
@@ -45,37 +45,26 @@ export default withRouter(RepeatsList)
 const OrderRow = styled(TableRow)`
     height:66px !important;
     cursor:pointer;
+
+    & > td
+    {
+        color:#282828;
+        font-size: 16px;
+    }
 `
 
 const PatientName = styled(TableCell)`
     &&
     {
         font-weight:bold;
-        color: #282828;
-        font-size: 16px;
-    }
-`
-
-const Order = styled(TableCell)`
-    &&
-    {
-        color: #282828;
-        font-size: 16px;
-    }
-`
-
-const Date = styled(TableCell)`
-    &&
-    {
-        color: #282828;
-        font-size: 16px;
     }
 `
 
 const Status = styled(TableCell)`
     &&
     {
-        color: #282828;
+        font-weight:bold;
+        color: ${props => props.children === 'Pending' ? '#f57123' : props.children === 'Accepted' ? '#509500' : '#d0021b'};
         font-size: 16px;
     }
 `
