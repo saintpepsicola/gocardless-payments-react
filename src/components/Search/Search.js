@@ -32,6 +32,7 @@ export default class Search extends Component {
 
   render() {
     const { value } = this.state;
+      console.log(this.state);
       
     return (
       <Container>
@@ -50,7 +51,7 @@ export default class Search extends Component {
                 <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
                   <SearchTab onClick={this.setPlaceholder} label={<SearchGlass />} />
                   <Tab label='ACTIVE'  />
-                  <Tab label='ARCHIVE' />
+                  <Tab label='ARCHIVE'  />
                 </Tabs>
                 </InputAdornment>
                 ),
