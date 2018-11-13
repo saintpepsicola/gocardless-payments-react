@@ -10,6 +10,8 @@ import { Flex, Box } from 'reflexbox'
 
 export default class OrderDetails extends React.Component {
     render() {
+        console.log(this.props.patient)
+        const patient = this.props.patient
         return (
             <div>
                 <Panel defaultExpanded>
@@ -21,18 +23,44 @@ export default class OrderDetails extends React.Component {
                         </div>
                     </ExpansionPanelSummary>
                     <Content>
-                        <Flex pt='16px'>
-                            <Box w={7 / 10} >
-                                <Typography variant='subtitle1'>
-                                    Patient Details
-                                     </Typography>
-                                <Flex>
-                                    <Box><p>NHS:</p></Box>
-                                    <Box><p>3432432</p></Box>
+                        <PatientDetails pl='24px' pr='24px' pt='8'>
+                            <Box w={5 / 10} >
+                                <Title>PATIENT DETAILS</Title>
+                                <Flex m='0'>
+                                    <Box w='90px'>
+                                        <p>NHS:</p>
+                                        <p>E-mail:</p>
+                                        <p>Tel:</p>
+                                        <p>Mob:</p>
+                                    </Box>
+                                    <Box w='249px'>
+                                        <p>{patient.nhs}</p>
+                                        <p>{patient.email}</p>
+                                        <p>{patient.tel}</p>
+                                        <p>{patient.mob}</p>
+                                    </Box>
+                                    <Box w='100px'>
+                                        <Address>{patient.address}</Address>
+                                    </Box>
                                 </Flex>
                             </Box>
-                            <Box w={3 / 10} > gfdgfdgfdgdf</Box>
-                        </Flex>
+                            <Box  >
+                                <Title>NOMINATED SURGERY</Title>
+                                <Flex>
+                                    <Box>
+                                        <Address>{patient.nominated_surgery}</Address>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                            <Box >
+                                <Title>NOMINATED PHARMACY</Title>
+                                <Flex>
+                                    <Box>
+                                        <Address>{patient.nominated_pharmacy}</Address>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        </PatientDetails>
                     </Content>
                 </Panel>
                 <QuickActions />
@@ -40,6 +68,24 @@ export default class OrderDetails extends React.Component {
         )
     }
 }
+
+const Title = styled.h4`
+
+`
+
+const Address = styled.p`
+white-space:pre;
+`
+
+const PatientDetails = styled(Flex)`
+  width:100%;
+
+  &  p
+  {
+      font-size:14px;
+      color: #575757;
+  }
+`
 
 const Content = styled(ExpansionPanelDetails)`
   padding:0 !important;

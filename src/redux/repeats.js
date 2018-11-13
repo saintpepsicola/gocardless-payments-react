@@ -2,7 +2,31 @@
 let initialState = {
     repeats: [],
     error: null,
-    fetching: false
+    fetching: false,
+    patient: {
+        nhs: '662527',
+        email: 'stephan.jones@mail.com',
+        tel: '0998 443333',
+        mob: '0999 444473',
+        address: `
+        55 Parkside
+        East Road
+        Cambridge
+        CB1 1SS
+        `,
+        nominated_surgery: `
+        Trumpington Street Medical 
+        Trumpington Street
+        Cambridge
+        CB1 1HH
+        `,
+        nominated_pharmacy: `
+        Petersfield Pharmacy
+        12 Lansfield Road
+        Cambridge
+        CB1 1EA
+        `
+    }
 }
 
 // Dummy Data 
