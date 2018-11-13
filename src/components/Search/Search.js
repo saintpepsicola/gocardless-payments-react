@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/Clear';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import styled from 'styled-components';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,15 +11,17 @@ import { Flex, Box } from 'reflexbox'
 
 export default class Search extends Component {
   state = {
-    value: 0,
-    placeholder: 'SEARCH PATIENTS',
-    focus: true,
+    value: false,
+    placeholder: '',
+    focus: false,
+    showClear: 'none'
   };
 
   handleChange = (event, value) => {
     this.setState({
       value,
-      placeholder: ''
+      placeholder: '',
+      display: ''
     });
   };
 
@@ -26,7 +29,18 @@ export default class Search extends Component {
     this.state.form.focus();
     this.setState({
       placeholder: 'SEARCH PATIENTS',
-      focus: true
+      focus: true,
+      display: 'none',
+      showClear: ''
+    });
+  };
+
+  clearSearch = (event) => {
+    this.setState({
+      placeholder: '',
+      display: '',
+      showClear: 'none',
+      value: false
     });
   };
 
@@ -50,8 +64,8 @@ export default class Search extends Component {
                 <InputAdornment>
                 <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
                   <SearchTab onClick={this.setPlaceholder} label={<SearchGlass />} />
-                  <Tab label='ACTIVE'  />
-                  <Tab label='ARCHIVE'  />
+                  <Tab label='ACTIVE' style={{display: this.state.display}}/>
+                  <Tab label='ARCHIVE' style={{display: this.state.display}}/>
                 </Tabs>
                 </InputAdornment>
                 ),
@@ -59,7 +73,12 @@ export default class Search extends Component {
               }}
             />
           </Box>
-          <QuickReviewBox w={1/10}>{<QuickReviewButton disableFocusRipple={true} disableRipple={true}>QUICK REVIEW</QuickReviewButton>}</QuickReviewBox>
+          <QuickReviewBox w={1/10}>
+            {<QuickReviewButton style={{display: this.state.display}} disableFocusRipple={true} disableRipple={true}>
+              QUICK REVIEW
+            </QuickReviewButton>}
+            {<Clear onClick={this.clearSearch} style={{display: this.state.showClear}}></Clear>}
+          </QuickReviewBox>
         </FlexContainer>
       </Container>
     )
@@ -73,6 +92,10 @@ const Container = styled.div`
 `
 
 const SearchGlass = styled(SearchIcon)`
+  color: grey;
+`
+
+const Clear = styled(ClearIcon)`
   color: grey;
 `
 const SearchBox = styled(TextField)`
