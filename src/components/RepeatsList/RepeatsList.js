@@ -10,15 +10,14 @@ import commentIcon from '../../resources/comment.png'
 
 class RepeatsList extends Component {
     render() {
-        console.log(this.props.repeats)
         return (
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Patient Name</TableCell>
-                        <TableCell>Order</TableCell>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Status</TableCell>
+                        <Header>Patient Name</Header>
+                        <Header>Order</Header>
+                        <Header>Date</Header>
+                        <Header>Status</Header>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -40,7 +39,7 @@ class RepeatsList extends Component {
 
                 </PendingOrders>
                 {/* OTHER ORDERS */}
-                <TableBody>
+                <CompletedOrders>
                     {this.props.repeats && this.props.repeats.filter(repeat => repeat.status !== 'Pending').map((row, index) => {
                         return (
                             <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
@@ -54,7 +53,7 @@ class RepeatsList extends Component {
                             </OrderRow>
                         )
                     })}
-                </TableBody>
+                </CompletedOrders>
             </Table>
         )
     }
@@ -77,6 +76,17 @@ const PendingOrders = styled(TableBody)`
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
+`
+const CompletedOrders = styled(TableBody)`
+  background-color: #f5f5f5;
+`
+
+const Header = styled(TableCell)`
+    &&
+    {
+        font-size:16px;
+        color: #b0b0b0;
+    }
 `
 
 const PatientName = styled(TableCell)`

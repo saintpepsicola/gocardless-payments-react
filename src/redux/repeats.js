@@ -2,13 +2,41 @@
 let initialState = {
     repeats: [],
     error: null,
-    fetching: false
+    fetching: false,
+    template: `
+    hey
+    second line
+    `,
+    patient: {
+        nhs: 662527,
+        email: 'stephan.jones@gmail.com',
+        tel: '0999 444473', mob: '0998 232411',
+        address: `
+        55 Parkside
+        East Road
+        Cambridge
+        CB1 1SS
+        `,
+        nominated_surgery: `
+        Trumpington Street Medical
+        Trumpington Street
+        Cambridge
+        CB1 1HH
+        `,
+        nominated_pharmacy: `
+        Petersfield Pharmacy
+        12 Lansfield Road
+        Cambridge
+        CB1 1EA
+        `
+    }
 }
 
 // Dummy Data 
 function createData(name, order, date, status, comments) {
     return { name, order, date, status, comments }
 }
+
 initialState.repeats = [
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending', true),
     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
