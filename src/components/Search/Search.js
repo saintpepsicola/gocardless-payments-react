@@ -65,6 +65,7 @@ export default class Search extends Component {
   }
 }
 
+// Styled Components
 const Container = styled.div`
   border-bottom: solid 1px grey; 
   margin-bottom: 10px;
@@ -98,4 +99,3 @@ const FlexContainer = styled(Flex)`
     max-height: 47px;
   }
 `
-
