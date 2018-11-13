@@ -4,23 +4,19 @@ import QuickActions from '../QuickActions/QuickActionsContainer'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
 
 export default class OrderDetails extends React.Component {
     render() {
-        console.log(this.props.patient)
         const patient = this.props.patient
         return (
             <div>
                 <Panel defaultExpanded>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <div>
-                            <Typography variant='headline'>
-                                Mr. Stephan Jones
-                             </Typography>
-                        </div>
+                        <PanelTitle>
+                            Mr. Stephan Jones
+                        </PanelTitle>
                     </ExpansionPanelSummary>
                     <Content>
                         <PatientDetails pl='24px' pr='24px' pt='8'>
@@ -52,7 +48,7 @@ export default class OrderDetails extends React.Component {
                                     </Box>
                                 </Flex>
                             </Box>
-                            <Box >
+                            <Box>
                                 <Title>NOMINATED PHARMACY</Title>
                                 <Flex>
                                     <Box>
@@ -69,8 +65,15 @@ export default class OrderDetails extends React.Component {
     }
 }
 
-const Title = styled.h4`
+const PanelTitle = styled.h3`
+width:100%;
+font-size:22px;
+color: #4a4a4a;
+margin:0;
+`
 
+const Title = styled.h4`
+color: #575757;
 `
 
 const Address = styled.p`
@@ -78,20 +81,26 @@ white-space:pre;
 `
 
 const PatientDetails = styled(Flex)`
-  width:100%;
-
-  &  p
-  {
-      font-size:14px;
-      color: #575757;
-  }
+width:100%;
+&  p
+{
+    font-size:14px;
+    color: #575757;
+}
 `
 
 const Content = styled(ExpansionPanelDetails)`
-  padding:0 !important;
+border-top: solid 1px #e4e3e3;
+&&
+{
+    padding:0;
+}
 `
 
 const Panel = styled(ExpansionPanel)`
-  background:none !important;
-  box-shadow:none !important;
+&&
+{
+    background:none;
+    box-shadow:none;
+}
 `
