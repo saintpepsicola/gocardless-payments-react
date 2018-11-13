@@ -15,7 +15,14 @@ export const Dashboard = () => {
 }
 
 // ORDER DETAILS
-export const OrderDetailsPage = () => <OrderDetails />
+export const OrderDetailsPage = () => {
+        return (
+                <div>
+                        <Search />
+                        <OrderDetails />
+                </div>
+        )
+}
 
 // QUICK ACTIONS
 export const OuickActionsPage = () => <QuickActions />
