@@ -31,5 +31,5 @@ const FullWidthBlueBar = styled.div`
    background-image:url(${headerBackground});
    background-repeat: repeat-x;
    background-size:contain;
-   background:#007a47;
 `
+//background:#007a47;

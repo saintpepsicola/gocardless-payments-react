@@ -7,43 +7,28 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-
-// Dummy Data 
-function createData(name, order, date, status) {
-    return { name, order, date, status }
-}
-const rows = [
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
-]
 
 class RepeatsList extends Component {
     render() {
-        console.log(this.props.getRepeats(23))
         return (
             <Paper>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell >Patient Name</TableCell>
-                            <TableCell >Order</TableCell>
-                            <TableCell >Date</TableCell>
-                            <TableCell >Status</TableCell>
+                            <TableCell>Patient Name</TableCell>
+                            <TableCell>Order</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => {
+                        {this.props.repeats && this.props.repeats.map((row, index) => {
                             return (
-                                <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/qorder/${index}`)} key={index}>
-                                    <Cell>{row.name}</Cell>
-                                    <Cell>{row.order}</Cell>
-                                    <Cell>{row.date}</Cell>
-                                    <Cell>{row.status}</Cell>
+                                <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
+                                    <PatientName>{row.name}</PatientName>
+                                    <Order>{row.order}</Order>
+                                    <Date>{row.date}</Date>
+                                    <Status>{row.status}</Status>
                                 </OrderRow>
                             )
                         })}
@@ -54,11 +39,43 @@ class RepeatsList extends Component {
     }
 }
 
-const Cell = (props) => <TableCell><Typography variant='subtitle1'>{props.children}</Typography></TableCell>
 export default withRouter(RepeatsList)
 
 // Styled Components
 const OrderRow = styled(TableRow)`
     height:66px !important;
     cursor:pointer;
+`
+
+const PatientName = styled(TableCell)`
+    &&
+    {
+        font-weight:bold;
+        color: #282828;
+        font-size: 16px;
+    }
+`
+
+const Order = styled(TableCell)`
+    &&
+    {
+        color: #282828;
+        font-size: 16px;
+    }
+`
+
+const Date = styled(TableCell)`
+    &&
+    {
+        color: #282828;
+        font-size: 16px;
+    }
+`
+
+const Status = styled(TableCell)`
+    &&
+    {
+        color: #282828;
+        font-size: 16px;
+    }
 `

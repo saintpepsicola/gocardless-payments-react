@@ -8,11 +8,10 @@ import PanelControls from './PanelControls'
 import SidePanel from './SidePanel'
 
 export default class QuickActions extends React.Component {
-
     render() {
         return (
             <Container>
-                <Flex >
+                <Flex>
                     <Box p='22px' mr='16px' w={7 / 10} >
                         <Flex justify='space-between'>
                             <Box align='center' w={8 / 10} >
@@ -35,4 +34,5 @@ export default class QuickActions extends React.Component {
 
 const Container = styled(Paper)`
   margin:64px 0;
+  width:100%;
 `
