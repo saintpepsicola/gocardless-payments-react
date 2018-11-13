@@ -1,11 +1,78 @@
-import React from 'react'
+import React, { Component } from 'react'
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import styled from 'styled-components';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Button from '@material-ui/core/Button';
+import { Flex, Box } from 'reflexbox'
 
-export default class Search extends React.Component {
+export default class Search extends Component {
+    state = {
+      value: 0,
+    };
 
-    render() {
-        return (
-            <h1>Searchbox</h1>
-        )
-    }
+    handleChange = (event, value) => {
+      this.setState({
+        value
+      });
+    };
+
+  render() {
+    const { value } = this.state;
+      
+    return (
+      <div style={{borderBottom:'solid 1px grey', marginBottom: '10px'}}>
+      <FlexContainer p={2} pb={0} pl={0} align='center'>
+        <Box w={9/10}>
+        <SearchBox
+          id='standard-full-width'
+          fullWidth
+          margin='normal'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment>
+              <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
+                <SearchTab label={<SearchGlass />} />
+                <Tab label='ACTIVE (3)' />
+                <Tab label='ARCHIVE' />
+              </Tabs>
+              </InputAdornment>
+              ),
+              disableUnderline: (true)
+            }}
+          />
+        </Box>
+        <QuickReviewBox w={1/10}>{<QuickReviewButton disableFocusRipple={true} disableRipple={true}>QUICK REVIEW</QuickReviewButton>}</QuickReviewBox>
+      </FlexContainer>
+
+
+      </div>
+    )
+  }
 }
+
+const SearchGlass = styled(SearchIcon)`
+  color: grey;
+`
+const SearchBox = styled(TextField)`
+  margin-bottom: 16px !important;
+`
+
+const SearchTab = styled(Tab)`
+  min-width: 0px !important;
+`
+
+const QuickReviewButton = styled(Button)`
+  width: 130px;
+`
+
+const QuickReviewBox = styled(Box)`
+  text-align:right;
+`
+
+const FlexContainer = styled(Flex)`
+  max-height: 47px !important;
+`
 
