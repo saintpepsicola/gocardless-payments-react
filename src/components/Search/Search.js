@@ -23,35 +23,38 @@ export default class Search extends Component {
     const { value } = this.state;
       
     return (
-      <div style={{borderBottom:'solid 1px grey', marginBottom: '10px'}}>
-      <FlexContainer p={2} pb={0} pl={0} align='center'>
-        <Box w={9/10}>
-        <SearchBox
-          id='standard-full-width'
-          fullWidth
-          margin='normal'
-          InputProps={{
-            startAdornment: (
-              <InputAdornment>
-              <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
-                <SearchTab label={<SearchGlass />} />
-                <Tab label='ACTIVE (3)' />
-                <Tab label='ARCHIVE' />
-              </Tabs>
-              </InputAdornment>
-              ),
-              disableUnderline: (true)
-            }}
-          />
-        </Box>
-        <QuickReviewBox w={1/10}>{<QuickReviewButton disableFocusRipple={true} disableRipple={true}>QUICK REVIEW</QuickReviewButton>}</QuickReviewBox>
-      </FlexContainer>
-
-
-      </div>
+      <Container>
+        <FlexContainer p={2} pb={0} pl={0} align='center'>
+          <Box w={9/10}>
+          <SearchBox
+            id='standard-full-width'
+            fullWidth
+            margin='normal'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment>
+                <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
+                  <SearchTab label={<SearchGlass />} />
+                  <Tab label='ACTIVE (3)' />
+                  <Tab label='ARCHIVE' />
+                </Tabs>
+                </InputAdornment>
+                ),
+                disableUnderline: (true)
+              }}
+            />
+          </Box>
+          <QuickReviewBox w={1/10}>{<QuickReviewButton disableFocusRipple={true} disableRipple={true}>QUICK REVIEW</QuickReviewButton>}</QuickReviewBox>
+        </FlexContainer>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  border-bottom: solid 1px grey; 
+  margin-bottom: 10px;
+`
 
 const SearchGlass = styled(SearchIcon)`
   color: grey;
