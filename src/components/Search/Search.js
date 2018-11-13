@@ -12,8 +12,8 @@ import { Flex, Box } from 'reflexbox'
 export default class Search extends Component {
   state = {
     value: false,
-    placeholder: '',
     focus: false,
+    placeholder: '',
     showClear: 'none'
   };
 
@@ -21,7 +21,7 @@ export default class Search extends Component {
     this.setState({
       value,
       placeholder: '',
-      display: ''
+      displayTabs: ''
     });
   };
 
@@ -30,7 +30,7 @@ export default class Search extends Component {
     this.setState({
       placeholder: 'SEARCH PATIENTS',
       focus: true,
-      display: 'none',
+      displayTabs: 'none',
       showClear: ''
     });
   };
@@ -38,7 +38,7 @@ export default class Search extends Component {
   clearSearch = (event) => {
     this.setState({
       placeholder: '',
-      display: '',
+      displayTabs: '',
       showClear: 'none',
       value: false
     });
@@ -46,7 +46,6 @@ export default class Search extends Component {
 
   render() {
     const { value } = this.state;
-      console.log(this.state);
       
     return (
       <Container>
@@ -64,8 +63,8 @@ export default class Search extends Component {
                 <InputAdornment>
                 <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
                   <SearchTab onClick={this.setPlaceholder} label={<SearchGlass />} />
-                  <Tab label='ACTIVE' style={{display: this.state.display}}/>
-                  <Tab label='ARCHIVE' style={{display: this.state.display}}/>
+                  <Tab label='ACTIVE' style={{display: this.state.displayTabs}}/>
+                  <Tab label='ARCHIVE' style={{display: this.state.displayTabs}}/>
                 </Tabs>
                 </InputAdornment>
                 ),
@@ -74,7 +73,7 @@ export default class Search extends Component {
             />
           </Box>
           <QuickReviewBox w={1/10}>
-            {<QuickReviewButton style={{display: this.state.display}} disableFocusRipple={true} disableRipple={true}>
+            {<QuickReviewButton style={{display: this.state.displayTabs}} disableFocusRipple={true} disableRipple={true}>
               QUICK REVIEW
             </QuickReviewButton>}
             {<Clear onClick={this.clearSearch} style={{display: this.state.showClear}}></Clear>}
@@ -97,6 +96,7 @@ const SearchGlass = styled(SearchIcon)`
 
 const Clear = styled(ClearIcon)`
   color: grey;
+  cursor:pointer;
 `
 const SearchBox = styled(TextField)`
   && {
