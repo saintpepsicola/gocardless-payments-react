@@ -1,102 +1,86 @@
 import React, { Component } from 'react'
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import styled from 'styled-components';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField'
+import SearchIcon from '@material-ui/icons/Search'
+import styled from 'styled-components'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import { Flex, Box } from 'reflexbox'
+import { withRouter } from "react-router"
 
-export default class Search extends Component {
+class Search extends Component {
+
   state = {
-    value: 0,
-    placeholder: 'SEARCH PATIENTS',
-    focus: true,
-  };
+    searchField: false
+  }
 
-  handleChange = (event, value) => {
-    this.setState({
-      value,
-      placeholder: ''
-    });
-  };
+  handleClick = (e) => {
+    e.preventDefault()
+    this.setState({ searchField: false })
+    this.props.history.push(`${process.env.PUBLIC_URL}/`)
+  }
 
-  setPlaceholder = (event) => {  
-    this.state.form.focus();
-    this.setState({
-      placeholder: 'SEARCH PATIENTS',
-      focus: true
-    });
-  };
+  handleBlur = () => {
+    this.setState({ searchField: false })
+  }
 
   render() {
-    const { value } = this.state;
-      console.log(this.state);
-      
     return (
       <Container>
-        <FlexContainer p={2} pb={0} pl={0} align='center'>
-          <Box w={9/10}>
-          <SearchBox
-            inputRef={e => { this.setState({form: e}) }}
-            id='standard-full-width'
-            fullWidth
-            placeholder={this.state.placeholder}
-            autoFocus={this.state.focus}
-            margin='normal'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment>
-                <Tabs value={value} onChange={this.handleChange} indicatorColor='primary'>
-                  <SearchTab onClick={this.setPlaceholder} label={<SearchGlass />} />
-                  <Tab label='ACTIVE'  />
-                  <Tab label='ARCHIVE'  />
-                </Tabs>
-                </InputAdornment>
-                ),
-                disableUnderline: (true)
-              }}
-            />
+        <Flex>
+          <Box auto align='center' justify='center'>
+
+            <IconButton onClick={(e) => { this.setState({ searchField: true }) }} aria-label="Search">
+              <SearchIcon />
+            </IconButton>
+            {!this.state.searchField &&
+              <span>
+                <Button onClick={this.handleClick.bind(this)}>ACTIVE</Button>
+                <Button onClick={this.handleClick.bind(this)}>ARCHIVE</Button>
+              </span>}
+
+
+            {this.state.searchField &&
+              <SearchBox
+                onBlur={this.handleBlur}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                placeholder='SEARCH PATIENTS'
+                autoFocus={this.state.searchField}
+              />}
+
           </Box>
-          <QuickReviewBox w={1/10}>{<QuickReviewButton disableFocusRipple={true} disableRipple={true}>QUICK REVIEW</QuickReviewButton>}</QuickReviewBox>
-        </FlexContainer>
-      </Container>
+          <Box align='center' justify='center' w='127px'>
+            <VerticalFlex >
+              <Button>QUICK REVIEW</Button>
+            </VerticalFlex>
+          </Box>
+        </Flex>
+      </Container >
     )
   }
 }
 
+export default withRouter(Search)
+
 // Styled Components
 const Container = styled.div`
-  border-bottom: solid 1px grey; 
-  margin-bottom: 10px;
+  border-bottom: solid 1px #d3d3d3; 
 `
 
-const SearchGlass = styled(SearchIcon)`
-  color: grey;
+const VerticalFlex = styled(Flex)`
+  height: 100%;
 `
+
 const SearchBox = styled(TextField)`
-  && {
-    margin-bottom: 16px;
+  &&
+  {
+    height:100%;
+
+    & > div
+    {
+      height:100%;
+    }
   }
 `
 
-const SearchTab = styled(Tab)`
-  && {
-    min-width: 0px;
-  }
-`
-
-const QuickReviewButton = styled(Button)`
-  width: 130px;
-`
-
-const QuickReviewBox = styled(Box)`
-  text-align:right;
-`
-
-const FlexContainer = styled(Flex)`
-  && {
-    max-height: 47px;
-  }
-`

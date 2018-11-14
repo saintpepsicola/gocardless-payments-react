@@ -12,8 +12,7 @@ export default class Routes extends Component {
         const PrivateRoute = ({ component: Component, ...rest }) => {
             return (<Route {...rest} render={props =>
                 this.props.authenticated ? (<Component {...props} />) : this.props.redirectToAuth()
-            }
-            />)
+            } />)
         }
         return (
             <BrowserRouter>

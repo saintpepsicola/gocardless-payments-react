@@ -3,14 +3,11 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    template: `
-    hey
-    second line
-    `,
     patient: {
-        nhs: 662527,
-        email: 'stephan.jones@gmail.com',
-        tel: '0999 444473', mob: '0998 232411',
+        nhs: '662527',
+        email: 'stephan.jones@mail.com',
+        tel: '0998 443333',
+        mob: '0999 444473',
         address: `
         55 Parkside
         East Road
@@ -18,7 +15,7 @@ let initialState = {
         CB1 1SS
         `,
         nominated_surgery: `
-        Trumpington Street Medical
+        Trumpington Street Medical 
         Trumpington Street
         Cambridge
         CB1 1HH

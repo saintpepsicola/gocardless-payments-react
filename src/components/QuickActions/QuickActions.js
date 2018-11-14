@@ -33,6 +33,5 @@ export default class QuickActions extends React.Component {
 }
 
 const Container = styled(Paper)`
-  margin:64px 0;
   width:100%;
 `
