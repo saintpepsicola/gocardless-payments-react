@@ -7,8 +7,15 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import commentIcon from '../../resources/comment.png'
+import timeago from 'time-ago'
 
 class RepeatsList extends Component {
+
+    handleSelect(index) {
+        this.props.selectRepeat(index)
+        this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)
+    }
+
     render() {
         return (
             <Table>
@@ -23,13 +30,13 @@ class RepeatsList extends Component {
                 </TableHead>
                 {/* PENDING ORDERS */}
                 <PendingOrders>
-                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.status === 'Pending').map((row, index) => {
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered').map((row, index) => {
                         return (
-                            <OrderRow pending='true' onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
-                                <PatientName>{row.name}</PatientName>
-                                <TableCell>{row.order}</TableCell>
-                                <TableCell>{row.date}</TableCell>
-                                <Status>{row.status}</Status>
+                            <OrderRow pending='true' onClick={this.handleSelect.bind(this, index)} key={index}>
+                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                <Status>Pending</Status>
                                 <TableCell>
                                     {row.comments && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
@@ -40,13 +47,13 @@ class RepeatsList extends Component {
                 </PendingOrders>
                 {/* OTHER ORDERS */}
                 <CompletedOrders>
-                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.status !== 'Pending').map((row, index) => {
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
                         return (
                             <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
-                                <PatientName>{row.name}</PatientName>
-                                <TableCell>{row.order}</TableCell>
-                                <TableCell>{row.date}</TableCell>
-                                <Status>{row.status}</Status>
+                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                <Status>Pending</Status>
                                 <TableCell>
                                     {row.comments && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
@@ -60,6 +67,12 @@ class RepeatsList extends Component {
 }
 
 export default withRouter(RepeatsList)
+
+const FormattedDate = (props) => {
+    return (
+        timeago.ago(props.date * 1000)
+    )
+}
 
 // Styled Components
 const OrderRow = styled(TableRow)`
@@ -100,7 +113,14 @@ const Status = styled(TableCell)`
     &&
     {
         font-weight:bold;
-        color: ${props => props.children === 'Pending' ? '#f57123' : props.children === 'Accepted' ? '#509500' : '#d0021b'};
+        color: ${props => statusColors[props.children]};
         font-size: 16px;
     }
 `
+
+const statusColors = {
+    'Pending': '#f57123',
+    'Accepted': '#509500',
+    'Rejected': '#d0021b',
+    'Processing': '#2f84b0',
+}
