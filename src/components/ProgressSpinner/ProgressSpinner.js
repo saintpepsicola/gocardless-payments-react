@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Flex } from 'reflexbox'
+import ReactSpinner from 'react-spinkit'
 
 export default class ProgressSpinner extends Component {
     render() {
@@ -13,12 +14,13 @@ export default class ProgressSpinner extends Component {
 const Spinner = () => {
     return (
         <Container justify='center' align='center'>
-            Honey, It's time to spin!
-         </Container>
+            <ReactSpinner color='white' name='double-bounce' />
+        </Container>
     )
 }
 
 const Container = styled(Flex)`
+background:#134E5E;
 text-align: center;
 width: 100%;
 box-sizing: border-box;

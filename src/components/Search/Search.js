@@ -13,6 +13,10 @@ class Search extends Component {
     searchField: false
   }
 
+  componentDidMount() {
+    this.props.getRepeats()
+  }
+
   handleClick = (e) => {
     e.preventDefault()
     this.setState({ searchField: false })
@@ -24,20 +28,19 @@ class Search extends Component {
   }
 
   render() {
+    const showQuickReview = this.props.history.location.pathname === '/'
     return (
       <Container>
         <Flex>
           <Box auto align='center' justify='center'>
-
             <IconButton onClick={(e) => { this.setState({ searchField: true }) }} aria-label="Search">
               <SearchIcon />
             </IconButton>
             {!this.state.searchField &&
               <span>
-                <Button onClick={this.handleClick.bind(this)}>ACTIVE</Button>
+                <Button onClick={this.handleClick.bind(this)}>ACTIVE ({this.props.activeRepeats !== 0 && this.props.activeRepeats})</Button>
                 <Button onClick={this.handleClick.bind(this)}>ARCHIVE</Button>
               </span>}
-
 
             {this.state.searchField &&
               <SearchBox
@@ -48,13 +51,14 @@ class Search extends Component {
                 placeholder='SEARCH PATIENTS'
                 autoFocus={this.state.searchField}
               />}
-
           </Box>
-          <Box align='center' justify='center' w='127px'>
+
+          {/* Only show QUICK REVIEW button on homepage */}
+          {showQuickReview && <Box align='center' justify='center' w='127px'>
             <VerticalFlex >
               <Button>QUICK REVIEW</Button>
             </VerticalFlex>
-          </Box>
+          </Box>}
         </Flex>
       </Container >
     )
@@ -76,7 +80,6 @@ const SearchBox = styled(TextField)`
   &&
   {
     height:100%;
-
     & > div
     {
       height:100%;

@@ -30,40 +30,52 @@ let initialState = {
 }
 
 // Dummy Data 
-function createData(name, order, date, status, comments) {
-    return { name, order, date, status, comments }
-}
+// function createData(name, order, date, status, comments) {
+//     return { name, order, date, status, comments }
+// }
 
-initialState.repeats = [
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending', true),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted', true),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
-]
+// initialState.repeats = [
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending', true),
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted', true),
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
+//     createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
+// ]
 
-const REACT_APP_CLIENT_ID = process.env.NODE_ENV === 'production' ? `Ac51a1bc845457` : process.env.REACT_APP_CLIENT_ID
+// const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const podID = '42a9d970-ba8e-11e8-910c-e34a14d05923'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImNiYzE3ZjEwLWU4YzQtMTFlOC1hN2M3LWU2Y2EzYmYzMzg4NSIsImV4cCI6MTU1MDkxOTI1NiwiaWF0IjoxNTQyMjc5MjU2LCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.YxQZhsS4jX_4LL-er5cqSiAO677-CVXqKAwzmdL9aF4'
+const clientID = 'mrv31k5Ar1aXaod'
 
 // Action constants
 const GET_REPEATS = 'GET_REPEATS'
 const GET_REPEATS_SUCCESS = 'GET_REPEATS_SUCCESS'
 const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
+
+const SELECT_REPEAT = 'SELECT_REPEAT'
+
 // Action creators
+export const selectRepeat = (id) => {
+    return ({
+        type: SELECT_REPEAT,
+        payload: {
+            id: id
+        }
+    })
+}
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjIwMTc3NzcwLWJiNDAtMTFlOC1hOTdkLTc5YjU0OWQwZjYxMyIsImV4cCI6MTU0NTkxNDQ3MiwiaWF0IjoxNTM3Mjc0NDcyLCJ1c2VyX2lkIjoiNWI5YTFlNjAtMTU2NC0xMWU4LWFmMzMtZGQwMTdhNzBjMGM5In0.VqF2eRO2ldFMPkyYuBhsRdJaqvtKUgbS22RUFMCQOMM'
-
-export const getRepeats = (podID) => {
+export const getRepeats = () => {
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: 'https://api.84r.co/pods/42a9d970-ba8e-11e8-910c-e34a14d05923/repeats?is_active=true',
+                url: `https://api.84r.co/pods/${podID}/repeats`,
                 headers:
                 {
                     'Token': token,
                     'crossDomain': true,
-                    'client-id': REACT_APP_CLIENT_ID
+                    'client-id': clientID
                 }
             }
         }
@@ -73,17 +85,27 @@ export const getRepeats = (podID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_REPEATS:
+        case SELECT_REPEAT:
+            console.log(action)
             return {
                 ...state,
+                selectedRepeat: action.payload
+            }
+        case GET_REPEATS:
+            //console.log(action)
+            return {
+                ...state,
+                repeats: [],
                 fetching: true
             }
         case GET_REPEATS_SUCCESS:
             return {
                 ...state,
-                fetching: false
+                fetching: false,
+                repeats: action.payload.data.data
             }
         case GET_REPEATS_FAILURE:
+            console.log('Request fail')
             return {
                 ...state,
                 error: action.error,

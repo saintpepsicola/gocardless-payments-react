@@ -3,7 +3,7 @@ import Search from './Search'
 import * as actions from '../../redux/repeats'
 
 const mapStateToProps = (state) => ({
-  patients: state.patients
+  activeRepeats: state.repeats.repeats.filter(repeat => repeat.gp_status === 'delivered').length
 })
 
 export default connect(mapStateToProps, actions)(Search)
