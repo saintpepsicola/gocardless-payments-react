@@ -8,6 +8,7 @@ import PanelControls from './PanelControls'
 import SidePanel from './SidePanel'
 
 export default class QuickActions extends React.Component {
+
     render() {
         return (
             <Container>

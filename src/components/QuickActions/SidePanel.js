@@ -11,7 +11,7 @@ export default class SidePanel extends React.Component {
     return (
       <PanelContainer panels={this.props.panels}>
         <Panel> <Comments /></Panel>
-        <Panel> <NominatedSurgery /></Panel>
+        <Panel> <NominatedSurgery {...this.props.patient} /></Panel>
         <Panel> <PreviousOrder /> </Panel>
       </PanelContainer>
     )
@@ -23,7 +23,8 @@ const Panel = styled(Box)`
       height:100%;
       position:absolute;
       transition:transform 0.3s;
-      padding:16px;
+      padding:14px;
+      box-sizing: border-box;
     `
 
 const PanelContainer = styled(Flex)`

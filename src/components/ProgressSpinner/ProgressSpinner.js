@@ -14,13 +14,12 @@ export default class ProgressSpinner extends Component {
 const Spinner = () => {
     return (
         <Container justify='center' align='center'>
-            <ReactSpinner color='white' name='double-bounce' />
+            <ReactSpinner color='#134E5E' name='double-bounce' />
         </Container>
     )
 }
 
 const Container = styled(Flex)`
-background:#134E5E;
 text-align: center;
 width: 100%;
 box-sizing: border-box;
