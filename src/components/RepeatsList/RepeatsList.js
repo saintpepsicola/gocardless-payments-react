@@ -11,12 +11,14 @@ import timeago from 'time-ago'
 
 class RepeatsList extends Component {
 
-    handleSelect(index) {
-        this.props.selectRepeat(index)
-        this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)
+    handleSelect(repeatID) {
+        //console.log(repeatID)
+        // this.props.selectRepeat(index)
+        this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
 
     render() {
+        // console.log(this.props)
         return (
             <Table>
                 <TableHead>
@@ -32,7 +34,7 @@ class RepeatsList extends Component {
                 <PendingOrders>
                     {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered').map((row, index) => {
                         return (
-                            <OrderRow pending='true' onClick={this.handleSelect.bind(this, index)} key={index}>
+                            <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                 <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                 <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                                 <TableCell><FormattedDate date={row.timestamp} /></TableCell>

@@ -27,6 +27,10 @@ class Search extends Component {
     this.setState({ searchField: false })
   }
 
+  handleChange = (e) => {
+    this.props.searchRepeats(e.target.value)
+  }
+
   render() {
     const showQuickReview = this.props.history.location.pathname === '/'
     return (
@@ -48,6 +52,7 @@ class Search extends Component {
                 InputProps={{
                   disableUnderline: true,
                 }}
+                onChange={this.handleChange.bind(this)}
                 placeholder='SEARCH PATIENTS'
                 autoFocus={this.state.searchField}
               />}

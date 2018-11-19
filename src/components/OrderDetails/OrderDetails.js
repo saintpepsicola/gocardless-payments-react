@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { withRouter } from "react-router"
 import QuickActions from '../QuickActions/QuickActionsContainer'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -7,7 +8,18 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
 
-export default class OrderDetails extends React.Component {
+class OrderDetails extends React.Component {
+
+    async componentDidMount() {
+        // Get a single Repeat
+        this.props.getRepeat(this.props.match.params.orderID)
+
+        // Get all Repeats
+        //await this.props.getRepeats()
+        //console.log('Order ID: ' + this.props.match.params.orderID)
+        //this.props.selectRepeat(this.props.match.params.orderID)
+    }
+
     render() {
         const patient = this.props.patient
         return (
@@ -40,7 +52,7 @@ export default class OrderDetails extends React.Component {
                                     </Box>
                                 </Flex>
                             </Box>
-                            <Box  >
+                            <Box w={3 / 10} >
                                 <Title>NOMINATED SURGERY</Title>
                                 <Flex>
                                     <Box>
@@ -65,6 +77,8 @@ export default class OrderDetails extends React.Component {
     }
 }
 
+export default withRouter(OrderDetails)
+
 const PanelTitle = styled.h3`
 width:100%;
 font-size:22px;
@@ -85,6 +99,8 @@ width:100%;
 &  p
 {
     font-size:14px;
+    margin: 0;
+    line-height:1.5;
     color: #575757;
 }
 `
