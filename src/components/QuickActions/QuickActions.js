@@ -2,28 +2,31 @@ import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import { Flex, Box } from 'reflexbox'
-import Typography from '@material-ui/core/Typography'
-import MedicationList from './MedicationList'
+import MedicationList from './MedicationList/MedicationListContainer'
 import PanelControls from './PanelControls'
 import SidePanel from './SidePanel'
+import ProcessButton from './ProcessButton'
+import timeago from 'time-ago'
 
 export default class QuickActions extends React.Component {
 
     render() {
+        let { repeat } = this.props
         return (
             <Container>
                 <Flex>
                     <Box p='22px' mr='16px' w={7 / 10} >
                         <Flex justify='space-between'>
                             <Box align='center' w={8 / 10} >
-                                <Typography variant='h6'>
-                                    Order 2232 | 5 Medications | Today, 12:30PM
-                                </Typography>
+                                <OrderTitle> {repeat.number_of_medicines} Medications | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
                             <Box w={2 / 10} > <PanelControls {...this.props} /> </Box>
                         </Flex>
                         <Flex>
                             <MedicationList />
+                        </Flex>
+                        <Flex justify='flex-end' align='center'>
+                            <ProcessButton />
                         </Flex>
                     </Box>
                     <Box w={3 / 10} > <SidePanel {...this.props} /></Box>
@@ -33,6 +36,18 @@ export default class QuickActions extends React.Component {
     }
 }
 
+const FormattedDate = (props) => {
+    return timeago.ago(Number(props.date))
+}
+
 const Container = styled(Paper)`
   width:100%;
+`
+
+const OrderTitle = styled.h6`
+  font-size: 16px;
+  font-weight: normal;
+  color: #282828;
+  margin:0;
+  padding: 14px 0;
 `

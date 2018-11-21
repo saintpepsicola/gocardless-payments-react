@@ -12,13 +12,10 @@ import timeago from 'time-ago'
 class RepeatsList extends Component {
 
     handleSelect(repeatID) {
-        //console.log(repeatID)
-        // this.props.selectRepeat(index)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
 
     render() {
-        // console.log(this.props)
         return (
             <Table>
                 <TableHead>
@@ -51,11 +48,11 @@ class RepeatsList extends Component {
                 <CompletedOrders>
                     {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
                         return (
-                            <OrderRow onClick={() => this.props.history.push(`${process.env.PUBLIC_URL}/order/${index}`)} key={index}>
+                            <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                 <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                 <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                                 <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                                <Status>Pending</Status>
+                                <Status>Rejected</Status>
                                 <TableCell>
                                     {row.comments && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
@@ -91,6 +88,19 @@ const PendingOrders = styled(TableBody)`
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
+
+  & tr
+  {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+     box-shadow:none;
+  }
+
+  & tr:hover
+ {
+    background-color: #ebebeb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+ }
+
 `
 const CompletedOrders = styled(TableBody)`
   background-color: #f5f5f5;

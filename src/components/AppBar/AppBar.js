@@ -23,6 +23,11 @@ const Container = styled(Flex)`
   height:100%;
   margin:0 auto;
   box-sizing:border-box;
+
+  & > div:nth-child(2)
+  {
+      text-align:right;
+  }
 `
 
 const FullWidthBlueBar = styled.div`

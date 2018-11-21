@@ -10,15 +10,32 @@ let initialState = {
         mob: '0999 444473',
         address: `55 Parkside \nEast Road \nCambridge \nCB1 1SS`,
         nominated_surgery: `Trumpington Street Medical \nTrumpington Street \nCambridge \nCB1 1HH`,
-        nominated_pharmacy: `Petersfield Pharmacy \n12 Lansfield Road \nCambridge \nCB1 1EA
-        `
+        nominated_pharmacy: `Petersfield Pharmacy \n12 Lansfield Road \nCambridge \nCB1 1EA`,
+        medications: [
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true },
+            { name: '28 Lipitor 200mg', value: true },
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true }],
+        previous_medications: [
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true },
+            { name: '28 Lipitor 200mg', value: true },
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true },
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true },
+            { name: '28 Lipitor 200mg', value: true },
+            { name: '29 Vitamins C', value: true },
+            { name: '21 Vitamins D', value: true }]
     }
+
 }
 
 // const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
-const podID = '42a9d970-ba8e-11e8-910c-e34a14d05923'
+const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImQ2YTg0NDYwLWVjMGEtMTFlOC04OTk3LTU1Zjc5YzY2ZWYyZiIsImV4cCI6MTU1MTI3OTE5MiwiaWF0IjoxNTQyNjM5MTkyLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.TymvgxQvK4YAkRX4R33O6tgjdz1cFBqoMhqdeofQTHI'
-const clientID = 'mrv31k5Ar1aXaod'
+const clientID = 'vAc51a1bc845457'
 
 // Action constants
 // All Repeats
@@ -36,9 +53,22 @@ const SEARCH_REPEATS = 'SEARCH_REPEATS'
 const SEARCH_REPEATS_SUCCESS = 'SEARCH_REPEATS_SUCCESS'
 const SEARCH_REPEATS_FAILURE = 'SEARCH_REPEATS_FAILURE'
 
+// Select a repeat
 const SELECT_REPEAT = 'SELECT_REPEAT'
 
+// Toggle Medication
+const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
+
 // Action creators
+export const toggleMedication = (id) => {
+    return ({
+        type: TOGGLE_MEDICATION,
+        payload: {
+            id: id
+        }
+    })
+}
+
 export const selectRepeat = (id) => {
     return ({
         type: SELECT_REPEAT,
@@ -70,7 +100,7 @@ export const getRepeats = () => {
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/pods/${podID}/repeats`,
+                url: `https://api.84r.co/pods/${podID}/repeats?page=1&page_size=10`,
                 headers:
                 {
                     'Token': token,
@@ -107,16 +137,20 @@ export const searchRepeats = (name) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case TOGGLE_MEDICATION:
+            let medication = state.selectedRepeat.remedies[action.payload.id]
+            medication.approved = medication.approved ? false : true
+            return {
+                ...state, selectedRepeat: { ...state.selectedRepeat, remedies: state.selectedRepeat.remedies }
+            }
         case SELECT_REPEAT:
             console.log(action)
-            //let selRepeat = action.payload
             console.log(state.repeats.map(repeat => console.log(repeat)))
             return {
                 ...state,
                 selectedRepeat: action.payload
             }
         case SEARCH_REPEATS:
-            // console.log(action)
             return {
                 ...state,
                 fetching: true
@@ -135,14 +169,13 @@ export default (state = initialState, action) => {
                 fetching: false
             }
         case GET_REPEAT:
-            //console.log(action)
             return {
                 ...state,
                 selectedRepeat: null,
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
-            //console.log(action.payload.data.data[0])
+            // console.log(action)
             return {
                 ...state,
                 fetching: false,
@@ -156,13 +189,13 @@ export default (state = initialState, action) => {
                 fetching: false
             }
         case GET_REPEATS:
-            //console.log(action)
             return {
                 ...state,
                 repeats: [],
                 fetching: true
             }
         case GET_REPEATS_SUCCESS:
+            // console.log(action)
             return {
                 ...state,
                 fetching: false,
