@@ -9,10 +9,10 @@ export default class SidePanel extends React.Component {
 
   render() {
     return (
-      <PanelContainer panels={this.props.panels}>
+      <PanelContainer className='side-panel' panels={this.props.panels}>
         <Panel> <Comments /></Panel>
         <Panel> <NominatedSurgery {...this.props.patient} /></Panel>
-        <Panel> <PreviousOrder /> </Panel>
+        <Panel> <PreviousOrder {...this.props.patient} /> </Panel>
       </PanelContainer>
     )
   }
@@ -25,13 +25,29 @@ const Panel = styled(Box)`
       transition:transform 0.3s;
       padding:14px;
       box-sizing: border-box;
-    `
+
+      & nav
+      {
+          height:300px;
+          overflow-y:scroll;
+      }
+      & nav::-webkit-scrollbar {
+          width: 6px;
+          background-color: #eeeeee;
+      }
+      & nav::-webkit-scrollbar-thumb {
+          background-color: #3d3d3d;
+          border-radius:5px;
+      }  
+
+`
 
 const PanelContainer = styled(Flex)`
       background:#eee;
       overflow:hidden;
       height:100%;
       position:relative;
+      min-height:390px;
     
   ${Panel}:nth-child(1)
   {

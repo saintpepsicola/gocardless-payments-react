@@ -14,6 +14,10 @@ export default class Comments extends React.Component {
                 <Comment>
                     {`Dear Stephan,\n\nThank you for your message. How long will you be gone for so we can ensure we order the correct quantity?`}
                 </Comment>
+
+
+                <CommentButton>REPLY</CommentButton>
+
             </CommentBox>
         )
     }
@@ -32,6 +36,14 @@ const Comment = styled.div`
 border-left: 2px solid red;
 border-color: ${props => props.patient ? '#419645' : '#0091cc'};
 padding-left:10px;
+`
+
+const CommentButton = styled.div`
+margin-top:24px;
+border-left: 2px solid #0091cc;
+padding-left:10px;
+color: #2f84b0;
+cursor:pointer;
 `
 
 const Title = styled.h1`

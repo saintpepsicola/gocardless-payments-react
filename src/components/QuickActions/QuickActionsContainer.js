@@ -5,7 +5,7 @@ import * as actions from '../../redux/userInterface'
 const mapStateToProps = (state) => ({
     panels: state.userInterface.panels,
     repeats: state.repeats.repeats,
-    selectedRepeat: state.repeats.selectedRepeat,
+    repeat: state.repeats.selectedRepeat,
     patient: state.repeats.patient
 })
 

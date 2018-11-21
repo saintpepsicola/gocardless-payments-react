@@ -1,5 +1,5 @@
 import React from 'react'
-// import styled from 'styled-components'
+import styled from 'styled-components'
 import CommentIcon from '@material-ui/icons/Comment'
 import RefreshIcon from '@material-ui/icons/RefreshOutlined'
 import AddIcon from '@material-ui/icons/AddCircleOutlined'
@@ -11,20 +11,26 @@ export default class PanelControls extends React.Component {
     }
 
     render() {
+        let { panels } = this.props
         return (
             <span>
-                <IconButton onClick={this.showPanel.bind(this, 1)} aria-label="Comments">
+                <Button iconcolor={panels[0]} onClick={this.showPanel.bind(this, 1)} aria-label="Comments">
                     <CommentIcon />
-                </IconButton>
-                <IconButton onClick={this.showPanel.bind(this, 2)} aria-label="Add">
+                </Button>
+                <Button iconcolor={panels[1]} onClick={this.showPanel.bind(this, 2)} aria-label="Add">
                     <AddIcon />
-                </IconButton>
-                <IconButton onClick={this.showPanel.bind(this, 3)} aria-label="Refresh">
+                </Button>
+                <Button iconcolor={panels[2]} onClick={this.showPanel.bind(this, 3)} aria-label="Refresh">
                     <RefreshIcon />
-                </IconButton>
-            </span>
+                </Button>
+            </span >
         )
     }
 }
 
-
+const Button = styled(IconButton)`
+    & svg
+    {
+        color:${props => props.iconcolor.show ? '#2f84b0' : '#595959'};
+    }   
+`

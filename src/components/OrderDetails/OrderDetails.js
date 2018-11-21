@@ -10,68 +10,76 @@ import { Flex, Box } from 'reflexbox'
 
 class OrderDetails extends React.Component {
 
-    async componentDidMount() {
+    componentDidMount() {
         // Get a single Repeat
         this.props.getRepeat(this.props.match.params.orderID)
-
-        // Get all Repeats
-        //await this.props.getRepeats()
-        //console.log('Order ID: ' + this.props.match.params.orderID)
-        //this.props.selectRepeat(this.props.match.params.orderID)
     }
 
     render() {
-        const patient = this.props.patient
+        //console.log(this.props.repeat && this.props.repeat.patient, this.props.repeat)
+        let { repeat, fetching, patient } = this.props
         return (
             <div>
-                <Panel defaultExpanded>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <PanelTitle>
-                            Mr. Stephan Jones
-                        </PanelTitle>
-                    </ExpansionPanelSummary>
-                    <Content>
-                        <PatientDetails pl='24px' pr='24px' pt='8'>
-                            <Box w={5 / 10} >
-                                <Title>PATIENT DETAILS</Title>
-                                <Flex m='0'>
-                                    <Box w='90px'>
-                                        <p>NHS:</p>
-                                        <p>E-mail:</p>
-                                        <p>Tel:</p>
-                                        <p>Mob:</p>
-                                    </Box>
-                                    <Box w='249px'>
-                                        <p>{patient.nhs}</p>
-                                        <p>{patient.email}</p>
-                                        <p>{patient.tel}</p>
-                                        <p>{patient.mob}</p>
-                                    </Box>
-                                    <Box w='100px'>
-                                        <Address>{patient.address}</Address>
-                                    </Box>
-                                </Flex>
-                            </Box>
-                            <Box w={3 / 10} >
-                                <Title>NOMINATED SURGERY</Title>
-                                <Flex>
-                                    <Box>
-                                        <Address>{patient.nominated_surgery}</Address>
-                                    </Box>
-                                </Flex>
-                            </Box>
-                            <Box>
-                                <Title>NOMINATED PHARMACY</Title>
-                                <Flex>
-                                    <Box>
-                                        <Address>{patient.nominated_pharmacy}</Address>
-                                    </Box>
-                                </Flex>
-                            </Box>
-                        </PatientDetails>
-                    </Content>
-                </Panel>
-                <QuickActions />
+                {!fetching && repeat && <div>
+                    <Panel defaultExpanded>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <PanelTitle>
+                                {repeat.patient_forename} {repeat.patient_surname}
+                            </PanelTitle>
+                        </ExpansionPanelSummary>
+                        <Content>
+                            <PatientDetails pl='24px' pr='24px' pt='8'>
+                                <Box w={5 / 10} >
+                                    <Title>PATIENT DETAILS</Title>
+                                    <Flex m='0'>
+                                        <Box w='90px'>
+                                            <p>NHS:</p>
+                                            <p>E-mail:</p>
+                                            <p>Tel:</p>
+                                            <p>Mob:</p>
+                                        </Box>
+                                        <Box w='249px'>
+                                            <p>{repeat.patient.nhs_number}</p>
+                                            <p>{repeat.patient.username}</p>
+                                            <p>{repeat.patient.telephone}</p>
+                                            <p>{patient.mob}</p>
+                                        </Box>
+                                        <Box w='100px'>
+                                            <Address>{repeat.patient.address}</Address>
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                                <Box w={3 / 10} >
+                                    <Title>NOMINATED SURGERY</Title>
+                                    <Flex>
+                                        <Box>
+                                            <Address>
+                                                {repeat.surgery.address_1}<br />
+                                                {repeat.surgery.address_2}<br />
+                                                {repeat.surgery.address_3}<br />
+                                                {repeat.surgery.postcode}<br />
+                                            </Address>
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                                <Box>
+                                    <Title>NOMINATED PHARMACY</Title>
+                                    <Flex>
+                                        <Box>
+                                            <Address>
+                                                {repeat.pharmacy.pharmacy_name}<br />
+                                                {repeat.pharmacy.address}<br />
+                                                {repeat.pharmacy.postcode}<br />
+                                                {repeat.pharmacy.telephone}<br />
+                                            </Address>
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                            </PatientDetails>
+                        </Content>
+                    </Panel>
+                    <QuickActions />
+                </div>}
             </div>
         )
     }
@@ -91,15 +99,16 @@ color: #575757;
 `
 
 const Address = styled.p`
-white-space:pre;
+white-space:pre-line;
+text-transform:uppercase;
 `
 
 const PatientDetails = styled(Flex)`
 width:100%;
 &  p
 {
-    font-size:14px;
-    margin: 0;
+    font-size:13px;
+    margin:0;
     line-height:1.5;
     color: #575757;
 }
