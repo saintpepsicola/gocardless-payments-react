@@ -4,8 +4,8 @@ import jwt_decode from 'jwt-decode'
 const REACT_APP_AUTH_TOKEN = process.env.REACT_APP_AUTH_TOKEN
 
 // We need to do this better later on
-const REACT_APP_CLIENT_ID = process.env.NODE_ENV === 'production' ? `Ac51a1bc845457` : process.env.REACT_APP_CLIENT_ID
-const REACT_APP_AUTH_URL = process.env.NODE_ENV === 'production' ? `https://auth.84r.co` : process.env.REACT_APP_AUTH_URL
+const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const REACT_APP_AUTH_URL = process.env.REACT_APP_AUTH_URL
 
 // Consts
 const cookies = new Cookies()
