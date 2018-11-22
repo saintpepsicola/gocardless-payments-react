@@ -15,7 +15,7 @@ export default class MedicationList extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         let { basic, repeat } = this.props
         let meds = repeat.remedies
         return (
@@ -63,14 +63,12 @@ const Container = styled(Flex)`
        color:#282828;
     }
 `
-const Medicine = styled(ListItem)`0
+const Medicine = styled(ListItem)`
 &&
 {
-    border:1px solid red;
+    
 }
-  
 `
-
 
 const CheckIcon = styled(DoneIcon)`
   color:#0D6F67;
