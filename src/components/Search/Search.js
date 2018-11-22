@@ -11,13 +11,11 @@ import Tab from '@material-ui/core/Tab'
 class Search extends Component {
 
   state = {
-    searchField: false, filter: false
+    searchField: false
   }
 
   componentDidMount() {
     this.props.getRepeats()
-    // Set Tab values to false if null in ReduxStore!
-    this.setState({ filter: this.props.repeatsFilter })
   }
 
   handleBlur = () => {
@@ -31,17 +29,17 @@ class Search extends Component {
   handleTabChange = (e, value) => {
     this.setState({ searchField: value === 0 ? true : false })
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
+    this.props.toggleRepeats(value)
   }
 
   render() {
-    console.log(this.props)
     const showQuickReview = this.props.history.location.pathname === '/'
     return (
       <Container>
         <Flex>
           <BoxContainer auto align='center'>
-            <Tabs value={this.state.filter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
-              <Tab icon={<SearchIcon />} />
+            <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
+              <IconTab icon={<SearchIcon />} />
               {!this.state.searchField && <Tab label={`Active (${this.props.activeRepeats})`} />}
               {!this.state.searchField && <Tab label="Archive" />}
             </Tabs>
@@ -58,7 +56,7 @@ class Search extends Component {
                 autoFocus={this.state.searchField}
               />}
           </BoxContainer>
-          {showQuickReview && <Box align='center' justify='center' w='127px'>
+          {!this.state.searchField && showQuickReview && <Box align='center' justify='center' w='127px'>
             <VerticalFlex >
               <Button>QUICK REVIEW</Button>
             </VerticalFlex>
@@ -78,6 +76,13 @@ const Container = styled.div`
 
 const VerticalFlex = styled(Flex)`
   height: 100%;
+`
+
+const IconTab = styled(Tab)`
+&&
+{
+  min-width:45px;
+}
 `
 
 const BoxContainer = styled(Box)`

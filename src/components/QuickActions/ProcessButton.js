@@ -15,11 +15,12 @@ export default class ProcessButton extends React.Component {
 const ProcessBtn = styled(Button)`
 &&
 {
-    margin-top:8px;
+    margin-top:16px;
     background-color:#0D6F67;
     font-size: 14px;
     font-weight: normal;
     color: #fff;
+    height: 40px;
 
     &:hover
     {

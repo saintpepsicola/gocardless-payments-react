@@ -36,5 +36,4 @@ const FullWidthBlueBar = styled.div`
    background-image:url(${headerBackground});
    background-repeat: repeat-x;
    background-size:contain;
-   background: linear-gradient(to right, #11998e, #0c6e66);
 `

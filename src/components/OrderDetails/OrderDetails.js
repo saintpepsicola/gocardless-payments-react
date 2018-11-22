@@ -42,7 +42,7 @@ class OrderDetails extends React.Component {
                                             <p>{repeat.patient.nhs_number}</p>
                                             <p>{repeat.patient.username}</p>
                                             <p>{repeat.patient.telephone}</p>
-                                            <p>{patient.mob}</p>
+                                            <p>{repeat.patient.telephone}</p>
                                         </Box>
                                         <Box w='100px'>
                                             <Address>{repeat.patient.address}</Address>
