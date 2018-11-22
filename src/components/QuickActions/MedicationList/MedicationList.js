@@ -45,11 +45,11 @@ const Container = styled(Flex)`
         width:100%;
         height:360px;
         overflow-y:scroll;
-        padding-right:16px;
+        padding-right:30px;
     }
 
     & nav::-webkit-scrollbar {
-        width: 6px;
+        width:3px;
         background-color: #eeeeee;
     }
 
