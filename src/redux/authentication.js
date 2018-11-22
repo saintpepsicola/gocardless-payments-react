@@ -13,7 +13,7 @@ const cookies = new Cookies()
 // Initial State
 const initialState = {
     // Check if Auth Token exists!
-    authenticated: true || checkforAuthToken(),
+    authenticated: false || checkforAuthToken(),
     error: null
 }
 
