@@ -1,35 +1,40 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Logo from '../Logo/Logo'
+import Logo from './Logo'
+import UserAvatar from '../UserAvatar/UserAvatarContainer'
 import headerBackground from '../../resources/header-bg.png'
-import { Row, Col } from 'react-flexbox-grid'
+import { Flex, Box } from 'reflexbox'
 
 export default class AppBar extends Component {
-
     render() {
         return (
-            <Header center="xs" middle="xs">
-                <Col xs >
-                    User Account Info
-                </Col>
-                <Col xs >
-                    <Logo />
-                </Col>
-            </Header>
+            <FullWidthBlueBar>
+                <Container p={2} align='center' justify='center'>
+                    <Box w={1 / 2}><UserAvatar /></Box>
+                    <Box w={1 / 2}><Logo /></Box>
+                </Container>
+            </ FullWidthBlueBar>
         )
     }
 }
 
-// Proptypes
+const Container = styled(Flex)`
+  width:1100px;
+  height:100%;
+  margin:0 auto;
+  box-sizing:border-box;
 
+  & > div:nth-child(2)
+  {
+      text-align:right;
+  }
+`
 
-// Styled Components
-const Header = styled(Row)`
-  height:110px;
-  min-width:1100px;
-  width:100%;
-  background-image:url(${headerBackground});
-  background-repeat: repeat-x;
-  background-size:contain;
-`;
+const FullWidthBlueBar = styled.div`
+   height:110px;
+   width:100%;
+   background-image:url(${headerBackground});
+   background-repeat: repeat-x;
+   background-size:contain;
+   background: linear-gradient(to right, #11998e, #0c6e66);
+`

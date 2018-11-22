@@ -1,62 +1,138 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import { withRouter } from "react-router"
 import styled from 'styled-components'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper';
+import commentIcon from '../../resources/comment.png'
+import timeago from 'time-ago'
 
-// Dummy Data
-function createData(name, order, date, status) {
-    return { name, order, date, status }
-}
-const rows = [
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Pending'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Accepted'),
-    createData('Stephen George James', '3 Medications', 'Today 12:03 PM', 'Rejected')
-];
+class RepeatsList extends Component {
 
-export default class RepeatsList extends Component {
+    handleSelect(repeatID) {
+        this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
+    }
 
     render() {
         return (
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell >Patient Name</TableCell>
-                            <TableCell >Order</TableCell>
-                            <TableCell >Date</TableCell>
-                            <TableCell >Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row, index) => {
-                            return (
-                                <OrderRow key={index}>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.order}</TableCell>
-                                    <TableCell>{row.date}</TableCell>
-                                    <TableCell>{row.status}</TableCell>
-                                </OrderRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <Header>Patient Name</Header>
+                        <Header>Order</Header>
+                        <Header>Date</Header>
+                        <Header>Status</Header>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
+                {/* PENDING ORDERS */}
+                <PendingOrders>
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered').map((row, index) => {
+                        return (
+                            <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                <Status>Pending</Status>
+                                <TableCell>
+                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                </TableCell>
+                            </OrderRow>
+                        )
+                    })}
+
+                </PendingOrders>
+                {/* OTHER ORDERS */}
+                <CompletedOrders>
+                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
+                        return (
+                            <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                <Status>Rejected</Status>
+                                <TableCell>
+                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                </TableCell>
+                            </OrderRow>
+                        )
+                    })}
+                </CompletedOrders>
+            </Table>
         )
     }
 }
 
-// Proptypes
+export default withRouter(RepeatsList)
 
+const FormattedDate = (props) => {
+    return (
+        timeago.ago(props.date * 1000)
+    )
+}
 
 // Styled Components
 const OrderRow = styled(TableRow)`
     height:66px !important;
-`;
+    cursor:pointer;
+
+    & > td
+    {
+        color:#282828;
+        font-size: 16px;
+    } 
+`
+const PendingOrders = styled(TableBody)`
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+
+  & tr
+  {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+     box-shadow:none;
+  }
+
+  & tr:hover
+ {
+    background-color: #ebebeb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+ }
+
+`
+const CompletedOrders = styled(TableBody)`
+  background-color: #f5f5f5;
+`
+
+const Header = styled(TableCell)`
+    &&
+    {
+        font-size:16px;
+        color: #b0b0b0;
+    }
+`
+
+const PatientName = styled(TableCell)`
+    &&
+    {
+        font-weight:bold;
+    }
+`
+
+const Status = styled(TableCell)`
+    &&
+    {
+        font-weight:bold;
+        color: ${props => statusColors[props.children]};
+        font-size: 16px;
+    }
+`
+
+const statusColors = {
+    'Pending': '#f57123',
+    'Accepted': '#509500',
+    'Rejected': '#d0021b',
+    'Processing': '#2f84b0',
+}

@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-//import PropTypes from 'prop-types'
-// import styled from 'styled-components'
 import logo from '../../resources/logo-white.png'
+import styled from 'styled-components'
 
 export default class Logo extends Component {
 
     render() {
         return (
-            <img src={logo} alt='Healthera Logo' />
+            <LogoImg src={logo} align="right" alt='Healthera Logo' />
         )
     }
 }
 
-// Proptypes
+const LogoImg = styled.img`
+width: 196px;
+height: 27px;
+`
 
-
-// Styled Components
