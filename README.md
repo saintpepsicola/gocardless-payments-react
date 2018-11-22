@@ -1,6 +1,6 @@
 
 # DEMO
-[Check it out!](https://healthera.github.io/healthera-portal)
+[Check it out!](https://pod.84r.co)
 
 
 ## POD Client
