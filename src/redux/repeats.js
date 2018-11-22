@@ -3,6 +3,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
+    repeatsFilter: false,
     patient: {
         nhs: '662527',
         email: 'stephan.jones@mail.com',
@@ -59,6 +60,9 @@ const SELECT_REPEAT = 'SELECT_REPEAT'
 // Toggle Medication
 const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
 
+// Toggle Repeats filter : ACTIVE / INACTIVE
+const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
+
 // Action creators
 export const toggleMedication = (id) => {
     return ({
@@ -66,6 +70,13 @@ export const toggleMedication = (id) => {
         payload: {
             id: id
         }
+    })
+}
+
+export const toggleRepeats = (id) => {
+    return ({
+        type: TOGGLE_REPEATS,
+        payload: { id }
     })
 }
 
@@ -137,6 +148,11 @@ export const searchRepeats = (name) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case TOGGLE_REPEATS:
+            console.log(action)
+            return {
+                ...state
+            }
         case TOGGLE_MEDICATION:
             let medication = state.selectedRepeat.remedies[action.payload.id]
             medication.approved = medication.approved ? false : true
