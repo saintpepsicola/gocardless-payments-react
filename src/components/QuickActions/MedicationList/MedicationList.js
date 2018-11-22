@@ -45,6 +45,7 @@ const Container = styled(Flex)`
         width:100%;
         height:360px;
         overflow-y:scroll;
+        padding-right:16px;
     }
 
     & nav::-webkit-scrollbar {
@@ -66,7 +67,11 @@ const Container = styled(Flex)`
 const Medicine = styled(ListItem)`
 &&
 {
-    
+    padding-right:0;
+    svg
+    {
+        margin-right:-23px;
+    }
 }
 `
 

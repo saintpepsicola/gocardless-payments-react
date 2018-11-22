@@ -3,7 +3,6 @@ import MedicationList from './MedicationList/MedicationListContainer'
 import styled from 'styled-components'
 
 export default class PreviousOrder extends React.Component {
-
     render() {
         return (
             <Container>
