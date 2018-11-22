@@ -18,7 +18,7 @@ export default class QuickActions extends React.Component {
                     <Box p='22px' mr='16px' w={7 / 10} >
                         <Flex justify='space-between'>
                             <Box align='center' w={8 / 10} >
-                                <OrderTitle> {repeat.number_of_medicines} Medications | <FormattedDate date={repeat.date_created} /> </OrderTitle>
+                                <OrderTitle> <Bigger>{repeat.number_of_medicines} Medications</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
                             <Box w={2 / 10} > <PanelControls {...this.props} /> </Box>
                         </Flex>
@@ -42,6 +42,12 @@ const FormattedDate = (props) => {
 
 const Container = styled(Paper)`
   width:100%;
+`
+
+const Bigger = styled.span`
+font-size: 16px;
+font-weight: 700;
+color: #4a4a4a;
 `
 
 const OrderTitle = styled.h6`

@@ -24,7 +24,7 @@ class RepeatsList extends Component {
                         <Header>Order</Header>
                         <Header>Date</Header>
                         <Header>Status</Header>
-                        <TableCell></TableCell>
+                        <Header></Header>
                     </TableRow>
                 </TableHead>
                 {/* PENDING ORDERS */}
@@ -111,6 +111,7 @@ const Header = styled(TableCell)`
     {
         font-size:16px;
         color: #b0b0b0;
+        border:0;
     }
 `
 
