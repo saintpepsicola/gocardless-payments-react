@@ -11,8 +11,8 @@ export default class SidePanel extends React.Component {
     return (
       <PanelContainer className='side-panel' panels={this.props.panels}>
         <Panel> <Comments /></Panel>
-        <Panel> <NominatedSurgery {...this.props.patient} /></Panel>
-        <Panel> <PreviousOrder {...this.props.patient} /> </Panel>
+        <Panel> <NominatedSurgery {...this.props.repeat} /></Panel>
+        <Panel> <PreviousOrder /> </Panel>
       </PanelContainer>
     )
   }
@@ -26,19 +26,13 @@ const Panel = styled(Box)`
       padding:14px;
       box-sizing: border-box;
 
-      & nav
+      & nav li span
       {
-          height:300px;
-          overflow-y:scroll;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
       }
-      & nav::-webkit-scrollbar {
-          width: 6px;
-          background-color: #eeeeee;
-      }
-      & nav::-webkit-scrollbar-thumb {
-          background-color: #3d3d3d;
-          border-radius:5px;
-      }  
 
 `
 

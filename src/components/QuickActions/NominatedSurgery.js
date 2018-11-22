@@ -4,12 +4,16 @@ import styled from 'styled-components'
 export default class NominatedSurgery extends React.Component {
 
     render() {
+        console.log(this.props)
         let repeat = this.props
         return (
             <Container>
                 <Title>NOMINATED SURGERY</Title>
                 <Address>
-                    {repeat && repeat.nominated_surgery.trim()}
+                    {repeat.surgery.address_1} < br />
+                    {repeat.surgery.address_2} < br />
+                    {repeat.surgery.address_3} < br />
+                    {repeat.surgery.postcode} < br />
                 </Address>
             </Container>
         )

@@ -3,34 +3,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: false,
-    patient: {
-        nhs: '662527',
-        email: 'stephan.jones@mail.com',
-        tel: '0998 443333',
-        mob: '0999 444473',
-        address: `55 Parkside \nEast Road \nCambridge \nCB1 1SS`,
-        nominated_surgery: `Trumpington Street Medical \nTrumpington Street \nCambridge \nCB1 1HH`,
-        nominated_pharmacy: `Petersfield Pharmacy \n12 Lansfield Road \nCambridge \nCB1 1EA`,
-        medications: [
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true },
-            { name: '28 Lipitor 200mg', value: true },
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true }],
-        previous_medications: [
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true },
-            { name: '28 Lipitor 200mg', value: true },
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true },
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true },
-            { name: '28 Lipitor 200mg', value: true },
-            { name: '29 Vitamins C', value: true },
-            { name: '21 Vitamins D', value: true }]
-    }
-
+    repeatsFilter: false
 }
 
 // const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
@@ -149,9 +122,8 @@ export const searchRepeats = (name) => {
 export default (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_REPEATS:
-            console.log(action)
             return {
-                ...state
+                ...state, repeatsFilter: action.payload.id
             }
         case TOGGLE_MEDICATION:
             let medication = state.selectedRepeat.remedies[action.payload.id]

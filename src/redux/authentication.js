@@ -13,7 +13,7 @@ const cookies = new Cookies()
 // Initial State
 const initialState = {
     // Check if Auth Token exists!
-    authenticated: false || checkforAuthToken(),
+    authenticated: process.env.NODE_ENV === 'production' ? checkforAuthToken() : true,
     error: null
 }
 
