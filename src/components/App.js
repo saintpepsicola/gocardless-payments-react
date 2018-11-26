@@ -3,7 +3,7 @@ import AppBar from './AppBar/AppBarContainer'
 import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ProtectedRoutes } from './Routes/ProtectedRoutes'
-import ProgressSpinner from './ProgressSpinner/ProgressSpinnerContainer';
+import ProgressSpinner from './ProgressSpinner/ProgressSpinnerContainer'
 
 class App extends Component {
   render() {
