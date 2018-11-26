@@ -6,10 +6,16 @@ let initialState = {
     repeatsFilter: false
 }
 
-// const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+//GLOBALS
 const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImQ2YTg0NDYwLWVjMGEtMTFlOC04OTk3LTU1Zjc5YzY2ZWYyZiIsImV4cCI6MTU1MTI3OTE5MiwiaWF0IjoxNTQyNjM5MTkyLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.TymvgxQvK4YAkRX4R33O6tgjdz1cFBqoMhqdeofQTHI'
 const clientID = 'vAc51a1bc845457'
+
+const headers = {
+    'Token': token,
+    'crossDomain': true,
+    'client-id': clientID
+}
 
 // Action constants
 // All Repeats
@@ -50,12 +56,7 @@ export const toggleMedication = (podID, repeatID, remedy) => {
                     data: {
                         approved: !remedy.approved
                     },
-                    headers:
-                    {
-                        'Token': token,
-                        'crossDomain': true,
-                        'client-id': clientID
-                    }
+                    headers: headers
                 }
             }
         }
@@ -85,12 +86,7 @@ export const getRepeat = (repeatID) => {
         payload: {
             request: {
                 url: `https://api.84r.co/pods/${podID}/repeats/${repeatID}`,
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -102,12 +98,7 @@ export const getRepeats = () => {
         payload: {
             request: {
                 url: `https://api.84r.co/pods/${podID}/repeats?page=1&page_size=10`,
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -124,12 +115,7 @@ export const searchRepeats = (name) => {
                     name: 'J',
                     lastName: 'Flintstone'
                 },
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
