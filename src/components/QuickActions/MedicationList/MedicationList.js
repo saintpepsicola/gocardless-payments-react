@@ -10,8 +10,8 @@ import OffIcon from '@material-ui/icons/HighlightOff'
 
 export default class MedicationList extends React.Component {
 
-    handleToggle(i) {
-        this.props.toggleMedication(i)
+    handleToggle(podID, repeatID, remedyID) {
+        this.props.toggleMedication(podID, repeatID, remedyID)
     }
 
     render() {
@@ -23,7 +23,7 @@ export default class MedicationList extends React.Component {
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
                         return (
-                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, i)} key={i} divider >
+                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat.repeat_id, medication)} key={i} divider >
                                 <ListItemText primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
