@@ -6,7 +6,12 @@ import headerBackground from '../../resources/header-bg.png'
 import { Flex, Box } from 'reflexbox'
 
 export default class AppBar extends Component {
-    render() {
+
+    componentDidMount() {
+        setInterval(() => this.props.getRepeats(), 300000)
+    }
+
+    render() {        
         return (
             <FullWidthBlueBar>
                 <Container p={2} align='center' justify='center'>
