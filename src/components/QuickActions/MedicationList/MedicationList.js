@@ -44,7 +44,7 @@ const Container = styled(Flex)`
     {
         width:100%;
         height:360px;
-        overflow-y:scroll;
+        overflow-y:auto;
         padding-right:30px;
     }
 

@@ -21,11 +21,6 @@ const ProcessBtn = styled(Button)`
     font-weight: normal;
     color: #fff;
     height: 40px;
-
-    &:hover
-    {
-        ackground:Red;
-    }
 }  
 
 `
