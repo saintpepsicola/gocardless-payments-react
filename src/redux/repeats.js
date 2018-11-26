@@ -6,10 +6,16 @@ let initialState = {
     repeatsFilter: false
 }
 
-// const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+//GLOBALS
 const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImQ2YTg0NDYwLWVjMGEtMTFlOC04OTk3LTU1Zjc5YzY2ZWYyZiIsImV4cCI6MTU1MTI3OTE5MiwiaWF0IjoxNTQyNjM5MTkyLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.TymvgxQvK4YAkRX4R33O6tgjdz1cFBqoMhqdeofQTHI'
 const clientID = 'vAc51a1bc845457'
+
+const headers = {
+    'Token': token,
+    'crossDomain': true,
+    'client-id': clientID
+}
 
 // Action constants
 // All Repeats
@@ -32,18 +38,30 @@ const SELECT_REPEAT = 'SELECT_REPEAT'
 
 // Toggle Medication
 const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
+const TOGGLE_MEDICATION_SUCCESS = 'TOGGLE_MEDICATION_SUCCESS'
+const TOGGLE_MEDICATION_FAILURE = 'TOGGLE_MEDICATION_FAILURE'
 
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
 // Action creators
-export const toggleMedication = (id) => {
-    return ({
-        type: TOGGLE_MEDICATION,
-        payload: {
-            id: id
+export const toggleMedication = (podID, repeatID, remedy) => {
+    if (window.confirm("Delete the item?")) {
+        return {
+            types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
+            payload: {
+                request: {
+                    url: `https://api.84r.co/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
+                    method: 'PUT',
+                    data: {
+                        approved: !remedy.approved
+                    },
+                    headers: headers
+                }
+            }
         }
-    })
+    }
+    return { type: 'NULL' }
 }
 
 export const toggleRepeats = (id) => {
@@ -68,12 +86,7 @@ export const getRepeat = (repeatID) => {
         payload: {
             request: {
                 url: `https://api.84r.co/pods/${podID}/repeats/${repeatID}`,
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -85,12 +98,7 @@ export const getRepeats = () => {
         payload: {
             request: {
                 url: `https://api.84r.co/pods/${podID}/repeats?page=1&page_size=10`,
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -107,12 +115,7 @@ export const searchRepeats = (name) => {
                     name: 'J',
                     lastName: 'Flintstone'
                 },
-                headers:
-                {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -126,14 +129,26 @@ export default (state = initialState, action) => {
                 ...state, repeatsFilter: action.payload.id
             }
         case TOGGLE_MEDICATION:
-            let medication = state.selectedRepeat.remedies[action.payload.id]
-            medication.approved = medication.approved ? false : true
+
             return {
-                ...state, selectedRepeat: { ...state.selectedRepeat, remedies: state.selectedRepeat.remedies }
+                ...state,
+                fetching: true
+            }
+        case TOGGLE_MEDICATION_SUCCESS:
+            let returnedRemedy = action.payload.data.data[0]
+            state.selectedRepeat.remedies.filter(remedy => remedy.remedy_id === returnedRemedy.remedy_id)[0].approved = returnedRemedy.approved
+            return {
+                ...state,
+                fetching: false,
+                selectedRepeat: { ...state.selectedRepeat }
+            }
+        case TOGGLE_MEDICATION_FAILURE:
+            console.log(action)
+            return {
+                ...state,
+                fetching: false
             }
         case SELECT_REPEAT:
-            console.log(action)
-            console.log(state.repeats.map(repeat => console.log(repeat)))
             return {
                 ...state,
                 selectedRepeat: action.payload
@@ -163,7 +178,7 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
-            // console.log(action)
+            //console.log(action)
             return {
                 ...state,
                 fetching: false,
@@ -183,7 +198,6 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEATS_SUCCESS:
-            // console.log(action)
             return {
                 ...state,
                 fetching: false,

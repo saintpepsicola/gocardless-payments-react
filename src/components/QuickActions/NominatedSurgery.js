@@ -4,7 +4,6 @@ import styled from 'styled-components'
 export default class NominatedSurgery extends React.Component {
 
     render() {
-        console.log(this.props)
         let repeat = this.props
         return (
             <Container>

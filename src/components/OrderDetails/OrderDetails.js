@@ -17,7 +17,7 @@ class OrderDetails extends React.Component {
 
     render() {
         //console.log(this.props.repeat && this.props.repeat.patient, this.props.repeat)
-        let { repeat, fetching, patient } = this.props
+        let { repeat, fetching } = this.props
         return (
             <div>
                 {!fetching && repeat && <div>
