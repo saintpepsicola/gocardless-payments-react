@@ -3,12 +3,13 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: false
+    repeatsFilter: false,
+    authorID: '31407cd0-7b9a-11e8-a1e6-c27a1386004f'
 }
 
 //GLOBALS
 const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImQ2YTg0NDYwLWVjMGEtMTFlOC04OTk3LTU1Zjc5YzY2ZWYyZiIsImV4cCI6MTU1MTI3OTE5MiwiaWF0IjoxNTQyNjM5MTkyLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.TymvgxQvK4YAkRX4R33O6tgjdz1cFBqoMhqdeofQTHI'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
 const clientID = 'vAc51a1bc845457'
 
 const headers = {
@@ -41,10 +42,49 @@ const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
 const TOGGLE_MEDICATION_SUCCESS = 'TOGGLE_MEDICATION_SUCCESS'
 const TOGGLE_MEDICATION_FAILURE = 'TOGGLE_MEDICATION_FAILURE'
 
+// Get Repeat Notes
+const GET_NOTES = 'GET_NOTES'
+const GET_NOTES_SUCCESS = 'GET_NOTES_SUCCESS'
+const GET_NOTES_FAILURE = 'GET_NOTES_FAILURE'
+
+// Send Repeat Notes
+const SEND_NOTE = 'SEND_NOTE'
+const SEND_NOTE_SUCCESS = 'SEND_NOTE_SUCCESS'
+const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
+
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
 // Action creators
+export const getNotes = (repeatID) => {
+    return {
+        types: [GET_NOTES, GET_NOTES_SUCCESS, GET_NOTES_FAILURE],
+        payload: {
+            request: {
+                url: `https://api.84r.co/repeats/${repeatID}/comments`,
+                headers: headers
+            }
+        }
+    }
+}
+
+export const sendNote = (repeatID, message) => {
+    return {
+        types: [SEND_NOTE, SEND_NOTE_SUCCESS, SEND_NOTE_FAILURE],
+        payload: {
+            request: {
+                url: `https://api.84r.co/repeats/${repeatID}/comments`,
+                method: 'POST',
+                data: {
+                    comment: message,
+                    author_id: '31407cd0-7b9a-11e8-a1e6-c27a1386004f'
+                },
+                headers: headers
+            }
+        }
+    }
+}
+
 export const toggleMedication = (podID, repeatID, remedy) => {
     if (window.confirm("Delete the item?")) {
         return {
@@ -128,8 +168,31 @@ export default (state = initialState, action) => {
             return {
                 ...state, repeatsFilter: action.payload.id
             }
+        case SEND_NOTE:
+            return {
+                ...state, fetching: true
+            }
+        case SEND_NOTE_SUCCESS:
+            return {
+                ...state, fetching: false
+            }
+        case SEND_NOTE_FAILURE:
+            return {
+                ...state, fetching: false
+            }
+        case GET_NOTES:
+            return {
+                ...state
+            }
+        case GET_NOTES_SUCCESS:
+            return {
+                ...state, comments: action.payload.data.data
+            }
+        case GET_NOTES_FAILURE:
+            return {
+                ...state
+            }
         case TOGGLE_MEDICATION:
-
             return {
                 ...state,
                 fetching: true
@@ -159,7 +222,6 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case SEARCH_REPEATS_SUCCESS:
-            console.log(action.payload.data)
             return {
                 ...state,
                 fetching: false
@@ -178,20 +240,19 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
-            //console.log(action)
             return {
                 ...state,
                 fetching: false,
                 selectedRepeat: action.payload.data.data[0]
             }
         case GET_REPEAT_FAILURE:
-            console.log('Request fail')
             return {
                 ...state,
                 error: action.error,
                 fetching: false
             }
         case GET_REPEATS:
+
             return {
                 ...state,
                 repeats: [],
@@ -204,7 +265,6 @@ export default (state = initialState, action) => {
                 repeats: action.payload.data.data
             }
         case GET_REPEATS_FAILURE:
-            console.log('Request fail')
             return {
                 ...state,
                 error: action.error,
