@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import QuickActions from './QuickActions'
-import * as actions from '../../redux/userInterface'
+import * as actions from '../../redux/repeats'
 
 const mapStateToProps = (state) => ({
     panels: state.userInterface.panels,
-    repeats: state.repeats.repeats,
     repeat: state.repeats.selectedRepeat
 })
 

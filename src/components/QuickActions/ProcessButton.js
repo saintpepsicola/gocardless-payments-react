@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 
 export default class ProcessButton extends React.Component {
     render() {
+        console.log(this.props)
         return (
             <ProcessBtn color="primary" variant="extendedFab" aria-label="Process" >
                 COMPLETE

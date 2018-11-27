@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import { Flex, Box } from 'reflexbox'
 import MedicationList from './MedicationList/MedicationListContainer'
-import PanelControls from './PanelControls'
-import SidePanel from './SidePanel'
+import PanelControls from './PanelControls/PanelControlsContainer'
+import SidePanel from './SidePanel/SidePanelContainer'
 import ProcessButton from './ProcessButton'
 import timeago from 'time-ago'
 
@@ -20,16 +20,16 @@ export default class QuickActions extends React.Component {
                             <Box align='center' w={8 / 10} >
                                 <OrderTitle> <Bigger>{repeat.number_of_medicines} Medications</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
-                            <Box w={2 / 10} > <PanelControls {...this.props} /> </Box>
+                            <Box w={2 / 10} > <PanelControls /> </Box>
                         </Flex>
                         <Flex>
-                            <MedicationList />
+                            <MedicationList {...this.props} />
                         </Flex>
                         <Flex justify='flex-end' align='center'>
-                            <ProcessButton />
+                            <ProcessButton update={this.props.updateGPStatus} />
                         </Flex>
                     </Box>
-                    <Box w={3 / 10} > <SidePanel {...this.props} /></Box>
+                    <Box w={3 / 10} > <SidePanel /></Box>
                 </Flex>
             </Container>
         )

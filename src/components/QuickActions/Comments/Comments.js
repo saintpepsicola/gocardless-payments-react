@@ -18,7 +18,12 @@ export default class Comments extends React.Component {
         let repeatID = this.props.repeat.repeat_id
         if (this.props.getNotes) {
             this.props.getNotes(repeatID)
+            this.interval = setInterval(() => this.props.getNotes(repeatID), 4000)
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     handleClick() {
