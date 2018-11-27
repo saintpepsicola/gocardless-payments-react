@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
 
 // We need to do this better later on
-const REACT_APP_CLIENT_ID = 'vAc51a1bc845457'
+const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REACT_APP_AUTH_URL = process.env.REACT_APP_AUTH_URL
 
 // Consts
@@ -11,7 +11,7 @@ const cookies = new Cookies()
 // Initial State
 const initialState = {
     // Check if Auth Token exists!
-    authenticated: checkforAuthToken(),
+    authenticated: false,
     error: null
 }
 
@@ -44,17 +44,17 @@ export default (state = initialState, action) => {
             const token = queryParams.get('token')
             console.log(podID)
             if (podID && token) {
-                const expires = new Date(jwt_decode(token).exp * 1000)
-                cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
-                cookies.set(`healthera_pod_id`, podID, { path: '/', expires: expires })
-                action.payload.history.push('/')
-                return { ...state, authenticated: true }
+                // const expires = new Date(jwt_decode(token).exp * 1000)
+                // cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
+                // cookies.set(`healthera_pod_id`, podID, { path: '/', expires: expires })
+                // action.payload.history.push('/')
+                // return { ...state, authenticated: true }
             }
             else {
-                // Not a pod user - log them out
-                const url = `${REACT_APP_AUTH_URL}/logout?client_id=${REACT_APP_CLIENT_ID}`
-                window.location = url
-                return { ...state, authenticated: false }
+                // Not a pod user - log them out 
+                // const url = `${REACT_APP_AUTH_URL}/logout?client_id=${REACT_APP_CLIENT_ID}`
+                // window.location = url
+                // return { ...state, authenticated: false }
             }
         default:
             return state
