@@ -6,7 +6,7 @@ export default class ProcessButton extends React.Component {
     render() {
         return (
             <ProcessBtn color="primary" variant="extendedFab" aria-label="Process" >
-                PROCESS
+                COMPLETE
            </ProcessBtn>
         )
     }

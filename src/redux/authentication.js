@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie'
 import jwt_decode from 'jwt-decode'
 
 // We need to do this better later on
-const REACT_APP_CLIENT_ID = 'vAc51a1bc845457'
+const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REACT_APP_AUTH_URL = process.env.REACT_APP_AUTH_URL
 
 // Consts
@@ -17,7 +17,7 @@ const initialState = {
 
 // Helpers
 function checkforAuthToken() {
-    let auth_token = cookies.get(`healthera_pod_token222`)
+    let auth_token = cookies.get(`healthera_pod_token`)
     return auth_token ? true : false
 }
 
@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
             const queryParams = new URLSearchParams(search)
             const podID = queryParams.get('pod_id')
             const token = queryParams.get('token')
-            console.log(podID)
+
             if (podID && token) {
                 const expires = new Date(jwt_decode(token).exp * 1000)
                 cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
