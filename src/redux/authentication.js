@@ -13,7 +13,7 @@ const cookies = new Cookies()
 // Initial State
 const initialState = {
     // Check if Auth Token exists!
-    authenticated: process.env.NODE_ENV === 'production' ? checkforAuthToken() : true,
+    authenticated: checkforAuthToken(),
     error: null
 }
 
@@ -43,14 +43,18 @@ export default (state = initialState, action) => {
         case AUTHENTICATE_USER:
             const search = action.payload.search
             const queryParams = new URLSearchParams(search)
-            let token = queryParams.get('token')
-            var expires = new Date(jwt_decode(token).exp * 1000)
+            const podID = queryParams.get('pod_id')
+            const token = queryParams.get('token')
+            
+            const expires = new Date(jwt_decode(token).exp * 1000)
             cookies.set(`${REACT_APP_AUTH_TOKEN}`, token, { path: '/', expires: expires })
+            cookies.set('pod_id', podID, {path: '/', expires: expires})
             action.payload.history.push('/')
             return {
                 ...state,
                 authenticated: true,
-                token: token
+                token: token,
+                podID: podID
             }
         default:
             return state
