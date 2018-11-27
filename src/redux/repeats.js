@@ -1,13 +1,18 @@
+import Cookies from 'universal-cookie'
+
+//GLOBALS
 // Initial State
 let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: false,
-    authorID: '31407cd0-7b9a-11e8-a1e6-c27a1386004f'
+    repeatsFilter: false
 }
 
-//GLOBALS
+// console.log('TOKEN: ' + new Cookies().get(`healthera_pod_token`))
+// console.log('POD_ID: ' + new Cookies().get(`healthera_pod_id`))
+
+
 const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
 const clientID = 'vAc51a1bc845457'
@@ -61,7 +66,7 @@ export const getNotes = (repeatID) => {
         types: [GET_NOTES, GET_NOTES_SUCCESS, GET_NOTES_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/repeats/${repeatID}/comments`,
+                url: `/repeats/${repeatID}/comments`,
                 headers: headers
             }
         }
@@ -73,12 +78,9 @@ export const sendNote = (repeatID, message) => {
         types: [SEND_NOTE, SEND_NOTE_SUCCESS, SEND_NOTE_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/repeats/${repeatID}/comments`,
+                url: `/repeats/${repeatID}/comments`,
                 method: 'POST',
-                data: {
-                    comment: message,
-                    author_id: '31407cd0-7b9a-11e8-a1e6-c27a1386004f'
-                },
+                data: { comment: message },
                 headers: headers
             }
         }
@@ -91,11 +93,9 @@ export const toggleMedication = (podID, repeatID, remedy) => {
             types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
             payload: {
                 request: {
-                    url: `https://api.84r.co/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
+                    url: `/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
                     method: 'PUT',
-                    data: {
-                        approved: !remedy.approved
-                    },
+                    data: { approved: !remedy.approved },
                     headers: headers
                 }
             }
@@ -114,9 +114,7 @@ export const toggleRepeats = (id) => {
 export const selectRepeat = (id) => {
     return ({
         type: SELECT_REPEAT,
-        payload: {
-            id: id
-        }
+        payload: { id }
     })
 }
 
@@ -125,7 +123,7 @@ export const getRepeat = (repeatID) => {
         types: [GET_REPEAT, GET_REPEAT_SUCCESS, GET_REPEAT_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/pods/${podID}/repeats/${repeatID}`,
+                url: `/pods/${podID}/repeats/${repeatID}`,
                 headers: headers
             }
         }
@@ -137,19 +135,20 @@ export const getRepeats = () => {
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/pods/${podID}/repeats?page=1&page_size=10`,
+                url: `/pods/${podID}/repeats?page=1&page_size=10`,
                 headers: headers
             }
         }
     })
 }
 
+// Needs tweaking!
 export const searchRepeats = (name) => {
     return ({
         types: [SEARCH_REPEATS, SEARCH_REPEATS_SUCCESS, SEARCH_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `https://api.84r.co/pods/${podID}/patients/search`,
+                url: `/pods/${podID}/patients/search`,
                 method: 'POST',
                 data: {
                     name: 'J',
@@ -206,7 +205,6 @@ export default (state = initialState, action) => {
                 selectedRepeat: { ...state.selectedRepeat }
             }
         case TOGGLE_MEDICATION_FAILURE:
-            console.log(action)
             return {
                 ...state,
                 fetching: false
@@ -227,7 +225,6 @@ export default (state = initialState, action) => {
                 fetching: false
             }
         case SEARCH_REPEATS_FAILURE:
-            console.log('Request fail')
             return {
                 ...state,
                 error: action.error,
@@ -252,7 +249,6 @@ export default (state = initialState, action) => {
                 fetching: false
             }
         case GET_REPEATS:
-
             return {
                 ...state,
                 repeats: [],

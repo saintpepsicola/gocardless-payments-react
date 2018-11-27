@@ -5,12 +5,17 @@ import Button from '@material-ui/core/Button'
 
 export default class Comments extends React.Component {
 
-    state = { showTextarea: false }
+    state = {
+        showTextarea: false,
+        noCommentsMessage: `You have no notes attached to this order. You can leave notes to the patient regarding their order before processing and completing the order.
+        
+        LEAVE A MESSAGE
+        `
+    }
 
     componentDidMount() {
         // Get Comments
         let repeatID = this.props.repeat.repeat_id
-
         if (this.props.getNotes) {
             this.props.getNotes(repeatID)
         }
@@ -30,16 +35,21 @@ export default class Comments extends React.Component {
     }
 
     render() {
-        let { comments, authorID } = this.props
+
+        let { comments } = this.props
+        let { noCommentsMessage } = this.state
+
         return (
             <CommentBox>
                 <div>
                     <Title>COMMENTS</Title>
-                    {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_id === authorID ? false : true}>
+                    {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                         <p>{comment.comment}</p>
                     </Comment>)}
 
-                    {comments && comments.length !== 0 && !this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>REPLY</CommentButton>}
+
+                    {comments && !this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>{comments.length !== 0 ? 'REPLY' : noCommentsMessage}</CommentButton>}
+
 
                     {this.state.showTextarea && <ReplyField
                         autoFocus
@@ -62,7 +72,7 @@ export default class Comments extends React.Component {
 }
 
 const ReplyField = styled(TextField)`
-&&& 
+&& 
 {
     & fieldset
     {
@@ -81,20 +91,18 @@ const ReplyBtn = styled(Button)`
     color: #fff;
     height: 40px;
 }  
-
 `
 
 const CommentBox = styled.div`
-&&& {
-font-size: 14px;
-font-weight: 400;
-color: #4a4a4a;
-white-space:pre-line;
-max-width:100%;
-line-height:1.5;
+&& {
+        font-size: 14px;
+        font-weight: 400;
+        color: #4a4a4a;
+        white-space:pre-line;
+        max-width:100%;
+        line-height:1.5;
 
-    & > div
-    {
+    & > div {
         overflow-y:auto;
         height:480px;
     }
@@ -104,7 +112,7 @@ line-height:1.5;
         background-color: #eeeeee;
     }
 
-    &> div::-webkit-scrollbar-thumb {
+    & > div::-webkit-scrollbar-thumb {
         background-color: #3d3d3d;
         border-radius:5px;
     } 
@@ -112,21 +120,21 @@ line-height:1.5;
 `
 
 const Comment = styled.div`
-border-left: 2px solid red;
-border-color: ${props => props.patient ? '#419645' : '#0091cc'};
-padding-left:10px;
+    border-left: 2px solid red;
+    border-color: ${props => props.patient ? '#419645' : '#0091cc'};
+    padding-left:10px;
 `
 
 const CommentButton = styled.div`
-margin-top:24px;
-border-left: 2px solid #0091cc;
-padding-left:10px;
-color: #2f84b0;
-cursor:pointer;
+    margin-top:24px;
+    border-left: 2px solid #0091cc;
+    padding-left:10px;
+    color: #2f84b0;
+    cursor:pointer;
 `
 
 const Title = styled.h1`
-font-size: 18px;
-font-weight: 900;
-color: #4a4a4a;
+    font-size: 18px;
+    font-weight: 900;
+    color: #4a4a4a;
 `
