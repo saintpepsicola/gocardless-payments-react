@@ -35,8 +35,10 @@ export default class Comments extends React.Component {
     }
 
     render() {
+
         let { comments } = this.props
         let { noCommentsMessage } = this.state
+
         return (
             <CommentBox>
                 <div>
@@ -45,7 +47,9 @@ export default class Comments extends React.Component {
                         <p>{comment.comment}</p>
                     </Comment>)}
 
+
                     {comments && !this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>{comments.length !== 0 ? 'REPLY' : noCommentsMessage}</CommentButton>}
+
 
                     {this.state.showTextarea && <ReplyField
                         autoFocus
