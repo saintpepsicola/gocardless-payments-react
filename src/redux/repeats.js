@@ -9,8 +9,8 @@ let initialState = {
     repeatsFilter: false
 }
 
-// console.log('TOKEN: ' + new Cookies().get(`healthera_pod_token`))
-// console.log('POD_ID: ' + new Cookies().get(`healthera_pod_id`))
+console.log('TOKEN: ' + new Cookies().get(`healthera_pod_token`))
+console.log('POD_ID: ' + new Cookies().get(`healthera_pod_id`))
 
 
 const podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
@@ -88,7 +88,7 @@ export const sendNote = (repeatID, message) => {
 }
 
 export const toggleMedication = (podID, repeatID, remedy) => {
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Are you sure?")) {
         return {
             types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
             payload: {

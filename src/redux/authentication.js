@@ -11,13 +11,13 @@ const cookies = new Cookies()
 // Initial State
 const initialState = {
     // Check if Auth Token exists!
-    authenticated: false,
+    authenticated: checkforAuthToken(),
     error: null
 }
 
 // Helpers
 function checkforAuthToken() {
-    let auth_token = cookies.get(`healthera_pod_token222`)
+    let auth_token = cookies.get(`healthera_pod_token`)
     return auth_token ? true : false
 }
 
@@ -42,19 +42,19 @@ export default (state = initialState, action) => {
             const queryParams = new URLSearchParams(search)
             const podID = queryParams.get('pod_id')
             const token = queryParams.get('token')
-            console.log(podID)
+
             if (podID && token) {
-                // const expires = new Date(jwt_decode(token).exp * 1000)
-                // cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
-                // cookies.set(`healthera_pod_id`, podID, { path: '/', expires: expires })
-                // action.payload.history.push('/')
-                // return { ...state, authenticated: true }
+                const expires = new Date(jwt_decode(token).exp * 1000)
+                cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
+                cookies.set(`healthera_pod_id`, podID, { path: '/', expires: expires })
+                action.payload.history.push('/')
+                return { ...state, authenticated: true }
             }
             else {
-                // Not a pod user - log them out 
-                // const url = `${REACT_APP_AUTH_URL}/logout?client_id=${REACT_APP_CLIENT_ID}`
-                // window.location = url
-                // return { ...state, authenticated: false }
+                // Not a pod user - log them out
+                const url = `${REACT_APP_AUTH_URL}/logout?client_id=${REACT_APP_CLIENT_ID}`
+                window.location = url
+                return { ...state, authenticated: false }
             }
         default:
             return state
