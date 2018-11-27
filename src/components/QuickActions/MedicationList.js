@@ -15,6 +15,7 @@ export default class MedicationList extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         let { basic, repeat } = this.props
         let meds = repeat.remedies
         return (

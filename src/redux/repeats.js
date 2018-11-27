@@ -9,11 +9,13 @@ let initialState = {
     repeatsFilter: false
 }
 
-const podID = new Cookies().get(`healthera_pod_id`)
-const token = new Cookies().get(`healthera_pod_token`)
+// Get rid of this when we release
+const devPodID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
+const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
+const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_id`) : devPodID
+const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
 const clientID = process.env.REACT_APP_CLIENT_ID
 
-console.log(token)
 
 const headers = {
     'Token': token,
@@ -31,6 +33,11 @@ const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
 const GET_REPEAT = 'GET_REPEAT'
 const GET_REPEAT_SUCCESS = 'GET_REPEAT_SUCCESS'
 const GET_REPEAT_FAILURE = 'GET_REPEAT_FAILURE'
+
+// Update GP Status Repeat
+const UPDATE_GP_STATUS = 'UPDATE_GP_STATUS'
+const UPDATE_GP_STATUS_SUCCESS = 'UPDATE_GP_STATUS_SUCCESS'
+const UPDATE_GP_STATUS_FAILURE = 'UPDATE_GP_STATUS_FAILURE'
 
 // Search by name
 const SEARCH_REPEATS = 'SEARCH_REPEATS'
@@ -59,6 +66,20 @@ const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
 // Action creators
+export const updateGPStatus = (repeatID, gpStatus) => {
+    return {
+        types: [UPDATE_GP_STATUS, UPDATE_GP_STATUS_SUCCESS, UPDATE_GP_STATUS_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/repeats/${repeatID}`,
+                method: 'PUT',
+                data: { gp_status: gpStatus },
+                headers: headers
+            }
+        }
+    }
+}
+
 export const getNotes = (repeatID) => {
     return {
         types: [GET_NOTES, GET_NOTES_SUCCESS, GET_NOTES_FAILURE],
@@ -165,6 +186,18 @@ export default (state = initialState, action) => {
             return {
                 ...state, repeatsFilter: action.payload.id
             }
+        case UPDATE_GP_STATUS:
+            return {
+                ...state
+            }
+        case UPDATE_GP_STATUS_SUCCESS:
+            return {
+                ...state
+            }
+        case UPDATE_GP_STATUS_FAILURE:
+            return {
+                ...state
+            }
         case SEND_NOTE:
             return {
                 ...state, fetching: true
@@ -235,7 +268,6 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
-            console.log(action)
             return {
                 ...state,
                 fetching: false,

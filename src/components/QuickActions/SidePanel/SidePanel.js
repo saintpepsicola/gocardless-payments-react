@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
-import NominatedSurgery from './NominatedSurgery'
-import PreviousOrder from './PreviousOrder'
-import Comments from './Comments/CommentsContainer'
+import NominatedSurgery from '../NominatedSurgery'
+import PreviousOrder from '../PreviousOrder'
+import Comments from '../Comments/CommentsContainer'
 
 export default class SidePanel extends React.Component {
 
