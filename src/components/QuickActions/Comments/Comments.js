@@ -30,9 +30,7 @@ export default class Comments extends React.Component {
     }
 
     render() {
-
         let { comments, authorID } = this.props
-
         return (
             <CommentBox>
                 <div>
@@ -41,7 +39,7 @@ export default class Comments extends React.Component {
                         <p>{comment.comment}</p>
                     </Comment>)}
 
-                    {!this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>REPLY</CommentButton>}
+                    {comments && comments.length !== 0 && !this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>REPLY</CommentButton>}
 
                     {this.state.showTextarea && <ReplyField
                         autoFocus
