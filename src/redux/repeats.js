@@ -6,7 +6,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: false
+    repeatsFilter: 1
 }
 
 // Get rid of this when we release
@@ -16,8 +16,8 @@ const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthe
 const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
 const clientID = process.env.REACT_APP_CLIENT_ID
 
-console.log('POD Id: ', podID)
-console.log('Token: ', token)
+// console.log('POD Id: ', podID)
+// console.log('Token: ', token)
 
 const headers = {
     'Token': token,
@@ -151,12 +151,12 @@ export const getRepeat = (repeatID) => {
     })
 }
 
-export const getRepeats = () => {
+export const getRepeats = (active) => {
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?page=1&page_size=10`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=1&page_size=10`,
                 headers: headers
             }
         }

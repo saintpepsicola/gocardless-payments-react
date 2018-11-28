@@ -15,7 +15,8 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    this.props.getRepeats()
+    if (this.props)
+      this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false)
   }
 
   handleBlur = () => {
@@ -30,6 +31,7 @@ class Search extends Component {
     this.setState({ searchField: value === 0 ? true : false })
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.toggleRepeats(value)
+    this.props.getRepeats(value === 1 ? true : false)
   }
 
   render() {
@@ -40,10 +42,9 @@ class Search extends Component {
           <BoxContainer auto align='center'>
             <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
-              {!this.state.searchField && <Tab label={`Active (${this.props.activeRepeats})`} />}
+              {!this.state.searchField && <Tab label={`Active`} />}
               {!this.state.searchField && <Tab label="Archive" />}
             </Tabs>
-
             {/* SEARCHBOX */}
             {this.state.searchField &&
               <SearchBox

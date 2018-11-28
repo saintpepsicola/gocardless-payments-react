@@ -7,7 +7,7 @@ export default class NominatedSurgery extends React.Component {
         let repeat = this.props
         return (
             <Container>
-                <Title>NOMINATED SURGERY</Title>
+                <Title>SURGERY</Title>
                 <Address>
                     {repeat.surgery.address_1} < br />
                     {repeat.surgery.address_2} < br />
