@@ -16,6 +16,8 @@ const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthe
 const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
 const clientID = process.env.REACT_APP_CLIENT_ID
 
+console.log('POD Id: ', podID)
+console.log('Token: ', token)
 
 const headers = {
     'Token': token,
@@ -191,6 +193,7 @@ export default (state = initialState, action) => {
                 ...state
             }
         case UPDATE_GP_STATUS_SUCCESS:
+            console.log(action)
             return {
                 ...state
             }
