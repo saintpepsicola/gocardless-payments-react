@@ -47,12 +47,14 @@ class RepeatsList extends Component {
                 {/* OTHER ORDERS */}
                 <CompletedOrders>
                     {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
+                        // { console.log(JSON.stringify(row.patient_forename)) }
+                        // { console.log(JSON.stringify(row.gp_status)) }
                         return (
                             <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                 <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                 <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                                 <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                                <Status>Rejected</Status>
+                                <Status>{row.gp_status}</Status>
                                 <TableCell>
                                     {row.comments && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
@@ -126,6 +128,7 @@ const Status = styled(TableCell)`
     &&
     {
         font-weight:bold;
+        text-transform:capitalize;
         color: ${props => statusColors[props.children]};
         font-size: 16px;
     }
@@ -133,7 +136,7 @@ const Status = styled(TableCell)`
 
 const statusColors = {
     'Pending': '#f57123',
-    'Accepted': '#509500',
+    'accepted': '#509500',
     'Rejected': '#d0021b',
     'Processing': '#2f84b0',
 }

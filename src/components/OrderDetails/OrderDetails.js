@@ -50,7 +50,7 @@ class OrderDetails extends React.Component {
                                     </Flex>
                                 </Box>
                                 <Box w={3 / 10} >
-                                    <Title>NOMINATED SURGERY</Title>
+                                    <Title>SURGERY</Title>
                                     <Flex>
                                         <Box>
                                             <Address>
