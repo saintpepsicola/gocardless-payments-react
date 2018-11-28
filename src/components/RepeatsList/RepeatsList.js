@@ -137,6 +137,6 @@ const Status = styled(TableCell)`
 const statusColors = {
     'Pending': '#f57123',
     'accepted': '#509500',
-    'Rejected': '#d0021b',
+    'declined': '#d0021b',
     'Processing': '#2f84b0',
 }

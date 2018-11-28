@@ -16,6 +16,10 @@ class OrderDetails extends React.Component {
     }
 
     render() {
+        // if (this.props.repeat && this.props.repeat.dependent)
+        // console.log(this.props.repeat)
+        let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
+        //let isDependent = this.props.repeat && this.props.repeat.dependent
         //console.log(this.props.repeat && this.props.repeat.patient, this.props.repeat)
         let { repeat, fetching } = this.props
         return (
@@ -24,7 +28,7 @@ class OrderDetails extends React.Component {
                     <Panel defaultExpanded>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <PanelTitle>
-                                {repeat.patient_forename} {repeat.patient_surname}
+                                {repeat.patient_forename} {repeat.patient_surname}   {dependent && `on behalf of ${dependent.forename} ${dependent.surname}`}
                             </PanelTitle>
                         </ExpansionPanelSummary>
                         <Content>

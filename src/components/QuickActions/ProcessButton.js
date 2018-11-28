@@ -1,29 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
+import { withRouter } from "react-router"
 
-export default class ProcessButton extends React.Component {
-
+class ProcessButton extends React.Component {
 
     handleClick() {
-        this.props.updateGPStatus(this.props.repeat.repeat_id, 'accepted')
+        this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+        this.props.history.push(`${process.env.PUBLIC_URL}/`)
     }
 
     render() {
-        console.log(this.props)
         return (
-            <ProcessBtn onClick={this.handleClick.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
-                COMPLETE
-           </ProcessBtn>
+            <ProcessBtn label={this.props.label} onClick={this.handleClick.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
+                {this.props.label}
+            </ProcessBtn>
         )
     }
 }
+
+export default withRouter(ProcessButton)
 
 const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
-    background-color:#0D6F67;
+    background-color:  ${props => props.label === 'Cancel' ? '#939393' : '#0D6F67'};
     font-size: 14px;
     font-weight: normal;
     color: #fff;

@@ -26,5 +26,5 @@ export default App
 // Styled Components
 const Container = styled.section`
       margin:0 auto;
-      width:1100px;
+      max-width:1100px;
 `

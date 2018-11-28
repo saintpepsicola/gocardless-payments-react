@@ -10,8 +10,13 @@ import OffIcon from '@material-ui/icons/HighlightOff'
 
 export default class MedicationList extends React.Component {
 
-    handleToggle(podID, repeatID, remedyID) {
-        this.props.toggleMedication(podID, repeatID, remedyID)
+    handleToggle(podID, repeatID, remedy) {
+        window.confirm("Please leave a note..")
+        // if (remedy.approved) {
+        //     console.log(prompt, this.props)
+        //     this.props.sendNote(repeatID, prompt)
+        // }
+        this.props.toggleMedication(podID, repeatID, remedy)
     }
 
     render() {
@@ -69,7 +74,13 @@ const Medicine = styled(ListItem)`
     padding-right:0;
     svg
     {
-        margin-right:-23px;
+        
+    }
+
+    &:hover
+    {
+        background-color:#ededed;
+        cursor:pointer;
     }
 }
 `

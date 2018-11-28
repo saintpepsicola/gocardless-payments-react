@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+// import Button from '@material-ui/core/Button'
 import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 import Tabs from '@material-ui/core/Tabs'
@@ -59,7 +59,7 @@ class Search extends Component {
           </BoxContainer>
           {!this.state.searchField && showQuickReview && <Box align='center' justify='center' w='127px'>
             <VerticalFlex >
-              <Button>QUICK REVIEW</Button>
+              {/* <Button>QUICK REVIEW</Button> */}
             </VerticalFlex>
           </Box>}
         </Flex>
