@@ -26,7 +26,7 @@ export default class QuickActions extends React.Component {
                             <MedicationList {...this.props} />
                         </Flex>
                         <Flex justify='flex-end' align='center'>
-                            <ProcessButton update={this.props.updateGPStatus} />
+                            <ProcessButton {...this.props} />
                         </Flex>
                     </Box>
                     <Box w={3 / 10} > <SidePanel /></Box>
