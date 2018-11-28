@@ -109,20 +109,20 @@ export const sendNote = (repeatID, message) => {
 }
 
 export const toggleMedication = (podID, repeatID, remedy) => {
-    if (window.confirm("Are you sure?")) {
-        return {
-            types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
-            payload: {
-                request: {
-                    url: `/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
-                    method: 'PUT',
-                    data: { approved: !remedy.approved },
-                    headers: headers
-                }
+
+    return {
+        types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
+                method: 'PUT',
+                data: { approved: !remedy.approved },
+                headers: headers
             }
         }
     }
-    return { type: 'NULL' }
+
+
 }
 
 export const toggleRepeats = (id) => {
@@ -203,15 +203,15 @@ export default (state = initialState, action) => {
             }
         case SEND_NOTE:
             return {
-                ...state, fetching: true
+                ...state
             }
         case SEND_NOTE_SUCCESS:
             return {
-                ...state, fetching: false
+                ...state
             }
         case SEND_NOTE_FAILURE:
             return {
-                ...state, fetching: false
+                ...state
             }
         case GET_NOTES:
             return {
@@ -227,21 +227,18 @@ export default (state = initialState, action) => {
             }
         case TOGGLE_MEDICATION:
             return {
-                ...state,
-                fetching: true
+                ...state
             }
         case TOGGLE_MEDICATION_SUCCESS:
             let returnedRemedy = action.payload.data.data[0]
             state.selectedRepeat.remedies.filter(remedy => remedy.remedy_id === returnedRemedy.remedy_id)[0].approved = returnedRemedy.approved
             return {
                 ...state,
-                fetching: false,
                 selectedRepeat: { ...state.selectedRepeat }
             }
         case TOGGLE_MEDICATION_FAILURE:
             return {
-                ...state,
-                fetching: false
+                ...state
             }
         case SELECT_REPEAT:
             return {

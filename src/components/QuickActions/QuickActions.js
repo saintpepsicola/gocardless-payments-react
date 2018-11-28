@@ -25,8 +25,13 @@ export default class QuickActions extends React.Component {
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
-                        <Flex justify='flex-end' align='center'>
-                            <ProcessButton {...this.props} />
+                        <Flex justify='space-between' align='center'>
+                            <Box>
+                                {/* <ProcessButton label={`Cancel`} {...this.props} /> */}
+                            </Box>
+                            <Box >
+                                <ProcessButton label={`Complete`} {...this.props} />
+                            </Box>
                         </Flex>
                     </Box>
                     <Box w={3 / 10} > <SidePanel /></Box>
@@ -42,6 +47,7 @@ const FormattedDate = (props) => {
 
 const Container = styled(Paper)`
   width:100%;
+  margin-bottom:80px;
 `
 
 const Bigger = styled.span`
