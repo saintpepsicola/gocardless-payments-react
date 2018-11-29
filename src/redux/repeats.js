@@ -267,9 +267,7 @@ export default (state = initialState, action) => {
                 selectedRepeat: null,
                 fetching: true
             }
-        case GET_REPEAT_SUCCESS:
-        console.log(action);
-        
+        case GET_REPEAT_SUCCESS:        
             return {
                 ...state,
                 fetching: false,
