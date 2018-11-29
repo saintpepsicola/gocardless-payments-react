@@ -268,6 +268,8 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
+        console.log(action);
+        
             return {
                 ...state,
                 fetching: false,
