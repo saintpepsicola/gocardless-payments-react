@@ -8,7 +8,7 @@ import { Flex, Box } from 'reflexbox'
 export default class AppBar extends Component {
 
     componentDidMount() {
-        // setInterval(() => this.props.getRepeats(), 300000)
+
     }
 
     render() {

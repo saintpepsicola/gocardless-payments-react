@@ -11,7 +11,7 @@ import OffIcon from '@material-ui/icons/HighlightOff'
 export default class MedicationList extends React.Component {
 
     handleToggle(podID, repeatID, remedy) {
-        window.confirm("Please leave a note..")
+        window.prompt("Please leave a note..")
         // if (remedy.approved) {
         //     console.log(prompt, this.props)
         //     this.props.sendNote(repeatID, prompt)

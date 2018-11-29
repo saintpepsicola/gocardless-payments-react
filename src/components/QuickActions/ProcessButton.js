@@ -6,8 +6,11 @@ import { withRouter } from "react-router"
 class ProcessButton extends React.Component {
 
     handleClick() {
-        this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
-        this.props.history.push(`${process.env.PUBLIC_URL}/`)
+        if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
+            this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+            this.props.history.push(`${process.env.PUBLIC_URL}/`)
+            this.props.getRepeats(true)
+        }
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router"
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -8,61 +8,87 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import commentIcon from '../../resources/comment.png'
 import timeago from 'time-ago'
+import TablePagination from '@material-ui/core/TablePagination'
 
 class RepeatsList extends Component {
+
+    componentDidMount() {
+        this.setState({ page: this.props.page - 1 })
+    }
 
     handleSelect(repeatID) {
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
 
-    render() {
-        return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <Header>Patient Name</Header>
-                        <Header>Order</Header>
-                        <Header>Date</Header>
-                        <Header>Status</Header>
-                        <Header></Header>
-                    </TableRow>
-                </TableHead>
-                {/* PENDING ORDERS */}
-                <PendingOrders>
-                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered').map((row, index) => {
-                        return (
-                            <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
-                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
-                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                                <Status>Pending</Status>
-                                <TableCell>
-                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
-                                </TableCell>
-                            </OrderRow>
-                        )
-                    })}
+    handleChangePage = (event, page) => {
+        this.props.resetPagination(page)
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
+    }
 
-                </PendingOrders>
-                {/* OTHER ORDERS */}
-                <CompletedOrders>
-                    {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
-                        // { console.log(JSON.stringify(row.patient_forename)) }
-                        // { console.log(JSON.stringify(row.gp_status)) }
-                        return (
-                            <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
-                                <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
-                                <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                                <Status>{row.gp_status}</Status>
-                                <TableCell>
-                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
-                                </TableCell>
-                            </OrderRow>
-                        )
-                    })}
-                </CompletedOrders>
-            </Table>
+    render() {
+        let { rowsPerPage } = this.props
+        return (
+            <div>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <Header>Patient Name</Header>
+                            <Header>Order</Header>
+                            <Header>Date</Header>
+                            <Header>Status</Header>
+                            <Header></Header>
+                        </TableRow>
+                    </TableHead>
+                    {/* PENDING ORDERS */}
+                    <PendingOrders>
+                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
+                            .map((row, index) => {
+                                return (
+                                    <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                        <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                        <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                        <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                        <Status>Pending</Status>
+                                        <TableCell>
+                                            {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                        </TableCell>
+                                    </OrderRow>
+                                )
+                            })}
+                    </PendingOrders>
+                    {/* OTHER ORDERS */}
+                    <CompletedOrders>
+                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
+                            return (
+                                <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                    <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                    <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                    <Status>{row.gp_status}</Status>
+                                    <TableCell>
+                                        {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                    </TableCell>
+                                </OrderRow>
+                            )
+                        })}
+                    </CompletedOrders>
+                </Table>
+                {/* <Pagination {...this.props} /> */}
+                {this.props.repeats.length !== 0 && <TablePagination
+                    component="div"
+                    count={Number(this.props.totalCount)}
+                    rowsPerPage={rowsPerPage}
+                    page={this.props.page}
+                    rowsPerPageOptions={[5]}
+                    backIconButtonProps={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                    onChangePage={this.handleChangePage.bind(this)}
+                />}
+            </div>
         )
     }
 }
