@@ -8,7 +8,6 @@ export default class PreviousOrder extends React.Component {
             <Container>
                 <Title>PREVIOUS ORDER</Title>
                 <MedicationList basic />
-                <ApprovedBy>Approved by John Appleseed - 22/10/2019</ApprovedBy>
             </Container>
         )
     }
@@ -23,13 +22,4 @@ const Title = styled.h1`
 font-size: 18px;
 font-weight: 900;
 color: #4a4a4a;
-`
-
-const ApprovedBy = styled.p`
-position:absolute;
-bottom:16px;
-font-size: 12px;
-font-weight: 600;
-margin:0;
-color: #9e9e9e;
 `
