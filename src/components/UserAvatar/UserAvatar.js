@@ -6,14 +6,14 @@ import { Flex, Box } from 'reflexbox'
 
 export default class UserAvatar extends Component {
 
-    render() {
+    render() {        
         return (
             <Avatar>
                 <Flex>
                     <Box mr='15px'><Image alt='user-avatar' src={avatarSrc} /></Box>
                     <Box pt='6px'>
-                        <Name variant='subtitle1'>Theodore Medina</Name>
-                        <Name variant='subtitle2'>Dartford, Gravesham and Swanley CCG</Name>
+                        <Name variant='subtitle1'>{this.props.userName}</Name>
+                        <Name variant='subtitle2'>{this.props.podName}</Name>
                     </Box>
                 </Flex>
             </Avatar>
