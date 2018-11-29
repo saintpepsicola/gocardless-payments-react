@@ -16,11 +16,6 @@ export default class MedicationList extends React.Component {
         if (confirm) {
             this.props.toggleMedication(podID, repeatID, remedy)
         }
-
-        // if (remedy.approved) {
-        //     console.log(prompt, this.props)
-        //     this.props.sendNote(repeatID, prompt)
-        // }
     }
 
     render() {

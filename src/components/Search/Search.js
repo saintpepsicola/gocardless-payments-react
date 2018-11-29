@@ -16,7 +16,7 @@ class Search extends Component {
 
   componentDidMount() {
     if (this.props)
-      this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false)
+      this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
   }
 
   handleBlur = () => {
@@ -31,10 +31,12 @@ class Search extends Component {
     this.setState({ searchField: value === 0 ? true : false })
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.toggleRepeats(value)
-    this.props.getRepeats(value === 1 ? true : false)
+    this.props.resetPagination()
+    this.props.getRepeats(value === 1 ? true : false, this.props.rowsPerPage)
   }
 
   render() {
+    //console.log(this.props)
     const showQuickReview = this.props.history.location.pathname === '/'
     return (
       <Container>

@@ -6,7 +6,10 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: 1
+    repeatsFilter: 1,
+    totalCount: null,
+    rowsPerPage: 10,
+    page: 0
 }
 
 // Get rid of this when we release
@@ -15,9 +18,6 @@ const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzM
 const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_id`) : devPodID
 const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
 const clientID = process.env.REACT_APP_CLIENT_ID
-
-// console.log('POD Id: ', podID)
-// console.log('Token: ', token)
 
 const headers = {
     'Token': token,
@@ -67,7 +67,14 @@ const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
+// Pagination
+const RESET_PAGE = 'RESET_PAGE'
+
 // Action creators
+export const resetPagination = (page = 0) => {
+    return { type: RESET_PAGE, payload: { page } }
+}
+
 export const updateGPStatus = (repeatID, gpStatus) => {
     return {
         types: [UPDATE_GP_STATUS, UPDATE_GP_STATUS_SUCCESS, UPDATE_GP_STATUS_FAILURE],
@@ -109,7 +116,6 @@ export const sendNote = (repeatID, message) => {
 }
 
 export const toggleMedication = (podID, repeatID, remedy) => {
-
     return {
         types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
         payload: {
@@ -121,8 +127,6 @@ export const toggleMedication = (podID, repeatID, remedy) => {
             }
         }
     }
-
-
 }
 
 export const toggleRepeats = (id) => {
@@ -151,12 +155,12 @@ export const getRepeat = (repeatID) => {
     })
 }
 
-export const getRepeats = (active) => {
+export const getRepeats = (active, pageSize = 10, page = 0) => {
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?is_active=${active}&page=1&page_size=10`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}`,
                 headers: headers
             }
         }
@@ -184,6 +188,10 @@ export const searchRepeats = (name) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RESET_PAGE:
+            return {
+                ...state, page: action.payload.page
+            }
         case TOGGLE_REPEATS:
             return {
                 ...state, repeatsFilter: action.payload.id
@@ -193,7 +201,6 @@ export default (state = initialState, action) => {
                 ...state
             }
         case UPDATE_GP_STATUS_SUCCESS:
-            console.log(action)
             return {
                 ...state
             }
@@ -282,20 +289,18 @@ export default (state = initialState, action) => {
         case GET_REPEATS:
             return {
                 ...state,
-                repeats: [],
-                fetching: true
+                repeats: []
             }
         case GET_REPEATS_SUCCESS:
             return {
                 ...state,
-                fetching: false,
-                repeats: action.payload.data.data
+                repeats: action.payload.data.data,
+                totalCount: action.payload.data.pagination.total_count
             }
         case GET_REPEATS_FAILURE:
             return {
                 ...state,
-                error: action.error,
-                fetching: false
+                error: action.error
             }
         default:
             return state
