@@ -13,6 +13,6 @@ export default class Logo extends Component {
 
 const LogoImg = styled.img`
 width: 196px;
-height: 27px;
+height: 29px;
 `
 
