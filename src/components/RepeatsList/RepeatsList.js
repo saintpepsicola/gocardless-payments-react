@@ -37,7 +37,7 @@ class RepeatsList extends Component {
                                 <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                                 <Status>Pending</Status>
                                 <TableCell>
-                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                    {row.comment && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
                             </OrderRow>
                         )
@@ -56,7 +56,7 @@ class RepeatsList extends Component {
                                 <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                                 <Status>{row.gp_status}</Status>
                                 <TableCell>
-                                    {row.comments && <img alt='repeat comment' src={commentIcon} />}
+                                    {row.comment && <img alt='repeat comment' src={commentIcon} />}
                                 </TableCell>
                             </OrderRow>
                         )

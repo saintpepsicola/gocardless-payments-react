@@ -36,8 +36,7 @@ export default class MedicationList extends React.Component {
                         }
                         return (
                             <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat.repeat_id, medication)} key={i} divider >
-                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}` } />
-                                {controlled ? <img alt='controlled medicine' src={controlledIcon} /> : ''}
+                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}` } /><DisplayControlled controlled={controlled} />
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
@@ -49,6 +48,10 @@ export default class MedicationList extends React.Component {
             </Container >
         )
     }
+}
+
+const DisplayControlled = (props) => {
+    return props.controlled ? <img alt='controlled medicine' src={controlledIcon} /> : ''
 }
 
 const Container = styled(Flex)`
