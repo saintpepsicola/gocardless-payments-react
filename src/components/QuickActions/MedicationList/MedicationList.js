@@ -7,39 +7,46 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
 import OffIcon from '@material-ui/icons/HighlightOff'
+import controlledIcon from '../../../resources/controlled_med@1x.svg'
 
 export default class MedicationList extends React.Component {
 
     handleToggle(podID, repeatID, remedy) {
-        window.prompt("Please leave a note..")
-        // if (remedy.approved) {
-        //     console.log(prompt, this.props)
-        //     this.props.sendNote(repeatID, prompt)
-        // }
-        this.props.toggleMedication(podID, repeatID, remedy)
+        let confirm = window.confirm('Please leave a note to the patient about your decision')
+        if (confirm) {
+            this.props.toggleMedication(podID, repeatID, remedy)
+        }
     }
 
     render() {
         let { basic, repeat } = this.props
         let meds = repeat.remedies
+        let controlled = false;
         return (
             <Container basic={basic ? 1 : 0}>
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
+                        if (medication.medicine) {
+                            controlled = medication.medicine.controlled
+                        }
                         return (
                             <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat.repeat_id, medication)} key={i} divider >
-                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}`} />
+                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}` } /><DisplayControlled controlled={controlled} />
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
                                     </ListItemIcon>}
                             </Medicine>
                         )
-                    })}
+                    })}         
                 </List>}
             </Container >
         )
     }
+}
+
+const DisplayControlled = (props) => {
+    return props.controlled ? <img alt='controlled medicine' src={controlledIcon} /> : ''
 }
 
 const Container = styled(Flex)`

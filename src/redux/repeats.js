@@ -274,7 +274,7 @@ export default (state = initialState, action) => {
                 selectedRepeat: null,
                 fetching: true
             }
-        case GET_REPEAT_SUCCESS:
+        case GET_REPEAT_SUCCESS:        
             return {
                 ...state,
                 fetching: false,

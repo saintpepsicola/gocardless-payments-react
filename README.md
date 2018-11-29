@@ -1,6 +1,8 @@
 
 # Healthera Portal
 
+Initiated on 5 Nov 2018.
+
 ## POD Development
 [Check it out!](https://pod.84r.co)
 
@@ -9,5 +11,3 @@
 
 ## Project Release Plan
 [Confluence](https://healthera.atlassian.net/wiki/spaces/HEALTHERA/pages/3473435/POD+Release+Plan)
-
-
