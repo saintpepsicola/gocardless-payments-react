@@ -43,12 +43,16 @@ export default (state = initialState, action) => {
             const search = action.payload.search
             const queryParams = new URLSearchParams(search)
             const podID = queryParams.get('pod_id')
+            const podName = queryParams.get('pod_name')
+            const userName = queryParams.get('name')
             const token = queryParams.get('token')
 
             if (podID && token) {
                 const expires = new Date(jwt_decode(token).exp * 1000)
                 cookies.set(`healthera_pod_token`, token, { path: '/', expires: expires })
                 cookies.set(`healthera_pod_id`, podID, { path: '/', expires: expires })
+                cookies.set(`healthera_pod_name`, podName, { path: '/', expires: expires })
+                cookies.set(`user_name`, userName, { path: '/', expires: expires })
                 action.payload.history.push('/')
                 return { ...state, authenticated: true }
             }

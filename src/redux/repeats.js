@@ -6,7 +6,9 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: 1
+    repeatsFilter: 1,
+    userName: new Cookies().get(`user_name`),
+    podName: new Cookies().get(`healthera_pod_name`)
 }
 
 // Get rid of this when we release
