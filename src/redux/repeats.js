@@ -7,14 +7,8 @@ let initialState = {
     error: null,
     fetching: false,
     repeatsFilter: 1,
-<<<<<<< HEAD
     userName: new Cookies().get(`user_name`),
     podName: new Cookies().get(`healthera_pod_name`)
-=======
-    totalCount: null,
-    rowsPerPage: 10,
-    page: 0
->>>>>>> eba1c6ae7337512ab763b4070991376c775c740c
 }
 
 // Get rid of this when we release
