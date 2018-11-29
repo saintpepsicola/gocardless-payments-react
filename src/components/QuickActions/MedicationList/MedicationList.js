@@ -31,23 +31,37 @@ export default class MedicationList extends React.Component {
                         }
                         return (
                             <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat.repeat_id, medication)} key={i} divider >
-                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}` } /><DisplayControlled controlled={controlled} />
-                                {!basic &&
+                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                {
+                                    !basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
-                                    </ListItemIcon>}
+                                    </ListItemIcon>
+                                }
                             </Medicine>
                         )
-                    })}         
+                    })}
                 </List>}
             </Container >
         )
     }
 }
 
-const DisplayControlled = (props) => {
-    return props.controlled ? <img alt='controlled medicine' src={controlledIcon} /> : ''
-}
+const MedicineItem = styled(ListItemText)`
+  &::after
+  {
+    content: '';
+    width: 21px;
+    height: 21px;
+    bottom: -4px;
+    position: relative;
+    display:${props => props.controlled ? 'inline-block' : 'none'};
+    margin-left: 8px;
+    background-image: url(${controlledIcon});
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+`
 
 const Container = styled(Flex)`
     width:100%;
@@ -79,9 +93,9 @@ const Medicine = styled(ListItem)`
 &&
 {
     padding-right:0;
-    svg
+    span
     {
-        
+        display:inline-block;
     }
 
     &:hover
