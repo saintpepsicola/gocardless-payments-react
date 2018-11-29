@@ -51,5 +51,7 @@ const FullWidthBlueBar = styled.div`
 `
 
 const LogoutButton = styled(Button)`
-  color: white !important;
+  && {
+      color: white;
+  }
 `
