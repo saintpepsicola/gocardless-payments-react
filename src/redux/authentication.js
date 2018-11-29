@@ -25,10 +25,12 @@ function checkforAuthToken() {
 // Action constants
 const REDIRECT_TO_AUTH = 'REDIRECT_TO_AUTH'
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
 
 // Action creators
 export const redirectToAuth = () => ({ type: REDIRECT_TO_AUTH })
 export const authenticate = (search, history) => ({ type: AUTHENTICATE_USER, payload: { search, history } })
+export const logout = () => ({ type: LOGOUT_USER })
 
 // Reducer
 export default (state = initialState, action) => {
@@ -56,6 +58,11 @@ export default (state = initialState, action) => {
                 window.location = url
                 return { ...state, authenticated: false }
             }
+        case LOGOUT_USER:
+            cookies.remove(`healthera_pod_token`, {path: '/'})
+            const authUrl = `${REACT_APP_AUTH_URL}/login?client_id=${REACT_APP_CLIENT_ID}`
+            window.location = authUrl
+            return { ...state, authenticated: false }
         default:
             return state
     }
