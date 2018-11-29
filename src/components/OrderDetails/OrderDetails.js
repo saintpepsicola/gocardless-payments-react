@@ -7,6 +7,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
+import OrderHistory from './OrderHistory'
 
 class OrderDetails extends React.Component {
 
@@ -79,6 +80,7 @@ class OrderDetails extends React.Component {
                         </Content>
                     </Panel>
                     <QuickActions />
+                    <OrderHistory {...this.props} />
                 </div>}
             </div>
         )
@@ -88,44 +90,44 @@ class OrderDetails extends React.Component {
 export default withRouter(OrderDetails)
 
 const PanelTitle = styled.h3`
-width:100%;
-font-size:22px;
-color: #4a4a4a;
-margin:0;
-`
+            width:100%;
+            font-size:22px;
+            color: #4a4a4a;
+            margin:0;
+            `
 
 const Title = styled.h4`
-color: #575757;
-`
+            color: #575757;
+            `
 
 const Address = styled.p`
-white-space:pre-line;
-text-transform:uppercase;
-`
+            white-space:pre-line;
+            text-transform:uppercase;
+            `
 
 const PatientDetails = styled(Flex)`
-width:100%;
-&  p
+            width:100%;
+            &  p
 {
-    font-size:13px;
-    margin:0;
-    line-height:1.5;
-    color: #575757;
-}
-`
+                    font - size: 13px;
+                margin:0;
+                line-height:1.5;
+                color: #575757;
+            }
+            `
 
 const Content = styled(ExpansionPanelDetails)`
-border-top: solid 1px #e4e3e3;
-&&
+            border-top: solid 1px #e4e3e3;
+            &&
 {
-    padding:0;
-}
-`
+                    padding: 0;
+            }
+            `
 
 const Panel = styled(ExpansionPanel)`
-&&
+            &&
 {
-    background:none;
-    box-shadow:none;
-}
-`
+                    background: none;
+                box-shadow:none;
+            }
+            `
