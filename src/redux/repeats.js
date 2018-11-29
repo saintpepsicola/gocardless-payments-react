@@ -177,10 +177,7 @@ export const searchRepeats = (name) => {
             request: {
                 url: `/pods/${podID}/patients/search`,
                 method: 'POST',
-                data: {
-                    name: 'J',
-                    lastName: 'Flintstone'
-                },
+                data: { name: name },
                 headers: headers
             }
         }
@@ -260,6 +257,7 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case SEARCH_REPEATS_SUCCESS:
+            console.log(action)
             return {
                 ...state,
                 fetching: false
@@ -276,7 +274,7 @@ export default (state = initialState, action) => {
                 selectedRepeat: null,
                 fetching: true
             }
-        case GET_REPEAT_SUCCESS:        
+        case GET_REPEAT_SUCCESS:
             return {
                 ...state,
                 fetching: false,

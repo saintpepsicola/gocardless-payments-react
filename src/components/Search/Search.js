@@ -24,7 +24,7 @@ class Search extends Component {
   }
 
   handleChange = (e) => {
-    //this.props.searchRepeats(e.target.value)
+    this.props.searchRepeats(e.target.value)
   }
 
   handleTabChange = (e, value) => {
