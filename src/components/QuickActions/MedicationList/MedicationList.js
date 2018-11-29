@@ -11,11 +11,14 @@ import controlledIcon from '../../../resources/controlled_med@1x.svg'
 
 export default class MedicationList extends React.Component {
 
-    handleToggle(podID, repeatID, remedy) {
-        let confirm = window.confirm('Please leave a note to the patient about your decision')
-        if (confirm) {
-            this.props.toggleMedication(podID, repeatID, remedy)
+    handleToggle(podID, repeat, remedy) {
+        if (remedy.approved) {
+            let confirm = window.prompt('Please leave a note to the patient about your decision')
+            // Send Note
+            if (confirm.trim() !== '')
+                this.props.sendNote(repeat.repeat_id, confirm)
         }
+        this.props.toggleMedication(podID, repeat.repeat_id, remedy)
     }
 
     render() {
@@ -30,7 +33,7 @@ export default class MedicationList extends React.Component {
                             controlled = medication.medicine.controlled
                         }
                         return (
-                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat.repeat_id, medication)} key={i} divider >
+                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {
                                     !basic &&
