@@ -30,6 +30,12 @@ export default class Comments extends React.Component {
         this.setState({ showTextarea: true })
     }
 
+    handleFocusOut(e) {
+        if(!e.target.value) {
+            this.setState({ showTextarea: false })
+        }
+    }
+
     handleChange(e) {
         this.setState({ podMessage: e.target.value.trim() })
     }
@@ -37,37 +43,45 @@ export default class Comments extends React.Component {
     handleReply() {
         let repeatID = this.props.repeat.repeat_id
         this.props.sendNote(repeatID, this.state.podMessage)
+        this.setState({ showTextarea: false })
     }
 
     render() {
-
-        let { comments } = this.props
-        let { noCommentsMessage } = this.state
+        const { comments } = this.props
+        const { 
+            noCommentsMessage,
+            sendingComment,
+            showTextarea,
+            name
+        } = this.state
 
         return (
-            <CommentBox>
+            <CommentBox disabled={sendingComment}>
                 <div>
                     <Title>COMMENTS</Title>
                     {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
+                        <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
                         <p>{comment.comment}</p>
                     </Comment>)}
 
 
-                    {comments && !this.state.showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>{comments.length !== 0 ? 'REPLY' : noCommentsMessage}</CommentButton>}
+                    {comments && !showTextarea && comments.length !== 0 && <CommentButton onClick={this.handleClick.bind(this)}>REPLY</CommentButton>}
+                    {comments && !showTextarea && comments.length === 0 && <NoCommentButton onClick={this.handleClick.bind(this)}>{noCommentsMessage}</NoCommentButton>}
 
-
-                    {this.state.showTextarea && <ReplyField
+                    {showTextarea && <ReplyField
                         autoFocus
                         multiline
                         fullWidth
-                        value={this.state.name}
+                        value={name}
                         onChange={this.handleChange.bind(this)}
+                        onBlur={this.handleFocusOut.bind(this)}
                         margin="normal"
                         variant="outlined"
+                        placeholder='Please enter your comment'
                     />}
 
-                    {this.state.showTextarea && <ReplyBtn onClick={this.handleReply.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
-                        REPLY
+                    {showTextarea && <ReplyBtn onClick={this.handleReply.bind(this)} color="primary" aria-label="Process" >
+                        SEND
                     </ReplyBtn>}
 
                 </div>
@@ -79,23 +93,37 @@ export default class Comments extends React.Component {
 const ReplyField = styled(TextField)`
 && 
 {
+    margin: 0px;
+
+    & > div
+    {
+        padding: 10px !important;
+    }
+
     & fieldset
     {
-        border-color:#0091cc;
+        border-left: 2px solid #0091cc !important;
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+        border-radius: 0;
+        outline: none;
+    }
+
+    & textarea
+    {
+        color: #4a4a4a;
     }
 }
 `
 
 const ReplyBtn = styled(Button)`
-&&
-{
-    margin-top:16px;
-    background-color:#0D6F67;
-    font-size: 14px;
-    font-weight: normal;
-    color: #fff;
-    height: 40px;
-}  
+    padding: 0px !important;
+    border-radius: 0px !important;
+    
+    & span {
+        color: #2f84b0;
+    }
 `
 
 const CommentBox = styled.div`
@@ -128,10 +156,25 @@ const Comment = styled.div`
     border-left: 2px solid red;
     border-color: ${props => props.patient ? '#419645' : '#0091cc'};
     padding-left:10px;
+    font-size: 16px;
+    font-weight: normal;
+`
+
+const CommentAuthorTime = styled.p`
+    color: #999;
+    font-size: 10px;
 `
 
 const CommentButton = styled.div`
-    margin-top:24px;
+    height: 39px;
+    line-height: 39px;
+    border-left: 2px solid #0091cc;
+    padding-left:10px;
+    color: #2f84b0;
+    cursor:pointer;
+`
+
+const NoCommentButton = styled.div`
     border-left: 2px solid #0091cc;
     padding-left:10px;
     color: #2f84b0;
