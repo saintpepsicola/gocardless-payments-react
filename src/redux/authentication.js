@@ -12,7 +12,9 @@ const cookies = new Cookies()
 const initialState = {
     // Check if Auth Token exists!
     authenticated: checkforAuthToken(),
-    error: null
+    error: null,
+    userName: new Cookies().get(`user_name`),
+    podName: new Cookies().get(`healthera_pod_name`)
 }
 
 // Helpers
@@ -34,6 +36,7 @@ export const logout = () => ({ type: LOGOUT_USER })
 
 // Reducer
 export default (state = initialState, action) => {
+    
     switch (action.type) {
         case REDIRECT_TO_AUTH:
             const url = `${REACT_APP_AUTH_URL}/login?client_id=${REACT_APP_CLIENT_ID}`
@@ -45,7 +48,7 @@ export default (state = initialState, action) => {
             const podID = queryParams.get('pod_id')
             const podName = queryParams.get('pod_name')
             const userName = queryParams.get('name')
-            const token = queryParams.get('token')
+            const token = queryParams.get('token')            
 
             if (podID && token) {
                 const expires = new Date(jwt_decode(token).exp * 1000)
@@ -54,7 +57,8 @@ export default (state = initialState, action) => {
                 cookies.set(`healthera_pod_name`, podName, { path: '/', expires: expires })
                 cookies.set(`user_name`, userName, { path: '/', expires: expires })
                 action.payload.history.push('/')
-                return { ...state, authenticated: true }
+
+                return { ...state, authenticated: true, podName, userName}
             }
             else {
                 // Not a pod user - log them out

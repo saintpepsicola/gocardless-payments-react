@@ -9,9 +9,7 @@ let initialState = {
     repeatsFilter: 1,
     totalCount: null,
     rowsPerPage: 10,
-    page: 0,
-    userName: new Cookies().get(`user_name`),
-    podName: new Cookies().get(`healthera_pod_name`)
+    page: 0
 }
 
 // Get rid of this when we release
