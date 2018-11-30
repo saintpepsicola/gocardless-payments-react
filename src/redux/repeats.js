@@ -14,10 +14,8 @@ let initialState = {
 }
 
 // Get rid of this when we release
-const devPodID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
-const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
-const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_id`) : devPodID
-const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
+const podID = new Cookies().get(`healthera_pod_id`) 
+const token = new Cookies().get(`healthera_pod_token`) 
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 const headers = {
@@ -162,12 +160,21 @@ export const getRepeat = (repeatID) => {
 }
 
 export const getRepeats = (active, pageSize = 10, page = 0) => {
+    console.log({
+        'Token': token,
+        'crossDomain': true,
+        'client-id': clientID
+    });
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
                 url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}`,
-                headers: headers
+                headers: {
+                    'Token': token,
+                    'crossDomain': true,
+                    'client-id': clientID
+                }
             }
         }
     })
@@ -211,7 +218,7 @@ export default (state = initialState, action) => {
         case GET_REPEAT_HISTORY_SUCCESS:
             return {
                 ...state,
-                repeatHistory: action.payload.data.data.filter(repeat => repeat.repeat_id !== state.selectedRepeat.repeat_id).slice(0, 5),
+                repeatHistory: action.payload.data.data.filter(repeat => repeat.gp_status !== 'delivered').slice(0, 5),
                 fetching: false,
             }
         case GET_REPEAT_HISTORY_FAILURE:
