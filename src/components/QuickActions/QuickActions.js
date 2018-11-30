@@ -53,7 +53,7 @@ const FormattedDate = (props) => {
 
 const Container = styled(Paper)`
   width:100%;
-  margin-bottom:80px;
+  margin-bottom:16px;
 `
 
 const Bigger = styled.span`
