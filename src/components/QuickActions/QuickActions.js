@@ -27,7 +27,7 @@ export default class QuickActions extends React.Component {
                         </Flex>
                         <Flex justify='space-between' align='center'>
                             <Box>
-                                <ProcessButton label={`Cancel`} {...this.props} />
+                                <ProcessButton label={`Reject order`} {...this.props} />
                             </Box>
                             <Box >
                                 <ProcessButton label={`Complete`} {...this.props} />

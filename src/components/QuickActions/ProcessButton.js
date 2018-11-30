@@ -28,11 +28,10 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
-    background-color:  ${props => props.label === 'Cancel' ? '#939393' : '#0D6F67'};
+    background-color: ${props => props.label === 'Reject order' ? '#939393' : '#509500'};
     font-size: 14px;
     font-weight: normal;
     color: #fff;
     height: 40px;
 }  
-
 `
