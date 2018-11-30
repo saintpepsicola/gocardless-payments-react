@@ -23,6 +23,7 @@ class OrderHistory extends Component {
 
   render() {
     const { fetching, repeat, repeatHistory } = this.props
+        
     return (
       <div>
         {!fetching && repeat && repeatHistory && <div>
@@ -48,7 +49,7 @@ class OrderHistory extends Component {
                         <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
                         <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                         <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                        <Status>Pending</Status>
+                        <Status>{row.gp_status}</Status>
                         <TableCell>
                         </TableCell>
                       </OrderRow>
