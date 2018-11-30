@@ -33,12 +33,5 @@ const ProcessBtn = styled(Button)`
     font-weight: normal;
     color: #fff;
     height: 40px;
-}  
-
+}
 `
-
-const background = {
-    'Complete': '#509500',
-    'Reject Order': '#939393',
-    'Process Later': '#2f84b0'
-};
