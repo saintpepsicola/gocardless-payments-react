@@ -257,9 +257,11 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case SEARCH_REPEATS_SUCCESS:
-            console.log(action)
             return {
                 ...state,
+                repeats: action.payload.data.data,
+                totalCount: action.payload.data.pagination.total_count,
+                rowsPerPage: action.payload.data.pagination.page_size,
                 fetching: false
             }
         case SEARCH_REPEATS_FAILURE:
@@ -275,7 +277,6 @@ export default (state = initialState, action) => {
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:
-            console.log(action)
             return {
                 ...state,
                 fetching: false,
@@ -296,7 +297,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 repeats: action.payload.data.data,
-                totalCount: action.payload.data.pagination.total_count
+                totalCount: action.payload.data.pagination.total_count,
+                rowsPerPage: initialState.rowsPerPage
             }
         case GET_REPEATS_FAILURE:
             return {

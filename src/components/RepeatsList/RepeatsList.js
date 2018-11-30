@@ -25,7 +25,7 @@ class RepeatsList extends Component {
         this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
     }
 
-    render() {
+    render() {                
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -75,7 +75,7 @@ class RepeatsList extends Component {
                 </Table>
                 {/* <Pagination {...this.props} /> */}
                 {this.props.repeats.length !== 0 && <TablePagination
-                    component="div"
+                    component='div'
                     count={Number(this.props.totalCount)}
                     rowsPerPage={rowsPerPage}
                     page={this.props.page}
