@@ -72,6 +72,11 @@ const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 // Pagination
 const RESET_PAGE = 'RESET_PAGE'
 
+// Repeat History
+const GET_REPEAT_HISTORY = 'GET_REPEAT_HISTORY'
+const GET_REPEAT_HISTORY_SUCCESS = 'GET_REPEAT_HISTORY_SUCCESS'
+const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
+
 // Action creators
 export const resetPagination = (page = 0) => {
     return { type: RESET_PAGE, payload: { page } }

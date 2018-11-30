@@ -10,6 +10,8 @@ class OrderHistory extends React.Component {
 
     render() {
         let { repeat } = this.props
+        console.log(repeat);
+        
 
         return (
             <h1>ORDER HISTORY</h1>
