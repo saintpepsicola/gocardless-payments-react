@@ -1,8 +1,7 @@
 // Initial State
 let initialState = {
     panels: [{ id: 1, show: true, start: 0, position: 0, label: 'Comments', icon: 'CommentIcon' },
-    { id: 2, show: false, start: 320, position: 320, label: 'Add', icon: 'AddIcon' },
-    { id: 3, show: false, start: 640, position: 640, label: 'Refresh', icon: 'RefreshIcon' }]
+    { id: 2, show: false, start: 320, position: 320, label: 'Add', icon: 'AddIcon' }]
 }
 
 // Set Default positions
