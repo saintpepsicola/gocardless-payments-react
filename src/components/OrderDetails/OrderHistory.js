@@ -16,14 +16,19 @@ class OrderHistory extends Component {
     const { repeat, repeatHistory } = this.props
     const podID = repeat.pod_id
     const patientID = repeat.patient_id
+
+    // We have an issue with this endpoint being called in an infinite loop
+    // This if works but not in the case that the endpoint returns an empty array.
+    // With an empty array the this.props.repeatHistory needs refreshing to reset it to null
+    // and make the request again.
     if (!repeatHistory || (repeatHistory.length && patientID !== repeatHistory[0].patient_id)) {
       this.props.getRepeatHistory(podID, patientID)
-    }        
+    } 
   }
 
   render() {
     const { fetching, repeat, repeatHistory } = this.props
-        
+
     return (
       <div>
         {!fetching && repeat && repeatHistory && <div>
@@ -43,7 +48,7 @@ class OrderHistory extends Component {
               </TableHead>
               {/* PENDING ORDERS */}
               <RepeatHistoryOrders>
-                {repeatHistory.map((row, index) => {
+                {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                     return (
                       <OrderRow key={index}>
                         <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
