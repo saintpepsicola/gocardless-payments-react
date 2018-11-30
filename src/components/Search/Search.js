@@ -27,16 +27,16 @@ class Search extends Component {
     this.props.searchRepeats(e.target.value)
   }
 
-  handleTabChange = (e, value) => {
+  handleTabChange = (e, value) => {  
+    const rowsPerPage = 10;      
     this.setState({ searchField: value === 0 ? true : false })
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.toggleRepeats(value)
     this.props.resetPagination()
-    this.props.getRepeats(value === 1 ? true : false, this.props.rowsPerPage)
+    this.props.getRepeats(value === 1 ? true : false, rowsPerPage)
   }
 
   render() {
-    //console.log(this.props)
     const showQuickReview = this.props.history.location.pathname === '/'
     return (
       <Container>
@@ -44,8 +44,8 @@ class Search extends Component {
           <BoxContainer auto align='center'>
             <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
-              {!this.state.searchField && <Tab label={`Active`} />}
-              {!this.state.searchField && <Tab label="Archive" />}
+              {!this.state.searchField && <Tab label='Active' />}
+              {!this.state.searchField && <Tab label='Archive' />}
             </Tabs>
             {/* SEARCHBOX */}
             {this.state.searchField &&
