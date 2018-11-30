@@ -211,7 +211,7 @@ export default (state = initialState, action) => {
         case GET_REPEAT_HISTORY_SUCCESS:
             return {
                 ...state,
-                repeatHistory: action.payload.data.data.filter(repeat => repeat.repeat_id !== state.selectedRepeat.repeat_id).slice(0, 5),
+                repeatHistory: action.payload.data.data.filter(repeat => repeat.gp_status !== 'delivered').slice(0, 5),
                 fetching: false,
             }
         case GET_REPEAT_HISTORY_FAILURE:
