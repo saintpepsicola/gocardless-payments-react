@@ -23,7 +23,6 @@ function checkforAuthToken() {
     return auth_token ? true : false
 }
 
-
 // Action constants
 const REDIRECT_TO_AUTH = 'REDIRECT_TO_AUTH'
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER'

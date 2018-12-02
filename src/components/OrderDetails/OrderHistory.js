@@ -12,21 +12,12 @@ import timeago from 'time-ago'
 
 class OrderHistory extends Component {
 
-  componentDidMount() {
-    const { repeat, repeatHistory } = this.props
-    const podID = repeat.pod_id
-    const patientID = repeat.patient_id
-    if (!repeatHistory || (repeatHistory.length && patientID !== repeatHistory[0].patient_id)) {
-      this.props.getRepeatHistory(podID, patientID)
-    }        
-  }
-
   render() {
-    const { fetching, repeat, repeatHistory } = this.props
-        
+    const { fetching, repeat } = this.props
+    
     return (
       <div>
-        {!fetching && repeat && repeatHistory && <div>
+        {!fetching && repeat && <div>
         <Panel defaultExpanded>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
           <Title>ORDER HISTORY</Title>
@@ -43,7 +34,7 @@ class OrderHistory extends Component {
               </TableHead>
               {/* PENDING ORDERS */}
               <RepeatHistoryOrders>
-                {repeatHistory.map((row, index) => {
+                {Array.isArray(repeat.repeatHistory) && repeat.repeatHistory.map((row, index) => {                  
                     return (
                       <OrderRow key={index}>
                         <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
@@ -120,7 +111,6 @@ const PatientName = styled(TableCell)`
     {
         font-weight:bold;
     }
-  
 `
 
 const Status = styled(TableCell)`

@@ -9,8 +9,7 @@ let initialState = {
     repeatsFilter: 1,
     totalCount: null,
     rowsPerPage: 10,
-    page: 0,
-    repeatHistory: null
+    page: 0
 }
 
 // Get rid of this when we release
@@ -70,11 +69,6 @@ const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
 // Pagination
 const RESET_PAGE = 'RESET_PAGE'
-
-// Repeat History
-const GET_REPEAT_HISTORY = 'GET_REPEAT_HISTORY'
-const GET_REPEAT_HISTORY_SUCCESS = 'GET_REPEAT_HISTORY_SUCCESS'
-const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 
 // Action creators
 export const resetPagination = (page = 0) => {
@@ -188,38 +182,9 @@ export const searchRepeats = (name) => {
     })
 }
 
-export const getRepeatHistory = (podID, patientID) => {
-    return ({
-        types: [GET_REPEAT_HISTORY, GET_REPEAT_HISTORY_SUCCESS, GET_REPEAT_HISTORY_FAILURE],
-        payload: {
-            request: {
-                url: `/pods/${podID}/patients/${patientID}/repeats?showRemedies=true`,
-                headers: headers
-            }
-        }
-    })
-}
-
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_REPEAT_HISTORY:
-            return {
-                ...state,
-                fetching: true
-            }
-        case GET_REPEAT_HISTORY_SUCCESS:
-            return {
-                ...state,
-                repeatHistory: action.payload.data.data.filter(repeat => repeat.gp_status !== 'delivered').slice(0, 5),
-                fetching: false,
-            }
-        case GET_REPEAT_HISTORY_FAILURE:
-            return {
-                ...state,
-                error: action.error,
-                fetching: false
-            }
         case RESET_PAGE:
             return {
                 ...state, page: action.payload.page

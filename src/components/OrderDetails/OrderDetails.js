@@ -15,11 +15,12 @@ class OrderDetails extends React.Component {
         // Get a single Repeat
         this.props.getRepeat(this.props.match.params.orderID)
     }
-    
-    render() {
-        let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
-        let { repeat, fetching } = this.props
-        return (
+        
+        render() {
+            let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
+            let { repeat, fetching } = this.props
+            
+            return (
             <div>
                 {!fetching && repeat && <div>
                     <Panel defaultExpanded>
