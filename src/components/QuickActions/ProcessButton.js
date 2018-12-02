@@ -28,10 +28,16 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
-    background-color: ${props => props.label === 'Reject order' ? '#939393' : '#509500'};
+    background-color: ${props => buttonColor[props.label]};
     font-size: 14px;
     font-weight: normal;
     color: #fff;
     height: 40px;
 }
 `
+
+const buttonColor = {
+    'Reject order': '#939393',
+    'Process later': '#2f84b0',
+    'Complete': '#509500'
+}
