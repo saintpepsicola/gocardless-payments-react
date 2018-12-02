@@ -58,7 +58,7 @@ export default class Comments extends React.Component {
         return (
             <CommentBox disabled={sendingComment}>
                 <div>
-                    <Title>COMMENTS</Title>
+                    <Title>NOTES</Title>
                     {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                         <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
                         <p>{comment.comment}</p>

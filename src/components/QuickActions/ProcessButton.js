@@ -6,10 +6,15 @@ import { withRouter } from "react-router"
 class ProcessButton extends React.Component {
 
     handleClick() {
-        if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
-            this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+        if (this.props.label === 'Process later') {
             this.props.history.push(`${process.env.PUBLIC_URL}/`)
             this.props.getRepeats(true)
+        } else {
+            if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
+                this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+                this.props.history.push(`${process.env.PUBLIC_URL}/`)
+                this.props.getRepeats(true)
+            }
         }
     }
 
@@ -28,10 +33,16 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
-    background-color: ${props => props.label === 'Reject order' ? '#939393' : '#509500'};
+    background-color: ${props => buttonColor[props.label]};
     font-size: 14px;
     font-weight: normal;
     color: #fff;
     height: 40px;
-}  
+}
 `
+
+const buttonColor = {
+    'Reject order': '#939393',
+    'Process later': '#2f84b0',
+    'Complete': '#509500'
+}
