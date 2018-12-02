@@ -27,10 +27,10 @@ export default class QuickActions extends React.Component {
                                 <MedicationList {...this.props} />
                             </Flex>
                             <Flex justify='space-between' align='center'>
-                                <Box>
+                                <Box align='center' w={8 / 10}>
                                     <ProcessButton label={`Reject order`} {...this.props} />
                                 </Box>
-                                <Box>
+                                <Box w={3 / 10}>
                                     <ProcessButton label={`Process later`} {...this.props} />
                                 </Box>
                                 <Box >
