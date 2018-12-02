@@ -4,7 +4,7 @@ import axiosMiddleware from 'redux-axios-middleware'
 import rootReducer from './redux'
 
 const client = axios.create({
-    baseURL: 'https://api.84r.co/',
+    baseURL: process.env.REACT_APP_API_URL,
     responseType: 'json'
 })
 

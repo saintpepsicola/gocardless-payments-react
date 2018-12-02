@@ -1,5 +1,7 @@
 import Cookies from 'universal-cookie'
 
+const cookies = new Cookies()
+
 //GLOBALS
 // Initial State
 let initialState = {
@@ -12,11 +14,8 @@ let initialState = {
     page: 0
 }
 
-// Get rid of this when we release
-const devPodID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
-const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
-const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_id`) : devPodID
-const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
+const podID = cookies.get(`healthera_pod_id`)
+const token = localStorage.getItem('healthera_pod_token');
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 const headers = {
@@ -71,6 +70,7 @@ const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 const RESET_PAGE = 'RESET_PAGE'
 
 // Action creators
+
 export const resetPagination = (page = 0) => {
     return { type: RESET_PAGE, payload: { page } }
 }
@@ -167,7 +167,7 @@ export const getRepeats = (active, pageSize = 10, page = 0) => {
     })
 }
 
-// Needs tweaking!
+
 export const searchRepeats = (name) => {
     return ({
         types: [SEARCH_REPEATS, SEARCH_REPEATS_SUCCESS, SEARCH_REPEATS_FAILURE],
@@ -181,6 +181,7 @@ export const searchRepeats = (name) => {
         }
     })
 }
+
 
 // Reducer
 export default (state = initialState, action) => {
