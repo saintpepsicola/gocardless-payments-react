@@ -9,13 +9,14 @@ let initialState = {
     repeatsFilter: 1,
     totalCount: null,
     rowsPerPage: 10,
-    page: 0,
-    repeatHistory: null
+    page: 0
 }
 
 // Get rid of this when we release
-const podID = new Cookies().get(`healthera_pod_id`) 
-const token = new Cookies().get(`healthera_pod_token`) 
+const devPodID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
+const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjE3YTUzMTQwLWYxYTUtMTFlOC04ODJlLWNlOWI5NTNhY2Q3OSIsImV4cCI6MTU1MTg5NTIwMCwiaWF0IjoxNTQzMjU1MjAwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.gHBO1xKTIWk1iNi4ElwtG1tijcV2xjlttH8jNsWuOQU'
+const podID = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_id`) : devPodID
+const token = process.env.NODE_ENV === 'production' ? new Cookies().get(`healthera_pod_token`) : devToken
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 const headers = {
@@ -68,11 +69,6 @@ const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
 // Pagination
 const RESET_PAGE = 'RESET_PAGE'
-
-// Repeat History
-const GET_REPEAT_HISTORY = 'GET_REPEAT_HISTORY'
-const GET_REPEAT_HISTORY_SUCCESS = 'GET_REPEAT_HISTORY_SUCCESS'
-const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 
 // Action creators
 export const resetPagination = (page = 0) => {
@@ -160,21 +156,12 @@ export const getRepeat = (repeatID) => {
 }
 
 export const getRepeats = (active, pageSize = 10, page = 0) => {
-    console.log({
-        'Token': token,
-        'crossDomain': true,
-        'client-id': clientID
-    });
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
                 url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}`,
-                headers: {
-                    'Token': token,
-                    'crossDomain': true,
-                    'client-id': clientID
-                }
+                headers: headers
             }
         }
     })
@@ -195,38 +182,9 @@ export const searchRepeats = (name) => {
     })
 }
 
-export const getRepeatHistory = (podID, patientID) => {
-    return ({
-        types: [GET_REPEAT_HISTORY, GET_REPEAT_HISTORY_SUCCESS, GET_REPEAT_HISTORY_FAILURE],
-        payload: {
-            request: {
-                url: `/pods/${podID}/patients/${patientID}/repeats?showRemedies=true`,
-                headers: headers
-            }
-        }
-    })
-}
-
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_REPEAT_HISTORY:
-            return {
-                ...state,
-                fetching: true
-            }
-        case GET_REPEAT_HISTORY_SUCCESS:
-            return {
-                ...state,
-                repeatHistory: action.payload.data.data.filter(repeat => repeat.gp_status !== 'delivered').slice(0, 5),
-                fetching: false,
-            }
-        case GET_REPEAT_HISTORY_FAILURE:
-            return {
-                ...state,
-                error: action.error,
-                fetching: false
-            }
         case RESET_PAGE:
             return {
                 ...state, page: action.payload.page

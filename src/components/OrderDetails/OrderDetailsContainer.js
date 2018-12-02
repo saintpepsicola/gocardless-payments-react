@@ -4,7 +4,6 @@ import * as actions from '../../redux/repeats'
 
 const mapStateToProps = (state) => ({
     repeat: state.repeats.selectedRepeat,
-    repeatHistory: state.repeats.repeatHistory,
     fetching: state.repeats.fetching
 })
 
