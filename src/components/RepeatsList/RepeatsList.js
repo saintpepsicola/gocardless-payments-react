@@ -17,6 +17,7 @@ class RepeatsList extends Component {
     }
 
     handleSelect(repeatID) {
+        this.props.toggleSearch(false)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
 
@@ -25,7 +26,7 @@ class RepeatsList extends Component {
         this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
     }
 
-    render() {                
+    render() {
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -46,8 +47,8 @@ class RepeatsList extends Component {
                                 return (
                                     <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                        <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '': 's'}</TableCell>
-                                        <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                        <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
+                                        <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
                                         <TableCell>
                                             {row.comment && <img alt='repeat comment' src={commentIcon} />}
@@ -62,8 +63,8 @@ class RepeatsList extends Component {
                             return (
                                 <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                     <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                    <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '': 's'}</TableCell>
-                                    <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                                    <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
+                                    <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                     <Status>{row.gp_status}</Status>
                                     <TableCell>
                                         {row.comment && <img alt='repeat comment' src={commentIcon} />}
@@ -97,7 +98,7 @@ export default withRouter(RepeatsList)
 
 const FormattedDate = (props) => {
     return (
-        timeago.ago(props.date * 1000)
+        timeago.ago(props.date)
     )
 }
 

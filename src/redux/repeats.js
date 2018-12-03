@@ -8,10 +8,11 @@ let initialState = {
     totalCount: null,
     rowsPerPage: 10,
     page: 0,
-    repeatHistory: []
+    repeatHistory: [],
+    searchField: false
 }
 
-// Don't remove this pls
+// Don't remove this until it's our LAST COMMIT
 if (process.env.NODE_ENV !== 'production') {
     let hctoken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjFlZmQyZDIwLWY2ZjEtMTFlOC1iNjJmLWU5YTEyNjBlMzYxYSIsImV4cCI6MTU1MjQ3NzYxMCwiaWF0IjoxNTQzODM3NjEwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.C9GfyDE6WvWMvMWSw7I5To92CsQmBlfPYHCBpPkb9_I`
     let hcpodid = `2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351`
@@ -71,6 +72,12 @@ const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
 
+// Toggle Searchbar
+const TOGGLE_SEARCH = 'TOGGLE_SEARCH'
+
+// Handle Tab Change
+const CHANGE_TAB = 'CHANGE_TAB'
+
 // Pagination
 const RESET_PAGE = 'RESET_PAGE'
 
@@ -80,7 +87,6 @@ const GET_REPEAT_HISTORY_SUCCESS = 'GET_REPEAT_HISTORY_SUCCESS'
 const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 
 // Action creators
-
 export const resetPagination = (page = 0) => {
     return { type: RESET_PAGE, payload: { page } }
 }
@@ -143,6 +149,20 @@ export const toggleRepeats = (id) => {
     return ({
         type: TOGGLE_REPEATS,
         payload: { id }
+    })
+}
+
+export const toggleSearch = (state) => {
+    return ({
+        type: TOGGLE_SEARCH,
+        payload: { state }
+    })
+}
+
+export const changeTab = (value) => {
+    return ({
+        type: CHANGE_TAB,
+        payload: { value }
     })
 }
 
@@ -210,6 +230,14 @@ export const getRepeatHistory = (podID, patientID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case CHANGE_TAB:
+            return {
+                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false
+            }
+        case TOGGLE_SEARCH:
+            return {
+                ...state, searchField: action.payload.state
+            }
         case GET_REPEAT_HISTORY:
             return {
                 ...state

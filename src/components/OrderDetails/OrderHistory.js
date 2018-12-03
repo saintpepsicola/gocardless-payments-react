@@ -73,7 +73,7 @@ const FormattedDate = (props) => {
 // Styled Components
 const Title = styled.h4`
   color: #575757;
-  margin-top: 0px;
+  margin: 0px;
 `
 
 const OrderRow = styled(TableRow)`

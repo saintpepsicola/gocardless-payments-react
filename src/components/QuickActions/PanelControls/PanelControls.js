@@ -1,13 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button';
-import notesIcon from '../../../resources/notes-icon.svg';
-import previousOrderIcon from '../../../resources/previous-order-icon.svg';
+import Button from '@material-ui/core/Button'
+import notesIcon from '../../../resources/notes-icon.svg'
+import previousOrderIcon from '../../../resources/previous-order-icon.svg'
 
 export default class PanelControls extends React.Component {
-    showPanel(id) {
-        this.props.selectPanel(id)
-    }
+    showPanel(id) { this.props.selectPanel(id) }
 
     render() {
         let { panels } = this.props
