@@ -21,7 +21,6 @@ class OrderHistory extends Component {
 
   render() {
     const { repeat, repeatHistory } = this.props
-
     return (
       <div>
         {repeat && repeatHistory && <div>
@@ -44,7 +43,7 @@ class OrderHistory extends Component {
                 {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                   return (
                     <OrderRow key={index}>
-                      <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
+                      <PatientName>{row.patient_forename || repeat.patient_forename} {row.patient_surname || repeat.patient_surname}</PatientName>
                       <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                       <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                       <Status>{row.gp_status}</Status>
