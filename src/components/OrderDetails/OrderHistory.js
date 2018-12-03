@@ -12,7 +12,7 @@ import timeago from 'time-ago'
 
 class OrderHistory extends Component {
 
-    componentDidMount() {
+  componentDidMount() {
     const { repeat } = this.props
     const podID = repeat.pod_id
     const patientID = repeat.patient_id
@@ -21,14 +21,14 @@ class OrderHistory extends Component {
 
   render() {
     const { repeat, repeatHistory } = this.props
-    
+
     return (
       <div>
         {repeat && repeatHistory && <div>
-        <Panel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-          <Title>ORDER HISTORY</Title>
-        </ExpansionPanelSummary>
+          <Panel defaultExpanded>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Title>ORDER HISTORY</Title>
+            </ExpansionPanelSummary>
             <Table>
               <TableHead>
                 <TableRow>
@@ -41,17 +41,17 @@ class OrderHistory extends Component {
               </TableHead>
               {/* PENDING ORDERS */}
               <RepeatHistoryOrders>
-                {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {                  
-                    return (
-                      <OrderRow key={index}>
-                        <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
-                        <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
-                        <TableCell><FormattedDate date={row.timestamp} /></TableCell>
-                        <Status>{row.gp_status}</Status>
-                        <TableCell>
-                        </TableCell>
-                      </OrderRow>
-                    )
+                {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
+                  return (
+                    <OrderRow key={index}>
+                      <PatientName>{repeat.patient_forename} {repeat.patient_surname}</PatientName>
+                      <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                      <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                      <Status>{row.gp_status}</Status>
+                      <TableCell>
+                      </TableCell>
+                    </OrderRow>
+                  )
                 })}
               </RepeatHistoryOrders>
             </Table>
@@ -71,8 +71,7 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
-
-const Title = styled.h4 `
+const Title = styled.h4`
   color: #575757;
   margin-top: 0px;
 `
