@@ -11,7 +11,6 @@ let initialState = {
     repeatHistory: []
 }
 
-
 // Don't remove this pls
 if (process.env.NODE_ENV !== 'production') {
     let hctoken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjFlZmQyZDIwLWY2ZjEtMTFlOC1iNjJmLWU5YTEyNjBlMzYxYSIsImV4cCI6MTU1MjQ3NzYxMCwiaWF0IjoxNTQzODM3NjEwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.C9GfyDE6WvWMvMWSw7I5To92CsQmBlfPYHCBpPkb9_I`
