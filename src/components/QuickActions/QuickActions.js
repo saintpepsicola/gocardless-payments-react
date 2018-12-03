@@ -12,6 +12,7 @@ export default class QuickActions extends React.Component {
 
     render() {
         let { repeat } = this.props
+        let completeDisabled = repeat.remedies && repeat.remedies.filter(remedy => remedy.approved).length === 0 ? true : false
         if (repeat.gp_status === 'delivered') {
             return (
                 <Container>
@@ -34,7 +35,7 @@ export default class QuickActions extends React.Component {
                                     <ProcessButton label={`Process later`} {...this.props} />
                                 </Box>
                                 <Box >
-                                    <ProcessButton label={`Complete`} {...this.props} />
+                                    <ProcessButton disabled={completeDisabled} label={`Complete`} {...this.props} />
                                 </Box>
                             </Flex>
                         </Box>

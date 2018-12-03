@@ -15,7 +15,7 @@ class ProcessButton extends React.Component {
             this.props.history.push(`${process.env.PUBLIC_URL}/`)
             this.props.getRepeats(true)
         }
-        else if(this.props.label === 'Reject order') {
+        else if (this.props.label === 'Reject order') {
             this.setState({ showConfirmModal: true });
         }
         else if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
@@ -51,7 +51,7 @@ class ProcessButton extends React.Component {
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
                 />
-                <ProcessBtn label={this.props.label} onClick={this.handleClick.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
+                <ProcessBtn disabled={this.props.disabled} label={this.props.label} onClick={this.handleClick.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
                     {this.props.label}
                 </ProcessBtn>
             </div>
