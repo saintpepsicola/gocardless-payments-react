@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-// import avatarSrc from '../../resources/avatar.png'
 import Typography from '@material-ui/core/Typography'
 import { Flex, Box } from 'reflexbox'
 
