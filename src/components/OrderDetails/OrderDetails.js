@@ -8,7 +8,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
 import OrderHistory from './OrderHistory'
-import timeago from 'time-ago'
 
 class OrderDetails extends React.Component {
 

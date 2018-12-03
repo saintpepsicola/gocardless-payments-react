@@ -233,11 +233,11 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
+                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false
             }
         case TOGGLE_SEARCH:
             return {
-                ...state, searchField: action.payload.state, repeats: []
+                ...state, searchField: action.payload.state
             }
         case GET_REPEAT_HISTORY:
             return {
