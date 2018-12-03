@@ -1,16 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import CommentField from './CommentField';
 
 export default class Comments extends React.Component {
 
     state = {
         showTextarea: false,
-        noCommentsMessage: `You have no notes attached to this order. You can leave notes to the patient regarding their order before processing and completing the order.
-        
-        LEAVE A MESSAGE
-        `
+        noCommentsMessage: `You have no notes attached to this order. You can leave notes to the patient regarding their order before processing and completing the order.`
     }
 
     componentDidMount() {
@@ -26,16 +22,6 @@ export default class Comments extends React.Component {
         clearInterval(this.interval)
     }
 
-    handleClick() {
-        this.setState({ showTextarea: true })
-    }
-
-    handleFocusOut(e) {
-        if(!e.target.value) {
-            this.setState({ showTextarea: false })
-        }
-    }
-
     handleChange(e) {
         this.setState({ podMessage: e.target.value.trim() })
     }
@@ -43,7 +29,6 @@ export default class Comments extends React.Component {
     handleReply() {
         let repeatID = this.props.repeat.repeat_id
         this.props.sendNote(repeatID, this.state.podMessage)
-        this.setState({ showTextarea: false })
     }
 
     render() {
@@ -51,7 +36,6 @@ export default class Comments extends React.Component {
         const { 
             noCommentsMessage,
             sendingComment,
-            showTextarea,
             name
         } = this.state
 
@@ -64,67 +48,19 @@ export default class Comments extends React.Component {
                         <p>{comment.comment}</p>
                     </Comment>)}
 
+                    {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
 
-                    {comments && !showTextarea && comments.length !== 0 && <CommentButton onClick={this.handleClick.bind(this)}>REPLY</CommentButton>}
-                    {comments && !showTextarea && comments.length === 0 && <NoCommentButton onClick={this.handleClick.bind(this)}>{noCommentsMessage}</NoCommentButton>}
-
-                    {showTextarea && <ReplyField
-                        autoFocus
-                        multiline
-                        fullWidth
+                    <CommentField 
+                        handleChange={this.handleChange.bind(this)}
+                        handleReply={this.handleReply.bind(this)}
                         value={name}
-                        onChange={this.handleChange.bind(this)}
-                        onBlur={this.handleFocusOut.bind(this)}
-                        margin="normal"
-                        variant="outlined"
-                        placeholder='Please enter your comment'
-                    />}
-
-                    {showTextarea && <ReplyBtn onClick={this.handleReply.bind(this)} color="primary" aria-label="Process" >
-                        SEND
-                    </ReplyBtn>}
+                    />
 
                 </div>
             </CommentBox>
         )
     }
 }
-
-const ReplyField = styled(TextField)`
-&& 
-{
-    margin: 0px;
-
-    & > div
-    {
-        padding: 10px !important;
-    }
-
-    & fieldset
-    {
-        border-left: 2px solid #0091cc !important;
-        border-right: none;
-        border-top: none;
-        border-bottom: none;
-        border-radius: 0;
-        outline: none;
-    }
-
-    & textarea
-    {
-        color: #4a4a4a;
-    }
-}
-`
-
-const ReplyBtn = styled(Button)`
-    padding: 0px !important;
-    border-radius: 0px !important;
-    
-    & span {
-        color: #2f84b0;
-    }
-`
 
 const CommentBox = styled.div`
 && {
@@ -165,24 +101,12 @@ const CommentAuthorTime = styled.p`
     font-size: 10px;
 `
 
-const CommentButton = styled.div`
-    height: 39px;
-    line-height: 39px;
-    border-left: 2px solid #0091cc;
-    padding-left:10px;
-    color: #2f84b0;
-    cursor:pointer;
-`
-
-const NoCommentButton = styled.div`
-    border-left: 2px solid #0091cc;
-    padding-left:10px;
-    color: #2f84b0;
-    cursor:pointer;
-`
-
 const Title = styled.h1`
     font-size: 18px;
     font-weight: 900;
+    color: #4a4a4a;
+`
+
+const NoCommentText = styled.p`
     color: #4a4a4a;
 `

@@ -16,74 +16,87 @@ class OrderDetails extends React.Component {
         this.props.getRepeat(this.props.match.params.orderID)
     }
         
-        render() {
-            let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
-            let { repeat, fetching } = this.props
-            
-            return (
-            <div>
-                {!fetching && repeat && <div>
-                    <Panel defaultExpanded>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    render() {
+        let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
+        let { repeat, fetching } = this.props
+        let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false;
+        
+        return (
+        <div>
+            {!fetching && repeat && <div>
+                <Panel defaultExpanded>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <div>
                             <PanelTitle>
-                                {dependent && `${dependent.forename} ${dependent.surname} ordered by`} {repeat.patient_forename} {repeat.patient_surname}
+                                {dependent && `${dependent.forename} ${dependent.surname}`}
+                                {!dependent && `${repeat.patient_forename} ${repeat.patient_surname}`}
                             </PanelTitle>
-                        </ExpansionPanelSummary>
-                        <Content>
-                            <PatientDetails pl='24px' pr='24px' pt='8'>
-                                <Box w={5 / 10} >
-                                    <Title>PATIENT DETAILS</Title>
-                                    <Flex m='0'>
-                                        <Box w='90px'>
-                                            <p>NHS:</p>
-                                            <p>E-mail:</p>
-                                            <p>Tel:</p>
-                                            <p>Mob:</p>
-                                        </Box>
-                                        <Box w='249px'>
-                                            <p>{repeat.patient.nhs_number}</p>
-                                            <p>{repeat.patient.username}</p>
-                                            <p>{repeat.patient.telephone}</p>
-                                            <p>{repeat.patient.telephone}</p>
-                                        </Box>
-                                        <Box w='100px'>
-                                            <Address>{repeat.patient.address}</Address>
-                                        </Box>
-                                    </Flex>
-                                </Box>
-                                <Box w={3 / 10} >
-                                    <Title>SURGERY</Title>
-                                    <Flex>
-                                        <Box>
-                                            <Address>
-                                                {repeat.surgery.address_1}<br />
-                                                {repeat.surgery.address_2}<br />
-                                                {repeat.surgery.address_3}<br />
-                                                {repeat.surgery.postcode}<br />
-                                            </Address>
-                                        </Box>
-                                    </Flex>
-                                </Box>
-                                <Box>
-                                    <Title>NOMINATED PHARMACY</Title>
-                                    <Flex>
-                                        <Box>
-                                            <Address>
-                                                {repeat.pharmacy.pharmacy_name}<br />
-                                                {repeat.pharmacy.address}<br />
-                                                {repeat.pharmacy.postcode}<br />
-                                                {repeat.pharmacy.telephone}<br />
-                                            </Address>
-                                        </Box>
-                                    </Flex>
-                                </Box>
-                            </PatientDetails>
-                        </Content>
-                    </Panel>
-                    <QuickActions />
-                    <OrderHistory {...this.props} />
-                </div>}
-            </div>
+                            {dependent && <PanelSubTitle>
+                                {`Ordered by ${repeat.patient_forename} ${repeat.patient_surname}`}
+                            </PanelSubTitle>}
+                        </div>
+                    </ExpansionPanelSummary>
+                    <Content>
+                        <PatientDetails pl='24px' pr='24px' pt='8'>
+                            <Box w={5 / 10} >
+                                <Title>PATIENT DETAILS</Title>
+                                <Flex m='0'>
+                                    <Box w='90px'>
+                                        <p>NHS:</p>
+                                        <p>E-mail:</p>
+                                        <p>Tel:</p>
+                                        <p>Mob:</p>
+                                    </Box>
+                                    <Box w='249px'>
+                                        <p>{patient.nhs_number}</p>
+                                        <p>{patient.username}</p>
+                                        <p>{patient.telephone}</p>
+                                        <p>{patient.telephone}</p>
+                                    </Box>
+                                    <Box w='120px'>
+                                        {typeof patient.address !== 'object' && <Address>{patient.address}</Address>}
+                                        {typeof patient.address === 'object' && <Address>
+                                            {patient.address.address_line_1}<br />
+                                            {patient.address.address_line_2}<br />
+                                            {patient.address.city}<br />
+                                            {patient.address.postcode}<br />
+                                        </Address>}
+                                    </Box>
+                                </Flex>
+                            </Box>
+                            <Box w={3 / 10} >
+                                <Title>SURGERY</Title>
+                                <Flex>
+                                    <Box>
+                                        <Address>
+                                            {repeat.surgery.address_1}<br />
+                                            {repeat.surgery.address_2}<br />
+                                            {repeat.surgery.address_3}<br />
+                                            {repeat.surgery.postcode}<br />
+                                        </Address>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                            <Box>
+                                <Title>NOMINATED PHARMACY</Title>
+                                <Flex>
+                                    <Box>
+                                        <Address>
+                                            {repeat.pharmacy.pharmacy_name}<br />
+                                            {repeat.pharmacy.address}<br />
+                                            {repeat.pharmacy.postcode}<br />
+                                            {repeat.pharmacy.telephone}<br />
+                                        </Address>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        </PatientDetails>
+                    </Content>
+                </Panel>
+                <QuickActions />
+                <OrderHistory {...this.props} />
+            </div>}
+        </div>
         )
     }
 }
@@ -96,6 +109,19 @@ const PanelTitle = styled.h3`
             color: #4a4a4a;
             margin:0;
             `
+
+const PanelSubTitle = styled.h5`
+    float: left;
+    width:100%;
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #7a7a7a;
+    margin: 5px 0px 0px 0px;
+`
 
 const Title = styled.h4`
             color: #575757;
