@@ -158,11 +158,8 @@ export const getRepeat = (repeatID) => {
 }
 
 export const getRepeats = (active, pageSize = 10, page = 0) => {
-    // podID = localStorage[`healthera_pod_id`]
-    // token = localStorage['healthera_pod_token']
-    let podID = '2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351'
-    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6ImQ2YTg0NDYwLWVjMGEtMTFlOC04OTk3LTU1Zjc5YzY2ZWYyZiIsImV4cCI6MTU1MTI3OTE5MiwiaWF0IjoxNTQyNjM5MTkyLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.TymvgxQvK4YAkRX4R33O6tgjdz1cFBqoMhqdeofQTHI'
-
+    podID = localStorage[`healthera_pod_id`]
+    token = localStorage['healthera_pod_token']
     headers.Token = token
     console.log(podID, token)
     return ({
