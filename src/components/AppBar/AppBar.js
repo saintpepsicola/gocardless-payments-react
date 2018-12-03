@@ -4,26 +4,15 @@ import Logo from './Logo'
 import UserAvatar from '../UserAvatar/UserAvatarContainer'
 import headerBackground from '../../resources/header-bg.png'
 import { Flex, Box } from 'reflexbox'
-import Button from '@material-ui/core/Button';
 
 export default class AppBar extends Component {
-
-    handleLogout() {
-        let confirm = window.confirm('Are you sure you wish to logout?')
-        if (confirm) {
-            this.props.logout()          
-        }
-    }
 
     render() {
         return (
             <FullWidthBlueBar>
                 <Container p={2} align='center' justify='center'>
                     <Box w={1 / 2}><UserAvatar /></Box>
-                    <Box w={1 / 2}><Logo />
-                      <br />
-                      <LogoutButton onClick={this.handleLogout.bind(this)}>Log out</LogoutButton>
-                    </Box>
+                    <Box w={1 / 2}><Logo /></Box>
                 </Container>
             </ FullWidthBlueBar>
         )
@@ -48,10 +37,4 @@ const FullWidthBlueBar = styled.div`
    background-image:url(${headerBackground});
    background-repeat: repeat-x;
    background-size:contain;
-`
-
-const LogoutButton = styled(Button)`
-  && {
-      color: white;
-  }
 `
