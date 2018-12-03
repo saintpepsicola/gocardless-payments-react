@@ -9,18 +9,17 @@ export default class UserAvatar extends Component {
     handleLogout() {
         let confirm = window.confirm('Are you sure you wish to logout?')
         if (confirm) {
-            this.props.logout()          
+            this.props.logout()
         }
     }
 
-    render() {        
+    render() {
         return (
             <Avatar>
                 <Flex>
-                    {/* <Box mr='15px'><Image alt='user-avatar' src={avatarSrc} /></Box> */}
                     <Box pt='6px'>
                         <Name variant='subtitle1'>{this.props.userName} • {this.props.podName}</Name>
-                        <Name logout variant='subtitle2' onClick={this.handleLogout.bind(this)}>Log out</Name>
+                        <Name logout={1} variant='subtitle2' onClick={this.handleLogout.bind(this)}>Log out</Name>
                     </Box>
                 </Flex>
             </Avatar>
@@ -39,11 +38,3 @@ const Name = styled(Typography)`
 const Avatar = styled.div`
   text-align:left;
 `
-
-// const Image = styled.img`
-//     text-align:left;
-//     max-height:60px;
-//     width:auto;
-//     border-radius:50%;
-//     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-// `
