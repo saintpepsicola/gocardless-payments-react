@@ -46,7 +46,7 @@ class RepeatsList extends Component {
                                 return (
                                     <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                        <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                        <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '': 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                                         <Status>Pending</Status>
                                         <TableCell>
@@ -62,7 +62,7 @@ class RepeatsList extends Component {
                             return (
                                 <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                     <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                    <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
+                                    <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '': 's'}</TableCell>
                                     <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                                     <Status>{row.gp_status}</Status>
                                     <TableCell>

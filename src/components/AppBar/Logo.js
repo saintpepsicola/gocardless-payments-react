@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import logo from '../../resources/logo-white.png'
+import logo from '../../resources/Logo@3x.png'
 import styled from 'styled-components'
 
 export default class Logo extends Component {
-
     render() {
         return (
             <LogoImg src={logo} align="right" alt='Healthera Logo' />
