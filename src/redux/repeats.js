@@ -12,12 +12,7 @@ let initialState = {
     searchField: false
 }
 
-<<<<<<< HEAD
-
 // Don't remove this until it's our LAST COMMIT
-=======
-// Don't remove this pls
->>>>>>> 34c1b06af9a6480687967f43cac6b68f2c1de242
 if (process.env.NODE_ENV !== 'production') {
     let hctoken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjFlZmQyZDIwLWY2ZjEtMTFlOC1iNjJmLWU5YTEyNjBlMzYxYSIsImV4cCI6MTU1MjQ3NzYxMCwiaWF0IjoxNTQzODM3NjEwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.C9GfyDE6WvWMvMWSw7I5To92CsQmBlfPYHCBpPkb9_I`
     let hcpodid = `2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351`
