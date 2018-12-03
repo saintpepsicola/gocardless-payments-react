@@ -41,9 +41,8 @@ class Search extends Component {
     this.props.getRepeats(value === 1 ? true : false, 10)
   }
 
-  // This very simple logic can be removed once we have Profile Setting side nav
   handleSupport() {
-    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.');
+    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
   }
 
   render() {
@@ -66,9 +65,12 @@ class Search extends Component {
                 placeholder='SEARCH PATIENTS'
                 autoFocus={searchField}
               />}
-              <Box w={ 1 / 2 }></Box>
-              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
           </BoxContainer>
+          <Box w='92px'>
+            <VerticalFlex >
+              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
+            </VerticalFlex>
+          </Box>
         </Flex>
       </Container >
     )
@@ -87,6 +89,9 @@ const IconTab = styled(Tab)`
 {
   min-width:45px;
 }
+`
+const VerticalFlex = styled(Flex)`
+  height: 100%;
 `
 
 const BoxContainer = styled(Box)`
