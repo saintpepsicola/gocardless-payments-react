@@ -76,7 +76,7 @@ const StyledDialog = styled(({ color, ...other }) => (
   <Dialog {...other} classes={{ paper: 'paper' }} />
 ))`
   & .paper {
-    padding: 15px !important;
+    padding: 0px 15px 15px 15px !important;
   }
 `
 
