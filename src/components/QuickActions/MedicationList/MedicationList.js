@@ -8,25 +8,55 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
 import OffIcon from '@material-ui/icons/HighlightOff'
 import controlledIcon from '../../../resources/controlled_med@1x.svg'
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 
 export default class MedicationList extends React.Component {
 
+    state = {
+        showConfirmModal: false
+    }
+
+    handleConfirm() {
+        const { repeat } = this.props;
+        const { confirmMedication } = this.state;
+        this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
+        this.setState({
+            showConfirmModal: false,
+            confirmMedication: null
+        });
+    }
+
+    handleClose() {
+        this.setState({ showConfirmModal: false });
+    }
+
     handleToggle(podID, repeat, remedy) {
         if (remedy.approved) {
-            let confirm = window.prompt('Please leave a note to the patient about your decision')
-            // Send Note
-            if (confirm.trim() !== '')
-                this.props.sendNote(repeat.repeat_id, confirm)
+            this.setState({
+                showConfirmModal: true,
+                confirmMedication: remedy
+            });
         }
-        this.props.toggleMedication(podID, repeat.repeat_id, remedy)
+        else {
+            this.props.toggleMedication(podID, repeat.repeat_id, remedy)
+        }
     }
 
     render() {
-        let { basic, repeat } = this.props
-        let meds = repeat.remedies
+        const { basic, repeat } = this.props
+        const meds = repeat.remedies
         let controlled = false;
         return (
             <Container basic={basic ? 1 : 0}>
+                <ConfirmDialog
+                    open={this.state.showConfirmModal}
+                    handleClose={this.handleClose.bind(this)}
+                    handleConfirm={this.handleConfirm.bind(this)}
+                    aria-labelledby="form-dialog-title"
+                    title='You have rejected a repeat item from the order'
+                    contentText='Please leave a note to the patient about your decision'
+                    {...this.props}
+                />
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
                         if (medication.medicine) {
