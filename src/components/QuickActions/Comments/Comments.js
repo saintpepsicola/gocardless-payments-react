@@ -33,11 +33,7 @@ export default class Comments extends React.Component {
 
     render() {
         const { comments } = this.props
-        const { 
-            noCommentsMessage,
-            sendingComment,
-            name
-        } = this.state
+        const { noCommentsMessage, sendingComment, name } = this.state
 
         return (
             <CommentBox disabled={sendingComment}>
@@ -50,7 +46,7 @@ export default class Comments extends React.Component {
 
                     {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
 
-                    <CommentField 
+                    <CommentField
                         handleChange={this.handleChange.bind(this)}
                         handleReply={this.handleReply.bind(this)}
                         value={name}
