@@ -36,7 +36,6 @@ class Search extends Component {
   }
 
   render() {
-    const showQuickReview = this.props.history.location.pathname === '/'
     return (
       <Container>
         <Flex>
@@ -69,10 +68,6 @@ export default withRouter(Search)
 // Styled Components
 const Container = styled.div`
   border-bottom: solid 1px #d3d3d3; 
-`
-
-const VerticalFlex = styled(Flex)`
-  height: 100%;
 `
 
 const IconTab = styled(Tab)`
