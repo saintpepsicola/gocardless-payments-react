@@ -6,6 +6,7 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import Button from '@material-ui/core/Button'
 
 class Search extends Component {
 
@@ -40,6 +41,11 @@ class Search extends Component {
     this.props.getRepeats(value === 1 ? true : false, 10)
   }
 
+  // This very simple logic can be removed once we have Profile Setting side nav
+  handleSupport() {
+    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.');
+  }
+
   render() {
     const { searchField } = this.props
     return (
@@ -60,6 +66,8 @@ class Search extends Component {
                 placeholder='SEARCH PATIENTS'
                 autoFocus={searchField}
               />}
+              <Box w={ 1 / 2 }></Box>
+              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
           </BoxContainer>
         </Flex>
       </Container >
@@ -105,4 +113,3 @@ const SearchBox = styled(TextField)`
     }
   }
 `
-
