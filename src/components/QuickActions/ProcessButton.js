@@ -70,6 +70,10 @@ const ProcessBtn = styled(Button)`
     font-weight: normal;
     color: #fff;
     height: 40px;
+    :hover {
+        background-color: ${props => buttonColor[props.label]};
+        opacity: 0.9;
+    }
 }
 `
 

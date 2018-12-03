@@ -12,10 +12,10 @@ let initialState = {
 }
 
 let podID = localStorage[`healthera_pod_id`]
-let token = localStorage['healthera_pod_token']
+let token = localStorage[`healthera_pod_token`]
 const clientID = process.env.REACT_APP_CLIENT_ID
 
-const headers = {
+let headers = {
     'Token': token,
     'crossDomain': true,
     'client-id': clientID
@@ -160,6 +160,8 @@ export const getRepeat = (repeatID) => {
 export const getRepeats = (active, pageSize = 10, page = 0) => {
     podID = localStorage[`healthera_pod_id`]
     token = localStorage['healthera_pod_token']
+    headers.Token = token
+    console.log(podID, token)
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
