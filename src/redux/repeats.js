@@ -20,7 +20,6 @@ if (process.env.NODE_ENV !== 'production') {
     localStorage[`healthera_pod_id`] = hcpodid
 }
 
-
 let podID = localStorage[`healthera_pod_id`]
 let token = localStorage[`healthera_pod_token`]
 const clientID = process.env.REACT_APP_CLIENT_ID
