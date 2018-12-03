@@ -24,7 +24,7 @@ export default class MedicationList extends React.Component {
     render() {
         let { basic, repeat } = this.props
         let meds = repeat.remedies
-        let controlled = false;
+        let controlled = false
         return (
             <Container basic={basic ? 1 : 0}>
                 {repeat && repeat.remedies && <List component="nav">
