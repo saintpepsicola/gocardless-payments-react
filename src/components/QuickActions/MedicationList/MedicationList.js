@@ -43,9 +43,9 @@ export default class MedicationList extends React.Component {
     }
 
     render() {
-        const { basic, repeat } = this.props
-        const meds = repeat.remedies
-        let controlled = false;
+        let { basic, repeat } = this.props
+        let meds = basic ? repeat.previous_order && repeat.previous_order.remedies : repeat.remedies
+        let controlled = false
         return (
             <Container basic={basic ? 1 : 0}>
                 <ConfirmDialog
