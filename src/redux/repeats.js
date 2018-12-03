@@ -1,7 +1,3 @@
-import Cookies from 'universal-cookie'
-
-const cookies = new Cookies()
-
 //GLOBALS
 // Initial State
 let initialState = {
@@ -15,8 +11,8 @@ let initialState = {
     repeatHistory: []
 }
 
-const podID = cookies.get(`healthera_pod_id`)
-const token = localStorage.getItem('healthera_pod_token');
+let podID = localStorage[`healthera_pod_id`]
+let token = localStorage['healthera_pod_token']
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 const headers = {
@@ -162,6 +158,8 @@ export const getRepeat = (repeatID) => {
 }
 
 export const getRepeats = (active, pageSize = 10, page = 0) => {
+    podID = localStorage[`healthera_pod_id`]
+    token = localStorage['healthera_pod_token']
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
