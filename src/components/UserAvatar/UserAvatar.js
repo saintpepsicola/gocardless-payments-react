@@ -20,7 +20,7 @@ export default class UserAvatar extends Component {
                     {/* <Box mr='15px'><Image alt='user-avatar' src={avatarSrc} /></Box> */}
                     <Box pt='6px'>
                         <Name variant='subtitle1'>{this.props.userName} • {this.props.podName}</Name>
-                        <Name logout={true} variant='subtitle2' onClick={this.handleLogout.bind(this)}>Log out</Name>
+                        <Name logout variant='subtitle2' onClick={this.handleLogout.bind(this)}>Log out</Name>
                     </Box>
                 </Flex>
             </Avatar>
