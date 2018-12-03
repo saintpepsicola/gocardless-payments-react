@@ -20,6 +20,9 @@ class Search extends Component {
 
   handleBlur = () => {
     this.setState({ searchField: false })
+    const rowsPerPage = 10
+    this.props.toggleRepeats(1)
+    this.props.getRepeats(true, rowsPerPage)
   }
 
   handleChange = (e) => {
@@ -27,7 +30,7 @@ class Search extends Component {
   }
 
   handleTabChange = (e, value) => {
-    const rowsPerPage = 10;
+    const rowsPerPage = 10
     this.setState({ searchField: value === 0 ? true : false })
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.toggleRepeats(value)
