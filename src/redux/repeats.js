@@ -160,6 +160,7 @@ export const getRepeat = (repeatID) => {
 export const getRepeats = (active, pageSize = 10, page = 0) => {
     podID = localStorage[`healthera_pod_id`]
     token = localStorage['healthera_pod_token']
+    console.log(podID, token)
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
