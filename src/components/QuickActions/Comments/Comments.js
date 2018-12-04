@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import CommentField from './CommentField';
+import CommentField from './CommentField'
+import ScrollToBottom from 'react-scroll-to-bottom'
 
 export default class Comments extends React.Component {
 
@@ -37,22 +38,24 @@ export default class Comments extends React.Component {
 
         return (
             <CommentBox disabled={sendingComment}>
-                <div>
-                    <Title>NOTES</Title>
-                    {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
-                        <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
-                        <p>{comment.comment}</p>
-                    </Comment>)}
+                <ScrollToBottom>
+                    <div>
+                        <Title>NOTES</Title>
+                        {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
+                            <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
+                            <p>{comment.comment}</p>
+                        </Comment>)}
 
-                    {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
+                        {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
 
-                    <CommentField
-                        handleChange={this.handleChange.bind(this)}
-                        handleReply={this.handleReply.bind(this)}
-                        value={name}
-                    />
+                        <CommentField
+                            handleChange={this.handleChange.bind(this)}
+                            handleReply={this.handleReply.bind(this)}
+                            value={name}
+                        />
 
-                </div>
+                    </div>
+                </ScrollToBottom>
             </CommentBox>
         )
     }
@@ -67,17 +70,17 @@ const CommentBox = styled.div`
         max-width:100%;
         line-height:1.5;
 
-    & > div {
+    & > div > div {
         overflow-y:auto;
         height:480px;
     }
 
-    & > div::-webkit-scrollbar {
+    & > div > div::-webkit-scrollbar {
         width:3px;
         background-color: #eeeeee;
     }
 
-    & > div::-webkit-scrollbar-thumb {
+    & > div > div::-webkit-scrollbar-thumb {
         background-color: #3d3d3d;
         border-radius:5px;
     } 
