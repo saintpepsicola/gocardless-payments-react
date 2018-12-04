@@ -27,7 +27,7 @@ class Search extends Component {
 
   handleBlur = () => {
     //Need to work on this
-    setTimeout(() => { this.props.toggleSearch(false) }, 400)
+    setTimeout(() => { this.props.toggleSearch(false) }, 200)
   }
 
   handleChange = (e) => {
@@ -38,7 +38,8 @@ class Search extends Component {
     this.props.changeTab(value)
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.resetPagination()
-    this.props.getRepeats(value === 1 ? true : false, 10)
+    if (value !== 0)
+      this.props.getRepeats(value === 1 ? true : false, 10)
   }
 
   handleSupport() {

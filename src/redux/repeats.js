@@ -232,7 +232,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false
+                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
             }
         case TOGGLE_SEARCH:
             return {
