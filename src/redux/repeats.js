@@ -9,7 +9,8 @@ let initialState = {
     rowsPerPage: 10,
     page: 0,
     repeatHistory: [],
-    searchField: false
+    searchField: false,
+    searchError: null
 }
 
 // Don't remove this until it's our LAST COMMIT
@@ -232,11 +233,11 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
+                ...state, repeatsFilter: action.payload.value, searchError: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
             }
         case TOGGLE_SEARCH:
             return {
-                ...state, searchField: action.payload.state
+                ...state, searchField: action.payload.state, searchError: null
             }
         case GET_REPEAT_HISTORY:
             return {
@@ -319,12 +320,14 @@ export default (state = initialState, action) => {
         case SEARCH_REPEATS:
             return {
                 ...state,
-                fetching: true
+                fetching: true,
+                searchError: null
             }
         case SEARCH_REPEATS_SUCCESS:
             return {
                 ...state,
                 repeats: action.payload.data.data,
+                searchError: action.payload.data.data.length === 0 ? 'No Results found' : null,
                 totalCount: action.payload.data.pagination.total_count,
                 rowsPerPage: action.payload.data.pagination.page_size,
                 fetching: false

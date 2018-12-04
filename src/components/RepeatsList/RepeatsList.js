@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow'
 import commentIcon from '../../resources/comment.png'
 import timeago from 'time-ago'
 import TablePagination from '@material-ui/core/TablePagination'
+import Chip from '@material-ui/core/Chip'
 
 class RepeatsList extends Component {
 
@@ -30,12 +31,13 @@ class RepeatsList extends Component {
         let { rowsPerPage } = this.props
         return (
             <div>
-                <Table>
+                {this.props.searchError && <SearchError label={this.props.searchError} />}
+                {this.props.repeats.length !== 0 && <Table>
                     <TableHead>
                         <TableRow>
                             <Header>Patient Name</Header>
                             <Header>Order</Header>
-                            <Header>Date</Header>
+                            <Header>Order Date</Header>
                             <Header>Status</Header>
                             <Header></Header>
                         </TableRow>
@@ -73,7 +75,7 @@ class RepeatsList extends Component {
                             )
                         })}
                     </CompletedOrders>
-                </Table>
+                </Table>}
                 {/* <Pagination {...this.props} /> */}
                 {this.props.repeats.length !== 0 && <TablePagination
                     component='div'
@@ -103,6 +105,10 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
+const SearchError = styled(Chip)`
+    margin:16px 0;
+`
+
 const OrderRow = styled(TableRow)`
     height:66px !important;
     cursor:pointer;

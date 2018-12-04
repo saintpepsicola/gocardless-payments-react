@@ -8,7 +8,8 @@ const mapStateToProps = (state) => ({
     totalCount: state.repeats.totalCount,
     rowsPerPage: state.repeats.rowsPerPage,
     repeatsFilter: state.repeats.repeatsFilter,
-    page: state.repeats.page
+    page: state.repeats.page,
+    searchError: state.repeats.searchError
 })
 
 export default connect(mapStateToProps, actions)(RepeatsList) 
