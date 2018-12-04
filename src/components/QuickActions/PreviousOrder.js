@@ -4,15 +4,27 @@ import styled from 'styled-components'
 
 export default class PreviousOrder extends React.Component {
     render() {
+        const { repeat: { previous_order } } = this.props
+        let previousOrderDate = null
+        if (previous_order) {
+            previousOrderDate = new Date(Number(previous_order.date_created))
+        }
         return (
             <Container>
                 <Title>PREVIOUS ORDER</Title>
                 <MedicationList basic />
-                <ApprovedBy>Approved by John Appleseed - 22/10/2019</ApprovedBy>
+                {previousOrderDate && <OrderDate>Order Date: {previousOrderDate && previousOrderDate.toLocaleDateString()}</OrderDate>}
             </Container>
         )
     }
 }
+
+const OrderDate = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+  color: #9e9e9e;
+  text-align:right;
+`
 
 const Container = styled.div`
 position:relative;
@@ -23,13 +35,4 @@ const Title = styled.h1`
 font-size: 18px;
 font-weight: 900;
 color: #4a4a4a;
-`
-
-const ApprovedBy = styled.p`
-position:absolute;
-bottom:16px;
-font-size: 12px;
-font-weight: 600;
-margin:0;
-color: #9e9e9e;
 `

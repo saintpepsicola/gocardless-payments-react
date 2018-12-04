@@ -7,6 +7,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
+import OrderHistory from './OrderHistory'
 
 class OrderDetails extends React.Component {
 
@@ -16,16 +17,23 @@ class OrderDetails extends React.Component {
     }
 
     render() {
-        //console.log(this.props.repeat && this.props.repeat.patient, this.props.repeat)
-        let { repeat, fetching, patient } = this.props
+        let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
+        let { repeat, fetching } = this.props
+        let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
         return (
             <div>
                 {!fetching && repeat && <div>
                     <Panel defaultExpanded>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <PanelTitle>
-                                {repeat.patient_forename} {repeat.patient_surname}
-                            </PanelTitle>
+                            <div>
+                                <PanelTitle>
+                                    {dependent && `${dependent.forename} ${dependent.surname}`}
+                                    {!dependent && `${repeat.patient_forename} ${repeat.patient_surname}`}
+                                </PanelTitle>
+                                {dependent && <PanelSubTitle>
+                                    {`Ordered by ${repeat.patient_forename} ${repeat.patient_surname}`}
+                                </PanelSubTitle>}
+                            </div>
                         </ExpansionPanelSummary>
                         <Content>
                             <PatientDetails pl='24px' pr='24px' pt='8'>
@@ -34,23 +42,31 @@ class OrderDetails extends React.Component {
                                     <Flex m='0'>
                                         <Box w='90px'>
                                             <p>NHS:</p>
+                                            <p>Gender:</p>
+                                            <p>Birthday:</p>
                                             <p>E-mail:</p>
                                             <p>Tel:</p>
-                                            <p>Mob:</p>
                                         </Box>
                                         <Box w='249px'>
-                                            <p>{repeat.patient.nhs_number}</p>
-                                            <p>{repeat.patient.username}</p>
-                                            <p>{repeat.patient.telephone}</p>
-                                            <p>{repeat.patient.telephone}</p>
+                                            <p>{patient.nhs_number ? patient.nhs_number : '_'}</p>
+                                            <p>{patient.gender ? patient.gender : '_'}</p>
+                                            <p> {timestampToDate(patient.birthday)}</p>
+                                            <p>{patient.username ? patient.username : '_'}</p>
+                                            <p>{patient.telephone ? patient.telephone : '_'}</p>
                                         </Box>
-                                        <Box w='100px'>
-                                            <Address>{repeat.patient.address}</Address>
+                                        <Box w='120px'>
+                                            {typeof patient.address !== 'object' && <Address>{patient.address}</Address>}
+                                            {typeof patient.address === 'object' && <Address>
+                                                {patient.address.address_line_1}<br />
+                                                {patient.address.address_line_2}<br />
+                                                {patient.address.city}<br />
+                                                {patient.address.postcode}<br />
+                                            </Address>}
                                         </Box>
                                     </Flex>
                                 </Box>
                                 <Box w={3 / 10} >
-                                    <Title>NOMINATED SURGERY</Title>
+                                    <Title>SURGERY</Title>
                                     <Flex>
                                         <Box>
                                             <Address>
@@ -79,53 +95,72 @@ class OrderDetails extends React.Component {
                         </Content>
                     </Panel>
                     <QuickActions />
+                    <OrderHistory {...this.props} />
                 </div>}
             </div>
         )
     }
 }
 
+const timestampToDate = (date) => {
+    let dob = new Date(date * 1000)
+    return dob.toLocaleString().split(',')[0]
+}
+
 export default withRouter(OrderDetails)
 
 const PanelTitle = styled.h3`
-width:100%;
-font-size:22px;
-color: #4a4a4a;
-margin:0;
+            width:100%;
+            font-size:22px;
+            color: #4a4a4a;
+            margin:0;
+            `
+
+const PanelSubTitle = styled.h5`
+    float: left;
+    width:100%;
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #7a7a7a;
+    margin: 5px 0px 0px 0px;
 `
 
 const Title = styled.h4`
-color: #575757;
-`
+            color: #575757;
+            `
 
 const Address = styled.p`
-white-space:pre-line;
-text-transform:uppercase;
-`
+            white-space:pre-line;
+            text-transform:uppercase;
+            `
 
 const PatientDetails = styled(Flex)`
-width:100%;
-&  p
-{
-    font-size:13px;
-    margin:0;
-    line-height:1.5;
-    color: #575757;
-}
-`
+            width:100%;
+            &  p
+            {
+                font-size: 13px;
+                margin:0;
+                line-height:1.5;
+                color: #575757;
+            }
+            `
 
 const Content = styled(ExpansionPanelDetails)`
-border-top: solid 1px #e4e3e3;
-&&
+            border-top: solid 1px #e4e3e3;
+            &&
 {
-    padding:0;
-}
-`
+                    padding: 0;
+            }
+            `
 
 const Panel = styled(ExpansionPanel)`
-&&
+            &&
 {
-    background:none;
-    box-shadow:none;
-}
-`
+                background: none;
+                box-shadow:none;
+            }
+            `

@@ -1,16 +1,13 @@
 
-# DEMO
-[Check it out!](https://healthera.github.io/healthera-portal)
+# Healthera Portal
 
+Initiated on 5 Nov 2018.
 
-## POD Client
+## POD Development
+[Check it out!](https://pod.84r.co)
 
+## POD Production
+[Check it out!](https://pod.healthera.co.uk)
 
-
-
-
-
-
-
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Release Plan
+[Confluence](https://healthera.atlassian.net/wiki/spaces/HEALTHERA/pages/3473435/POD+Release+Plan)

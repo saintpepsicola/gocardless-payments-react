@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
 import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import Button from '@material-ui/core/Button'
 
 class Search extends Component {
 
@@ -15,52 +15,63 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    this.props.getRepeats()
+    if (this.props) {
+      this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
+      this.interval = setInterval(() => this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage), 300000)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   handleBlur = () => {
-    this.setState({ searchField: false })
+    //Need to work on this
+    setTimeout(() => { this.props.toggleSearch(false) }, 200)
   }
 
   handleChange = (e) => {
-    //this.props.searchRepeats(e.target.value)
+    this.props.searchRepeats(e.target.value)
   }
 
   handleTabChange = (e, value) => {
-    this.setState({ searchField: value === 0 ? true : false })
+    this.props.changeTab(value)
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
-    this.props.toggleRepeats(value)
+    this.props.resetPagination()
+    if (value !== 0)
+      this.props.getRepeats(value === 1 ? true : false, 10)
+  }
+
+  handleSupport() {
+    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
   }
 
   render() {
-    const showQuickReview = this.props.history.location.pathname === '/'
+    const { searchField } = this.props
     return (
       <Container>
         <Flex>
           <BoxContainer auto align='center'>
             <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
-              {!this.state.searchField && <Tab label={`Active (${this.props.activeRepeats})`} />}
-              {!this.state.searchField && <Tab label="Archive" />}
+              {!searchField && <Tab label='Active' />}
+              {!searchField && <Tab label='Archive' />}
             </Tabs>
-
             {/* SEARCHBOX */}
-            {this.state.searchField &&
+            {searchField &&
               <SearchBox
                 onBlur={this.handleBlur}
-                InputProps={{
-                  disableUnderline: true,
-                }}
+                InputProps={{ disableUnderline: true }}
                 onChange={this.handleChange.bind(this)}
                 placeholder='SEARCH PATIENTS'
-                autoFocus={this.state.searchField}
+                autoFocus={searchField}
               />}
           </BoxContainer>
-          {!this.state.searchField && showQuickReview && <Box align='center' justify='center' w='127px'>
+          <Box w='92px'>
             <VerticalFlex >
-              <Button>QUICK REVIEW</Button>
+              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
             </VerticalFlex>
-          </Box>}
+          </Box>
         </Flex>
       </Container >
     )
@@ -74,15 +85,14 @@ const Container = styled.div`
   border-bottom: solid 1px #d3d3d3; 
 `
 
-const VerticalFlex = styled(Flex)`
-  height: 100%;
-`
-
 const IconTab = styled(Tab)`
 &&
 {
   min-width:45px;
 }
+`
+const VerticalFlex = styled(Flex)`
+  height: 100%;
 `
 
 const BoxContainer = styled(Box)`
@@ -109,4 +119,3 @@ const SearchBox = styled(TextField)`
     }
   }
 `
-

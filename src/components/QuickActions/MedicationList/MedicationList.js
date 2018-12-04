@@ -7,28 +7,70 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
 import OffIcon from '@material-ui/icons/HighlightOff'
+import controlledIcon from '../../../resources/controlled_med@1x.svg'
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 
 export default class MedicationList extends React.Component {
 
-    handleToggle(i) {
-        this.props.toggleMedication(i)
+    state = {
+        showConfirmModal: false
+    }
+
+    handleConfirm() {
+        const { repeat } = this.props;
+        const { confirmMedication } = this.state;
+        this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
+        this.setState({
+            showConfirmModal: false,
+            confirmMedication: null
+        });
+    }
+
+    handleClose() {
+        this.setState({ showConfirmModal: false });
+    }
+
+    handleToggle(podID, repeat, remedy) {
+        if (remedy.approved) {
+            this.setState({
+                showConfirmModal: true,
+                confirmMedication: remedy
+            });
+        }
+        else {
+            this.props.toggleMedication(podID, repeat.repeat_id, remedy)
+        }
     }
 
     render() {
-        // console.log(this.props)
         let { basic, repeat } = this.props
-        let meds = repeat.remedies
+        let meds = basic ? repeat.previous_order ? repeat.previous_order.remedies : [] : repeat.remedies
+        let controlled = false
         return (
             <Container basic={basic ? 1 : 0}>
+                <ConfirmDialog
+                    open={this.state.showConfirmModal}
+                    handleClose={this.handleClose.bind(this)}
+                    handleConfirm={this.handleConfirm.bind(this)}
+                    aria-labelledby="form-dialog-title"
+                    title='You have rejected a repeat item from the order'
+                    contentText='Please leave a note to the patient about your decision'
+                    {...this.props}
+                />
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
+                        if (medication.medicine) {
+                            controlled = medication.medicine.controlled
+                        }
                         return (
-                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, i)} key={i} divider >
-                                <ListItemText primary={`${i + 1}. ${medication.medicine_name}`} />
-                                {!basic &&
+                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                {
+                                    !basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
-                                    </ListItemIcon>}
+                                    </ListItemIcon>
+                                }
                             </Medicine>
                         )
                     })}
@@ -38,13 +80,29 @@ export default class MedicationList extends React.Component {
     }
 }
 
+const MedicineItem = styled(ListItemText)`
+  &::after
+  {
+    content: '';
+    width: 21px;
+    height: 21px;
+    bottom: -4px;
+    position: relative;
+    display:${props => props.controlled ? 'inline-block' : 'none'};
+    margin-left: 8px;
+    background-image: url(${controlledIcon});
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+`
+
 const Container = styled(Flex)`
     width:100%;
     &>nav
     {
         width:100%;
         height:360px;
-        overflow-y:scroll;
+        overflow-y:auto;
         padding-right:30px;
     }
 
@@ -68,9 +126,15 @@ const Medicine = styled(ListItem)`
 &&
 {
     padding-right:0;
-    svg
+    span
     {
-        margin-right:-23px;
+        display:inline-block;
+    }
+
+    &:hover
+    {
+        background-color:#ededed;
+        cursor:pointer;
     }
 }
 `

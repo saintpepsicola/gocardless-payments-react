@@ -6,6 +6,7 @@ import headerBackground from '../../resources/header-bg.png'
 import { Flex, Box } from 'reflexbox'
 
 export default class AppBar extends Component {
+
     render() {
         return (
             <FullWidthBlueBar>
@@ -19,7 +20,7 @@ export default class AppBar extends Component {
 }
 
 const Container = styled(Flex)`
-  width:1100px;
+  max-width:1100px;
   height:100%;
   margin:0 auto;
   box-sizing:border-box;

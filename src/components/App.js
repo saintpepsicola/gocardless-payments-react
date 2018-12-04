@@ -3,7 +3,8 @@ import AppBar from './AppBar/AppBarContainer'
 import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ProtectedRoutes } from './Routes/ProtectedRoutes'
-import ProgressSpinner from './ProgressSpinner/ProgressSpinnerContainer';
+import ProgressSpinner from './ProgressSpinner/ProgressSpinnerContainer'
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 class App extends Component {
   render() {
@@ -26,5 +27,5 @@ export default App
 // Styled Components
 const Container = styled.section`
       margin:0 auto;
-      width:1100px;
+      max-width:1100px;
 `
