@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -47,8 +48,7 @@ class OrderHistory extends Component {
                       <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                       <TableCell><FormattedDate date={row.timestamp} /></TableCell>
                       <Status>{row.gp_status}</Status>
-                      <TableCell>
-                      </TableCell>
+                      <TableCell>{<ArrowRight />}</TableCell>
                     </OrderRow>
                   )
                 })}
@@ -141,5 +141,12 @@ const Panel = styled(ExpansionPanel)`
       background: none;
       box-shadow:none;
       padding-bottom: 50px;
+    }
+`
+
+const ArrowRight = styled(KeyboardArrowRightRight)`
+  &&
+    {
+      color: #6E6E6E;
     }
 `
