@@ -4,14 +4,27 @@ import styled from 'styled-components'
 
 export default class PreviousOrder extends React.Component {
     render() {
+        const { repeat: { previous_order } } = this.props
+        let previousOrderDate = null
+        if (previous_order) {
+            previousOrderDate = new Date(Number(previous_order.date_created))
+        }
         return (
             <Container>
                 <Title>PREVIOUS ORDER</Title>
                 <MedicationList basic />
+                {previousOrderDate && <OrderDate>Order Date: {previousOrderDate && previousOrderDate.toLocaleDateString()}</OrderDate>}
             </Container>
         )
     }
 }
+
+const OrderDate = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+  color: #9e9e9e;
+  text-align:right;
+`
 
 const Container = styled.div`
 position:relative;

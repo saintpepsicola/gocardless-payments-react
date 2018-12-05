@@ -6,6 +6,7 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import Button from '@material-ui/core/Button'
 
 class Search extends Component {
 
@@ -14,15 +15,19 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    if (this.props)
+    if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
+      this.interval = setInterval(() => this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage), 300000)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   handleBlur = () => {
-    this.setState({ searchField: false })
-    const rowsPerPage = 10
-    this.props.toggleRepeats(1)
-    this.props.getRepeats(true, rowsPerPage)
+    //Need to work on this
+    setTimeout(() => { this.props.toggleSearch(false) }, 200)
   }
 
   handleChange = (e) => {
@@ -30,36 +35,43 @@ class Search extends Component {
   }
 
   handleTabChange = (e, value) => {
-    const rowsPerPage = 10
-    this.setState({ searchField: value === 0 ? true : false })
+    this.props.changeTab(value)
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
-    this.props.toggleRepeats(value)
     this.props.resetPagination()
-    this.props.getRepeats(value === 1 ? true : false, rowsPerPage)
+    if (value !== 0)
+      this.props.getRepeats(value === 1 ? true : false, 10)
+  }
+
+  handleSupport() {
+    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
   }
 
   render() {
+    const { searchField } = this.props
     return (
       <Container>
         <Flex>
           <BoxContainer auto align='center'>
             <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
-              {!this.state.searchField && <Tab label='Active' />}
-              {!this.state.searchField && <Tab label='Archive' />}
+              {!searchField && <Tab label='Active' />}
+              {!searchField && <Tab label='Archive' />}
             </Tabs>
             {/* SEARCHBOX */}
-            {this.state.searchField &&
+            {searchField &&
               <SearchBox
                 onBlur={this.handleBlur}
-                InputProps={{
-                  disableUnderline: true,
-                }}
+                InputProps={{ disableUnderline: true }}
                 onChange={this.handleChange.bind(this)}
                 placeholder='SEARCH PATIENTS'
-                autoFocus={this.state.searchField}
+                autoFocus={searchField}
               />}
           </BoxContainer>
+          <Box w='92px'>
+            <VerticalFlex >
+              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
+            </VerticalFlex>
+          </Box>
         </Flex>
       </Container >
     )
@@ -78,6 +90,9 @@ const IconTab = styled(Tab)`
 {
   min-width:45px;
 }
+`
+const VerticalFlex = styled(Flex)`
+  height: 100%;
 `
 
 const BoxContainer = styled(Box)`
@@ -104,4 +119,3 @@ const SearchBox = styled(TextField)`
     }
   }
 `
-

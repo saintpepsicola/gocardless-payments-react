@@ -10,7 +10,7 @@ export default class SidePanel extends React.Component {
     return (
       <PanelContainer className='side-panel' panels={this.props.panels}>
         <Panel> <Comments /></Panel>
-        <Panel> <PreviousOrder /> </Panel>
+        <Panel> <PreviousOrder {...this.props} /> </Panel>
       </PanelContainer>
     )
   }
