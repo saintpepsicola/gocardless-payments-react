@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -18,6 +19,12 @@ class OrderHistory extends Component {
     const podID = repeat.pod_id
     const patientID = repeat.patient_id
     this.props.getRepeatHistory(podID, patientID)
+  }
+
+  handleSelect(repeatID) {
+    this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
+    this.props.getRepeat(repeatID)
+    this.props.changeTab(3)           
   }
 
   render() {
@@ -43,7 +50,7 @@ class OrderHistory extends Component {
               <RepeatHistoryOrders>
                 {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                   return (
-                    <OrderRow key={index}>
+                    <OrderRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
                       <PatientName>{row.patient_forename || repeat.patient_forename} {row.patient_surname || repeat.patient_surname}</PatientName>
                       <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                       <TableCell><FormattedDate date={row.timestamp} /></TableCell>
@@ -61,7 +68,7 @@ class OrderHistory extends Component {
   }
 }
 
-export default OrderHistory
+export default withRouter(OrderHistory)
 
 const FormattedDate = (props) => {
   return (
@@ -81,6 +88,7 @@ const OrderRow = styled(TableRow)`
     {
         color:#282828;
         font-size: 16px;
+        cursor: pointer;
     } 
 `
 
