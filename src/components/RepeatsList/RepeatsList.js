@@ -10,8 +10,12 @@ import commentIcon from '../../resources/comment.png'
 import timeago from 'time-ago'
 import TablePagination from '@material-ui/core/TablePagination'
 import Chip from '@material-ui/core/Chip'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
+
+    state = { sort: false }
 
     componentDidMount() {
         this.setState({ page: this.props.page - 1 })
@@ -26,12 +30,17 @@ class RepeatsList extends Component {
 
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
-        if(this.props.searchTerm) {
+        if (this.props.searchTerm) {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
+            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.state.sort ? 'date_created:asc' : 'date_created:desc')
         }
+    }
+
+    toggleOrderDate() {
+        this.setState({ sort: !this.state.sort })
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.state.sort ? 'date_created:asc' : 'date_created:desc')
     }
 
     render() {
@@ -44,7 +53,10 @@ class RepeatsList extends Component {
                         <TableRow>
                             <Header>Patient Name</Header>
                             <Header>Order</Header>
-                            <Header>Order Date</Header>
+                            <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
+                                {!this.state.sort && <ExpandLessIcon />}
+                                {this.state.sort && <ExpandMoreIcon />}
+                            </DateCreatedHeader>
                             <Header>Status</Header>
                             <Header></Header>
                         </TableRow>
@@ -155,7 +167,16 @@ const Header = styled(TableCell)`
         font-size:16px;
         color: #b0b0b0;
         border:0;
+        position: relative;
     }
+
+    && svg {
+        position: absolute;
+    }	    
+`
+
+const DateCreatedHeader = styled(Header)`
+    cursor: pointer;
 `
 
 const PatientName = styled(TableCell)`

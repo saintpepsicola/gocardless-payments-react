@@ -34,7 +34,6 @@ let initialState = {
     repeatHistory: [],
     searchField: false,
     searchError: null,
-    firebaseRepeats: [],
     searchTerm: null
 }
 
@@ -232,7 +231,7 @@ export const getRepeat = (repeatID) => {
     })
 }
 
-export const getRepeats = (active, pageSize = 10, page = 0) => {
+export const getRepeats = (active, pageSize = 10, page = 0, sort = 'date_created:desc') => {
     podID = localStorage[`healthera_pod_id`]
     token = localStorage[`healthera_pod_token`]
     firebasePOD = db.collection('pods').doc(podID).collection('repeats')
@@ -241,7 +240,7 @@ export const getRepeats = (active, pageSize = 10, page = 0) => {
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}`,
                 headers: headers
             }
         }
@@ -428,7 +427,6 @@ export default (state = initialState, action) => {
             let newRepeats = state.repeats
             state.repeats.forEach(repeat => repeat.lock = false)
             action.payload.forEach(repeat => {
-                let { repeat_id, patient_forename } = repeat.data()
                 let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat.data().repeat_id)
                 if (state.repeats[result])
                     state.repeats[result].lock = true
