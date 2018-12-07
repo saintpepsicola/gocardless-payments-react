@@ -46,7 +46,7 @@ class RepeatsList extends Component {
                     </TableHead>
                     {/* PENDING ORDERS */}
                     <PendingOrders>
-                        {this.props.activeRepeats && this.props.activeRepeats.filter(repeat => repeat.gp_status === 'delivered')
+                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
                             .map((row, index) => {
                                 return (
                                     <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>

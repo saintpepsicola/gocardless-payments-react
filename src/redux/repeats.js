@@ -422,19 +422,16 @@ export default (state = initialState, action) => {
                 ...state
             }
         case GET_REPEATS_FROM_FIREBASE:
-            console.log('heeeeyy from firebase')
             let newRepeats = state.repeats
+            state.repeats.forEach(repeat => repeat.lock = false)
             action.payload.forEach(repeat => {
+                let { repeat_id, patient_forename } = repeat.data()
                 let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat.data().repeat_id)
-                console.log(result)
-                //console.log(newRepeats.length)
-                if (newRepeats.length !== 0 && result)
-                    newRepeats[result].lock = true
-                console.log(newRepeats.filter(x => x.lock))
+                if (state.repeats[result])
+                    state.repeats[result].lock = true
             })
-
             return {
-                ...state, repeats: state.repeats, activeRepeats: newRepeats
+                ...state, repeats: [...state.repeats]
             }
         case GET_REPEATS:
             return {
