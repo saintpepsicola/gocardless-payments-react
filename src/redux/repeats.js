@@ -35,6 +35,7 @@ let initialState = {
     searchField: false,
     searchError: null,
     firebaseRepeats: []
+    searchTerm: null
 }
 
 // Don't remove this until it's our LAST COMMIT
@@ -247,12 +248,12 @@ export const getRepeats = (active, pageSize = 10, page = 0) => {
     })
 }
 
-export const searchRepeats = (name) => {
+export const searchRepeats = (name, pageSize = 10, page = 0) => {
     return ({
         types: [SEARCH_REPEATS, SEARCH_REPEATS_SUCCESS, SEARCH_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/patients/search`,
+                url: `/pods/${podID}/patients/search?page=${page + 1}&page_size=${pageSize}`,
                 method: 'POST',
                 data: { name: name },
                 headers: headers
@@ -278,7 +279,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchError: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
+                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
             }
         case TOGGLE_SEARCH:
             return {
@@ -366,13 +367,15 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 fetching: true,
-                searchError: null
+                searchError: null,
+                searchTerm: action.payload.request.data.name
             }
         case SEARCH_REPEATS_SUCCESS:
             return {
                 ...state,
                 repeats: action.payload.data.data,
                 searchError: action.payload.data.data.length === 0 ? 'No Results found' : null,
+                searchTerm: action.payload.data.pagination.search_term,
                 totalCount: action.payload.data.pagination.total_count,
                 rowsPerPage: action.payload.data.pagination.page_size,
                 fetching: false

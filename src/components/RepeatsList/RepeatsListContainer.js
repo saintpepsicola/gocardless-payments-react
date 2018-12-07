@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
     repeatsFilter: state.repeats.repeatsFilter,
     page: state.repeats.page,
     searchError: state.repeats.searchError,
-    pods: state.firestore
+    searchTerm: state.repeats.searchTerm
 })
 
 export default connect(mapStateToProps, actions)(RepeatsList)
