@@ -432,7 +432,7 @@ export default (state = initialState, action) => {
                     state.repeats[result].lock = true
             })
             return {
-                ...state, repeats: [...state.repeats]
+                ...state, repeats: [...state.repeats], lockedRepeats: action.payload
             }
         case GET_REPEATS:
             return {
@@ -443,7 +443,7 @@ export default (state = initialState, action) => {
             let repeats = action.payload.data.data
             //Add active repeats to firebase
             repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
-                return firebasePOD.doc(repeat.repeat_id).set({ ...repeat }, { merge: true })
+                return firebasePOD.doc(repeat.repeat_id).set({ ...repeat })
             })
             return {
                 ...state,

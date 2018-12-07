@@ -14,6 +14,9 @@ class OrderDetails extends React.Component {
     componentDidMount() {
         // Get a single Repeat
         this.props.getRepeat(this.props.match.params.orderID)
+        window.addEventListener("beforeunload", event => {
+            this.props.unlockRepeat(this.props.repeat.repeat_id)
+        })
     }
 
     componentWillUnmount() {
