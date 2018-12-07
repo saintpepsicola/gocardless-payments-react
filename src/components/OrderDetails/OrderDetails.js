@@ -17,7 +17,6 @@ class OrderDetails extends React.Component {
     }
 
     componentWillUnmount() {
-        //console.log(this.props)
         this.props.unlockRepeat(this.props.repeat.repeat_id)
     }
     render() {
