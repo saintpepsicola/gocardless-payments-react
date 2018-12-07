@@ -15,10 +15,12 @@ class RepeatsList extends Component {
 
     componentDidMount() {
         this.setState({ page: this.props.page - 1 })
+        this.props.getRepeatsFromFirebase()
     }
 
     handleSelect(repeatID) {
         this.props.toggleSearch(false)
+        this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
 
@@ -44,7 +46,7 @@ class RepeatsList extends Component {
                     </TableHead>
                     {/* PENDING ORDERS */}
                     <PendingOrders>
-                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
+                        {this.props.activeRepeats && this.props.activeRepeats.filter(repeat => repeat.gp_status === 'delivered')
                             .map((row, index) => {
                                 return (
                                     <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
@@ -54,6 +56,7 @@ class RepeatsList extends Component {
                                         <Status>Pending</Status>
                                         <TableCell>
                                             {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                            {row.lock && <Chip label="Being viewed" variant="outlined" />}
                                         </TableCell>
                                     </OrderRow>
                                 )

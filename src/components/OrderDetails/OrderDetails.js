@@ -16,6 +16,11 @@ class OrderDetails extends React.Component {
         this.props.getRepeat(this.props.match.params.orderID)
     }
 
+    componentWillUnmount() {
+        //console.log(this.props)
+        this.props.unlockRepeat(this.props.repeat.repeat_id)
+    }
+
     render() {
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
