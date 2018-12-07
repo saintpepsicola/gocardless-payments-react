@@ -34,7 +34,7 @@ let initialState = {
     repeatHistory: [],
     searchField: false,
     searchError: null,
-    firebaseRepeats: []
+    firebaseRepeats: [],
     searchTerm: null
 }
 
