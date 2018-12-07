@@ -24,11 +24,18 @@ class RepeatsList extends Component {
 
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
+        console.log(this.props.searchTerm)
+        if(this.props.searchTerm) {
+            this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
+        }
+        else {
+            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page)
+        }
     }
 
     render() {
         let { rowsPerPage } = this.props
+        console.log(this.props.searchTerm);
         return (
             <div>
                 {this.props.searchError && <SearchError label={this.props.searchError} />}
