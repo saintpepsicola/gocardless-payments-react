@@ -24,7 +24,6 @@ class RepeatsList extends Component {
 
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
-        console.log(this.props.searchTerm)
         if(this.props.searchTerm) {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
@@ -35,7 +34,6 @@ class RepeatsList extends Component {
 
     render() {
         let { rowsPerPage } = this.props
-        console.log(this.props.searchTerm);
         return (
             <div>
                 {this.props.searchError && <SearchError label={this.props.searchError} />}
