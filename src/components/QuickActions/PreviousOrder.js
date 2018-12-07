@@ -1,6 +1,7 @@
 import React from 'react'
 import MedicationList from './MedicationList/MedicationListContainer'
 import styled from 'styled-components'
+import timeago from 'time-ago'
 
 export default class PreviousOrder extends React.Component {
     render() {
@@ -13,10 +14,14 @@ export default class PreviousOrder extends React.Component {
             <Container>
                 <Title>PREVIOUS ORDER</Title>
                 <MedicationList basic />
-                {previousOrderDate && <OrderDate>Order Date: {previousOrderDate && previousOrderDate.toLocaleDateString()}</OrderDate>}
+                {previousOrderDate && <OrderDate>Order Date: {previousOrderDate && previousOrderDate.toLocaleDateString()} • <FormattedDate date={previousOrderDate} /> </OrderDate>}
             </Container>
         )
     }
+}
+
+const FormattedDate = (props) => {
+    return timeago.ago(Number(props.date))
 }
 
 const OrderDate = styled.div`
