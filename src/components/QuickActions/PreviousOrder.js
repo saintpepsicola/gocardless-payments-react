@@ -13,6 +13,7 @@ export default class PreviousOrder extends React.Component {
         return (
             <Container>
                 <Title>PREVIOUS ORDER</Title>
+                {!previousOrderDate && <p>This is the first order for this patient!</p>}
                 <MedicationList basic />
                 {previousOrderDate && <OrderDate>Order Date: {previousOrderDate && previousOrderDate.toLocaleDateString()} • <FormattedDate date={previousOrderDate} /> </OrderDate>}
             </Container>

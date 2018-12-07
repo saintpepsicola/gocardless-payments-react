@@ -73,7 +73,7 @@ class RepeatsList extends Component {
                                         <Status>Pending</Status>
                                         <TableCell>
                                             {row.comment && <img alt='repeat comment' src={commentIcon} />}
-                                            {row.lock && <Chip label="Being viewed" variant="outlined" />}
+                                            {row.lock && <Chip label="Under Review" variant="outlined" />}
                                         </TableCell>
                                     </OrderRow>
                                 )
