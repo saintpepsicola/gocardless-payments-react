@@ -19,7 +19,6 @@ class RepeatsList extends Component {
 
     componentDidMount() {
         this.setState({ page: this.props.page - 1 })
-        this.props.getRepeatsFromFirebase()
     }
 
     handleSelect(repeatID) {
