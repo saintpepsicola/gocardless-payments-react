@@ -11,17 +11,20 @@ import OrderHistory from './OrderHistory'
 
 class OrderDetails extends React.Component {
 
-    componentDidMount() {
-        // Get a single Repeat
-        this.props.getRepeat(this.props.match.params.orderID)
-        window.addEventListener("beforeunload", event => {
+    constructor(props) {
+        super(props)
+        // Remove Under Review on route change
+        this.props.history.listen((location, action) => {
             this.props.unlockRepeat(this.props.repeat.repeat_id)
         })
     }
 
-    componentWillUnmount() {
-        this.props.unlockRepeat(this.props.repeat.repeat_id)
+    async componentDidMount() {
+        // Get a single Repeat
+        await this.props.getRepeat(this.props.match.params.orderID)
+        this.props.lockRepeat(this.props.repeat.repeat_id)
     }
+
     render() {
 
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
