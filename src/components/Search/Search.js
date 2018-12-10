@@ -17,7 +17,11 @@ class Search extends Component {
   componentDidMount() {
     if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
-      this.interval = setInterval(() => this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage), 300000)
+      this.interval = setInterval(() => {
+        if(!this.props.searchTerm) {
+          this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
+        }
+      }, 300000)
     }
   }
 
@@ -52,7 +56,7 @@ class Search extends Component {
       <Container>
         <Flex>
           <BoxContainer auto align='center'>
-            <Tabs value={this.props.repeatsFilter} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
+            <Tabs value={this.props.repeatsFilter <= 2 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
               {!searchField && <Tab label='Active' />}
               {!searchField && <Tab label='Archive' />}

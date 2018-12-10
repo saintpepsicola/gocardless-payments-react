@@ -52,18 +52,18 @@ export default class MedicationList extends React.Component {
                     open={this.state.showConfirmModal}
                     handleClose={this.handleClose.bind(this)}
                     handleConfirm={this.handleConfirm.bind(this)}
-                    aria-labelledby="form-dialog-title"
+                    aria-labelledby='form-dialog-title'
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
-                />
+                    />
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
                         if (medication.medicine) {
                             controlled = medication.medicine.controlled
                         }
                         return (
-                            <Medicine onClick={basic ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine onClick={basic || repeat.gp_status !== 'delivered' ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {
                                     !basic &&

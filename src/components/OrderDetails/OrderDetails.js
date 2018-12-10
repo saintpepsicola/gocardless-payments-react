@@ -14,9 +14,16 @@ class OrderDetails extends React.Component {
     componentDidMount() {
         // Get a single Repeat
         this.props.getRepeat(this.props.match.params.orderID)
+        window.addEventListener("beforeunload", event => {
+            this.props.unlockRepeat(this.props.repeat.repeat_id)
+        })
     }
 
+    componentWillUnmount() {
+        this.props.unlockRepeat(this.props.repeat.repeat_id)
+    }
     render() {
+
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
@@ -94,8 +101,9 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
+                    {this.props.repeatsFilter === 3 && <Title>ORDER HISTORY</Title>}
                     <QuickActions />
-                    <OrderHistory {...this.props} />
+                    {this.props.repeatsFilter !== 3 && <OrderHistory {...this.props} />}
                 </div>}
             </div>
         )
@@ -163,4 +171,4 @@ const Panel = styled(ExpansionPanel)`
                 background: none;
                 box-shadow:none;
             }
-            `
+`

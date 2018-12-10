@@ -1,3 +1,26 @@
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
+// // Initialize Firebase
+firebase.initializeApp({
+    apiKey: "AIzaSyDz-VMKi5TU8I7Juwy5dFWVKH4yvigXF2c",
+    authDomain: "healthera-pod.firebaseapp.com",
+    databaseURL: "https://healthera-pod.firebaseio.com",
+    projectId: "healthera-pod",
+    storageBucket: "healthera-pod.appspot.com"
+})
+
+// // Initialize Cloud Firestore through Firebase
+let db = firebase.firestore()
+
+// // Disable deprecated features
+db.settings({
+    timestampsInSnapshots: true
+})
+
+// // Firebase POD Collection
+let firebasePOD = null
+
 //GLOBALS
 // Initial State
 let initialState = {
@@ -10,7 +33,8 @@ let initialState = {
     page: 0,
     repeatHistory: [],
     searchField: false,
-    searchError: null
+    searchError: null,
+    searchTerm: null
 }
 
 // Don't remove this until it's our LAST COMMIT
@@ -36,6 +60,8 @@ let headers = {
 const GET_REPEATS = 'GET_REPEATS'
 const GET_REPEATS_SUCCESS = 'GET_REPEATS_SUCCESS'
 const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
+
+const GET_LOCKED_REPEATS_FROM_FIREBASE = 'GET_REPEATS_FROM_FIREBASE'
 
 // Single Repeat
 const GET_REPEAT = 'GET_REPEAT'
@@ -87,7 +113,26 @@ const GET_REPEAT_HISTORY = 'GET_REPEAT_HISTORY'
 const GET_REPEAT_HISTORY_SUCCESS = 'GET_REPEAT_HISTORY_SUCCESS'
 const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 
-// Action creators
+//Locking Repeats
+const LOCK_REPEAT = 'LOCK_REPEAT'
+const UNLOCK_REPEAT = 'UNLOCK_REPEAT'
+
+export const getRepeatsFromFirebase = () => {
+    return dispatch => {
+        firebasePOD.where('lock', '==', true).onSnapshot(querySnapshot => {
+            dispatch({ type: GET_LOCKED_REPEATS_FROM_FIREBASE, payload: querySnapshot })
+        })
+    }
+}
+
+export const lockRepeat = (repeatID) => {
+    return { type: LOCK_REPEAT, payload: { repeatID } }
+}
+
+export const unlockRepeat = (repeatID) => {
+    return { type: `UNLOCK_REPEAT`, payload: { repeatID } }
+}
+
 export const resetPagination = (page = 0) => {
     return { type: RESET_PAGE, payload: { page } }
 }
@@ -186,28 +231,38 @@ export const getRepeat = (repeatID) => {
     })
 }
 
-export const getRepeats = (active, pageSize = 10, page = 0) => {
+export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
     podID = localStorage[`healthera_pod_id`]
-    token = localStorage['healthera_pod_token']
+    token = localStorage[`healthera_pod_token`]
+    firebasePOD = db.collection('pods').doc(podID).collection('repeats')
     headers.Token = token
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}`,
                 headers: headers
             }
         }
     })
 }
 
+export const getRepeats = (active, pageSize = 10, page = 0, sort = 'date_created:desc') => {
+    return dispatch => {
+        Promise.all([
+            dispatch(getRepeatsfromAPI(active, pageSize, page, sort))
+        ]).then(() => {
+            dispatch(getRepeatsFromFirebase())
+        })
+    }
+}
 
-export const searchRepeats = (name) => {
+export const searchRepeats = (name, pageSize = 10, page = 0) => {
     return ({
         types: [SEARCH_REPEATS, SEARCH_REPEATS_SUCCESS, SEARCH_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/patients/search`,
+                url: `/pods/${podID}/patients/search?page=${page + 1}&page_size=${pageSize}`,
                 method: 'POST',
                 data: { name: name },
                 headers: headers
@@ -233,7 +288,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchError: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
+                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
             }
         case TOGGLE_SEARCH:
             return {
@@ -321,13 +376,15 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 fetching: true,
-                searchError: null
+                searchError: null,
+                searchTerm: action.payload.request.data.name
             }
         case SEARCH_REPEATS_SUCCESS:
             return {
                 ...state,
                 repeats: action.payload.data.data,
                 searchError: action.payload.data.data.length === 0 ? 'No Results found' : null,
+                searchTerm: action.payload.data.pagination.search_term,
                 totalCount: action.payload.data.pagination.total_count,
                 rowsPerPage: action.payload.data.pagination.page_size,
                 fetching: false
@@ -356,12 +413,48 @@ export default (state = initialState, action) => {
                 error: action.error,
                 fetching: false
             }
+        case UNLOCK_REPEAT:
+            firebasePOD.doc(action.payload.repeatID).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        firebasePOD.doc(action.payload.repeatID).update({ lock: false })
+                    }
+                })
+            return {
+                ...state
+            }
+        case LOCK_REPEAT:
+            firebasePOD.doc(action.payload.repeatID).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        firebasePOD.doc(action.payload.repeatID).update({ lock: true })
+                    }
+                })
+            return {
+                ...state
+            }
+        case GET_LOCKED_REPEATS_FROM_FIREBASE:
+            let newRepeats = state.repeats
+            state.repeats.forEach(repeat => repeat.lock = false)
+            action.payload.forEach(repeat => {
+                let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat.data().repeat_id)
+                if (state.repeats[result])
+                    state.repeats[result].lock = true
+            })
+            return {
+                ...state, repeats: [...state.repeats]
+            }
         case GET_REPEATS:
             return {
                 ...state,
                 repeats: []
             }
         case GET_REPEATS_SUCCESS:
+            let repeats = action.payload.data.data
+            //Add active repeats to firebase
+            repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
+                return firebasePOD.doc(repeat.repeat_id).set({ ...repeat }, { merge: true })
+            })
             return {
                 ...state,
                 repeats: action.payload.data.data,
