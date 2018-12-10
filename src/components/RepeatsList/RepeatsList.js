@@ -71,7 +71,7 @@ class RepeatsList extends Component {
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
                                         <TableCell>
-                                            {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                            {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                             {row.lock && <Chip label="Under Review" variant="outlined" />}
                                         </TableCell>
                                     </OrderRow>
@@ -124,6 +124,15 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
+const CommentFlag = styled.img`
+    &&
+    {
+        padding-right: 10px;
+        top: 5px;
+        position: relative;
+    }
+`
+
 const SearchError = styled(Chip)`
     margin:16px 0;
 `
