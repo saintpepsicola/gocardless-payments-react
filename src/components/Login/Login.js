@@ -19,6 +19,12 @@ export default class Login extends Component {
         this.props.login(username, password)
     }
 
+    handlePasswordReset() {
+        let email = prompt("What's your username?")
+        if (email)
+            this.props.resetPassword(email)
+    }
+
     render() {
         let { error, authenticated } = this.props
         if (authenticated)
@@ -46,6 +52,8 @@ export default class Login extends Component {
                         <LoginButton onClick={this.handleClick.bind(this)} variant="contained" color="primary" aria-label="Login" >
                             Login
                         </LoginButton>
+                        <Link onClick={this.handlePasswordReset.bind(this)}>Forgot Password</Link>
+                        <Link onClick={() => this.props.showSupportInfo()}>Support</Link>
                     </LoginBox>
                 </div>
             </Container>
@@ -75,10 +83,16 @@ const ErrorBox = styled.div`
     font-size: 12px;
 `
 
+const Link = styled.p`
+    font-size: 13px;
+    color: #256e92;
+    cursor:pointer;
+`
+
 const LogoImg = styled.img`
-            width: 210px;
-            height: 29px;
-            margin-bottom:16px;
+    width: 210px;
+    height: 29px;
+    margin-bottom:16px;
 `
 
 const LoginBox = styled.div`
@@ -94,7 +108,7 @@ const LoginButton = styled(Button)`
 &&  {
         width: 106px;
         margin:16px 0;
-        margin-top:73px;
+        margin-top:55px;
         border-radius: 24px;
         box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.3);
         background-color: #257195;
