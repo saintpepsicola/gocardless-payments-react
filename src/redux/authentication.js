@@ -58,10 +58,19 @@ export default (state = initialState, action) => {
             let result = null
             if (!action.payload.data.error) {
                 result = action.payload.data.data[0]
-                localStorage[`healthera_pod_token`] = result.token
-                localStorage[`healthera_pod_id`] = result.pod.pod_id
-                localStorage[`user_name`] = result.user.forename + ' ' + result.user.surname
-                localStorage[`healthera_pod_name`] = result.pod.pod_name
+                if (result.user && result.pod) {
+                    localStorage[`healthera_pod_token`] = result.token
+                    localStorage[`healthera_pod_id`] = result.pod.pod_id
+                    localStorage[`user_name`] = result.user.forename + ' ' + result.user.surname
+                    localStorage[`healthera_pod_name`] = result.pod.pod_name
+                }
+                else {
+                    return {
+                        ...state,
+                        loginError: `You are not a POD user`,
+                        authenticated: false
+                    }
+                }
             }
             return {
                 ...state,
