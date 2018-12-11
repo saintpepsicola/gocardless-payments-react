@@ -75,7 +75,6 @@ export default (state = initialState, action) => {
                 ...state
             }
         case LOGOUT_USER:
-            console.log(action)
             localStorage.removeItem(`healthera_pod_token`)
             return { ...state, authenticated: false }
         default:
