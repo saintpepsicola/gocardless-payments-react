@@ -37,14 +37,6 @@ let initialState = {
     searchTerm: null
 }
 
-// Don't remove this until it's our LAST COMMIT
-if (process.env.NODE_ENV !== 'production') {
-    let hctoken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjFlZmQyZDIwLWY2ZjEtMTFlOC1iNjJmLWU5YTEyNjBlMzYxYSIsImV4cCI6MTU1MjQ3NzYxMCwiaWF0IjoxNTQzODM3NjEwLCJ1c2VyX2lkIjoiMzE0MDdjZDAtN2I5YS0xMWU4LWExZTYtYzI3YTEzODYwMDRmIn0.C9GfyDE6WvWMvMWSw7I5To92CsQmBlfPYHCBpPkb9_I`
-    let hcpodid = `2c0a7fc0-8c09-11e8-9ff3-cb58e7e51351`
-    localStorage[`healthera_pod_token`] = hctoken
-    localStorage[`healthera_pod_id`] = hcpodid
-}
-
 let podID = localStorage[`healthera_pod_id`]
 let token = localStorage[`healthera_pod_token`]
 const clientID = process.env.REACT_APP_CLIENT_ID

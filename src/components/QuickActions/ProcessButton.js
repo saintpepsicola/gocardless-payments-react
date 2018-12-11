@@ -51,7 +51,7 @@ class ProcessButton extends React.Component {
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
                 />
-                <ProcessBtn disabled={this.props.disabled} label={this.props.label} onClick={this.handleClick.bind(this)} color="primary" variant="extendedFab" aria-label="Process" >
+                <ProcessBtn disabled={this.props.disabled} label={this.props.label} onClick={this.handleClick.bind(this)} color="primary" variant="contained" aria-label="Process" >
                     {this.props.label}
                 </ProcessBtn>
             </div>
@@ -65,6 +65,7 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
+    border-radius:24px;
     background-color: ${props => buttonColor[props.label]};
     font-size: 14px;
     font-weight: normal;
