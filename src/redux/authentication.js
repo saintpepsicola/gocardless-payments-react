@@ -6,9 +6,12 @@ const initialState = {
     // Check if Auth Token exists!
     authenticated: checkforAuthToken(),
     error: null,
-    userName: localStorage[`user_name`],
-    podName: localStorage[`healthera_pod_name`],
-    profilePage: false
+    userName: localStorage[`user_name`] ? localStorage[`user_name`] : null,
+    podName: localStorage[`healthera_pod_name`] ? localStorage[`healthera_pod_name`] : null,
+    podID: localStorage[`healthera_pod_id`] ? localStorage[`healthera_pod_id`] : null,
+    user: localStorage[`user`] ? JSON.parse(localStorage[`user`]) : null,
+    profilePage: false,
+    team: []
 }
 
 let headers = {
@@ -27,8 +30,14 @@ const LOGOUT_USER = 'LOGOUT_USER'
 const LOGIN_USER = 'LOGIN_USER'
 const LOGIN_USER_SUCCESS = `LOGIN_USER_SUCCESS`
 const LOGIN_USER_FAILURE = `LOGIN_USER_FAILURE`
+
+const GET_TEAM_MEMBERS = `GET_TEAM_MEMBERS`
+const GET_TEAM_MEMBERS_SUCCESS = `GET_TEAM_MEMBERS_SUCCESS`
+const GET_TEAM_MEMBERS_FAILURE = `GET_TEAM_MEMBERS_FAILURE`
+
 const SHOW_SUPPORT = `SHOW_SUPPORT`
 const SHOW_PROFILE = `SHOW_PROFILE`
+const CLOSE_PROFILE = `CLOSE_PROFILE`
 const PASSWORD_RESET = `PASSWORD_RESET`
 const PASSWORD_RESET_SUCCESS = `PASSWORD_RESET_SUCCESS`
 const PASSWORD_RESET_FAILURE = `PASSWORD_RESET_FAILURE`
@@ -36,6 +45,19 @@ const PASSWORD_RESET_FAILURE = `PASSWORD_RESET_FAILURE`
 // Action creators
 export const showSupportInfo = () => ({ type: SHOW_SUPPORT })
 export const showProfile = () => ({ type: SHOW_PROFILE })
+export const closeProfile = () => ({ type: CLOSE_PROFILE })
+
+export const getTeamMembers = (podID) => {
+    return ({
+        types: [GET_TEAM_MEMBERS, GET_TEAM_MEMBERS_SUCCESS, GET_TEAM_MEMBERS_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/users`,
+                headers: { ...headers, 'Token': localStorage[`healthera_pod_token`] }
+            }
+        }
+    })
+}
 
 export const resetPassword = (email) => {
     return ({
@@ -84,6 +106,24 @@ export default (state = initialState, action) => {
                 ...state,
                 profilePage: true
             }
+        case CLOSE_PROFILE:
+            return {
+                ...state,
+                profilePage: false
+            }
+        case GET_TEAM_MEMBERS:
+            return {
+                ...state
+            }
+        case GET_TEAM_MEMBERS_SUCCESS:
+            return {
+                ...state,
+                team: action.payload.data.data
+            }
+        case GET_TEAM_MEMBERS_FAILURE:
+            return {
+                ...state
+            }
         case PASSWORD_RESET:
             return {
                 ...state,
@@ -113,6 +153,7 @@ export default (state = initialState, action) => {
                     localStorage[`healthera_pod_token`] = result.token
                     localStorage[`healthera_pod_id`] = result.pod.pod_id
                     localStorage[`user_name`] = result.user.forename + ' ' + result.user.surname
+                    localStorage[`user`] = JSON.stringify(result.user)
                     localStorage[`healthera_pod_name`] = result.pod.pod_name
                 }
                 else {
@@ -129,7 +170,9 @@ export default (state = initialState, action) => {
                 authenticated: action.payload.data.data ? true : false,
                 userName: result ? result.user.forename + ' ' + result.user.surname : null,
                 podName: result ? result.pod.pod_name : null,
-                user: result ? result.user : null
+                podID: result ? result.pod.pod_id : null,
+                user: result ? result.user : null,
+                profilePage: false
             }
         case LOGIN_USER_FAILURE:
             return {
