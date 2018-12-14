@@ -48,7 +48,7 @@ export default class UserProfile extends Component {
                         <Subheader>Personal Information</Subheader>
 
                         <Info><span>Name:</span>{userName}</Info>
-                        <Info><span>Birthdate:</span><Birthdate dob={user.birthday} /></Info>
+                        <Info><span>Date of Birth:</span><Birthdate dob={user.birthday} /></Info>
 
                         <Subheader border>Account information</Subheader>
 
