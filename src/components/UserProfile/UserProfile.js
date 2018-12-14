@@ -42,7 +42,6 @@ export default class UserProfile extends Component {
                     </Links>
                 </SideBar>
                 <Content auto>
-
                     {/* PROFILE */}
                     {!this.state.teamMembers && <div>
                         <Header>Profile</Header>
@@ -61,7 +60,7 @@ export default class UserProfile extends Component {
                     {this.state.teamMembers && <div>
                         <Header>TEAM MEMBERS</Header>
                         <Scroll>
-                            {this.props.team.length !== 0 && this.props.team.map(member => {
+                            {this.props.team.length !== 0 && this.props.team.filter(member => member.user_id !== user.user_id).map(member => {
                                 return (<Member key={member.user_id}>{member.forename} {member.surname}
                                     <span>{member.username}</span>
                                 </Member>)
@@ -201,7 +200,7 @@ border-bottom:1px solid #dcdcdc;
     line-height: 1;
     padding-bottom: 18px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 15px;
     }
 }
 `
