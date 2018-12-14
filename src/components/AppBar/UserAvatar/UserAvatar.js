@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import { Flex, Box } from 'reflexbox'
-// import { Redirect } from 'react-router-dom'
 
 export default class UserAvatar extends Component {
 
