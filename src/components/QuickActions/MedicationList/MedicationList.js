@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
-import OffIcon from '@material-ui/icons/HighlightOff'
+import OffIcon from '@material-ui/icons/HighlightOffTwoTone'
 import controlledIcon from '../../../resources/controlled_med@1x.svg'
 import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 
@@ -56,7 +56,7 @@ export default class MedicationList extends React.Component {
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
-                    />
+                />
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
                         if (medication.medicine) {
