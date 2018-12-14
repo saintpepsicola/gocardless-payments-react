@@ -7,7 +7,8 @@ const initialState = {
     authenticated: checkforAuthToken(),
     error: null,
     userName: localStorage[`user_name`],
-    podName: localStorage[`healthera_pod_name`]
+    podName: localStorage[`healthera_pod_name`],
+    profilePage: false
 }
 
 let headers = {
@@ -27,12 +28,14 @@ const LOGIN_USER = 'LOGIN_USER'
 const LOGIN_USER_SUCCESS = `LOGIN_USER_SUCCESS`
 const LOGIN_USER_FAILURE = `LOGIN_USER_FAILURE`
 const SHOW_SUPPORT = `SHOW_SUPPORT`
+const SHOW_PROFILE = `SHOW_PROFILE`
 const PASSWORD_RESET = `PASSWORD_RESET`
 const PASSWORD_RESET_SUCCESS = `PASSWORD_RESET_SUCCESS`
 const PASSWORD_RESET_FAILURE = `PASSWORD_RESET_FAILURE`
 
 // Action creators
 export const showSupportInfo = () => ({ type: SHOW_SUPPORT })
+export const showProfile = () => ({ type: SHOW_PROFILE })
 
 export const resetPassword = (email) => {
     return ({
@@ -75,6 +78,11 @@ export default (state = initialState, action) => {
             alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
             return {
                 ...state
+            }
+        case SHOW_PROFILE:
+            return {
+                ...state,
+                profilePage: true
             }
         case PASSWORD_RESET:
             return {
@@ -120,7 +128,8 @@ export default (state = initialState, action) => {
                 loginError: action.payload.data.error ? action.payload.data.error.text : null,
                 authenticated: action.payload.data.data ? true : false,
                 userName: result ? result.user.forename + ' ' + result.user.surname : null,
-                podName: result ? result.pod.pod_name : null
+                podName: result ? result.pod.pod_name : null,
+                user: result ? result.user : null
             }
         case LOGIN_USER_FAILURE:
             return {
