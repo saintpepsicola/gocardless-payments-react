@@ -60,11 +60,13 @@ export default class UserProfile extends Component {
                     {/* TEAM MEMBERS */}
                     {this.state.teamMembers && <div>
                         <Header>TEAM MEMBERS</Header>
-                        {this.props.team.length !== 0 && this.props.team.map(member => {
-                            return (<Member key={member.user_id}>{member.forename} {member.surname}
-                                <span>{member.username}</span>
-                            </Member>)
-                        })}
+                        <Scroll>
+                            {this.props.team.length !== 0 && this.props.team.map(member => {
+                                return (<Member key={member.user_id}>{member.forename} {member.surname}
+                                    <span>{member.username}</span>
+                                </Member>)
+                            })}
+                        </Scroll>
                     </div>}
 
                 </Content>
@@ -80,6 +82,14 @@ const Birthdate = (props) => {
 }
 
 // Styled Components
+const Scroll = styled.div`
+&&
+{
+height: calc(100vh - 200px);
+overflow-y:auto;
+}
+`
+
 const CloseProfile = styled(CloseIcon)`
 &&
 {
