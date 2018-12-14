@@ -9,7 +9,7 @@ const initialState = {
     userName: localStorage[`user_name`] ? localStorage[`user_name`] : null,
     podName: localStorage[`healthera_pod_name`] ? localStorage[`healthera_pod_name`] : null,
     podID: localStorage[`healthera_pod_id`] ? localStorage[`healthera_pod_id`] : null,
-    user: localStorage[`user`] ? JSON.parse(localStorage[`user`]) : null,
+    user: localStorage[`user`] ? JSON.parse(localStorage[`user`]) : { birthday: null, username: null },
     profilePage: false,
     team: []
 }
