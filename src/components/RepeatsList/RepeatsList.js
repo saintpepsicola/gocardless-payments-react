@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-    state = { sort: false }
+    state = { sort: this.props.repeatsFilter === 1 ? true : false }
 
     componentDidMount() {
         this.setState({ page: this.props.page - 1 })
@@ -39,7 +39,8 @@ class RepeatsList extends Component {
 
     toggleOrderDate() {
         this.setState({ sort: !this.state.sort })
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.state.sort ? 'date_created:asc' : 'date_created:desc')
+        let sort = this.props.repeatsFilter === 1 ? true : false
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !sort ? 'date_created:asc' : 'date_created:desc')
     }
 
     render() {
@@ -95,7 +96,7 @@ class RepeatsList extends Component {
                         })}
                     </CompletedOrders>
                 </Table>}
-                {/* <Pagination {...this.props} /> */}
+                {/* <Pagination */}
                 {this.props.repeats.length !== 0 && <TablePagination
                     component='div'
                     count={Number(this.props.totalCount)}

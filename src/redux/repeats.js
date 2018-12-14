@@ -239,7 +239,7 @@ export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
     })
 }
 
-export const getRepeats = (active, pageSize = 10, page = 0, sort = 'date_created:desc') => {
+export const getRepeats = (active, pageSize = 10, page = 0, sort = active ? 'date_created:asc' : 'date_created:desc') => {
     return dispatch => {
         Promise.all([
             dispatch(getRepeatsfromAPI(active, pageSize, page, sort))
