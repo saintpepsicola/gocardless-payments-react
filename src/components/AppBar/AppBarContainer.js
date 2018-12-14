@@ -5,8 +5,7 @@ import * as actions from '../../redux/authentication'
 const mapStateToProps = (state) => ({
     userName: state.authentication.userName,
     podName: state.authentication.podName,
-    profilePage: state.authentication.profilePage,
-    user: state.authentication.user
+    profilePage: state.authentication.profilePage
 })
 
 export default connect(mapStateToProps, actions)(AppBar)

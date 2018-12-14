@@ -47,7 +47,7 @@ class OrderDetails extends React.Component {
                         </ExpansionPanelSummary>
                         <Content>
                             <PatientDetails pl='24px' pr='24px' pt='8'>
-                                <Box w={5 / 10} >
+                                <Box w={3 / 10} >
                                     <Title>PATIENT DETAILS</Title>
                                     <Flex m='0'>
                                         <Box w='90px'>
@@ -64,18 +64,22 @@ class OrderDetails extends React.Component {
                                             <p>{patient.username ? patient.username : '_'}</p>
                                             <p>{patient.telephone ? patient.telephone : '_'}</p>
                                         </Box>
-                                        <Box w='120px'>
-                                            {typeof patient.address !== 'object' && <Address>{patient.address}</Address>}
-                                            {typeof patient.address === 'object' && <Address>
-                                                {patient.address.address_line_1}<br />
-                                                {patient.address.address_line_2}<br />
-                                                {patient.address.city}<br />
-                                                {patient.address.postcode}<br />
-                                            </Address>}
-                                        </Box>
                                     </Flex>
                                 </Box>
                                 <Box w={3 / 10} >
+                                    <Title>ADDRESS</Title>
+                                    <Flex>
+                                        <Box>
+                                            <Address>
+                                                {repeat.surgery.address_1}<br />
+                                                {repeat.surgery.address_2}<br />
+                                                {repeat.surgery.address_3}<br />
+                                                {repeat.surgery.postcode}<br />
+                                            </Address>
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                                <Box w={2 / 10} >
                                     <Title>SURGERY</Title>
                                     <Flex>
                                         <Box>
@@ -88,7 +92,7 @@ class OrderDetails extends React.Component {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <Box>
+                                <Box w={2 / 10} >
                                     <Title>NOMINATED PHARMACY</Title>
                                     <Flex>
                                         <Box>
@@ -153,7 +157,7 @@ const PatientDetails = styled(Flex)`
             width:100%;
             &  p
             {
-                font-size: 13px;
+                font-size: 14px;
                 margin:0;
                 line-height:1.5;
                 color: #575757;
