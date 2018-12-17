@@ -15,10 +15,23 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-    state = { sort: this.props.repeatsFilter === 1 ? true : false }
+    state = { sort: this.props.repeatsFilter === 1 ? false : true }
+    
 
-    componentDidMount() {
+    componentDidMount() { 
         this.setState({ page: this.props.page - 1 })
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const sort = props.repeatsFilter === 1 ? true : false                
+        if (sort !== state.sort && state.repeatsFilter !== props.repeatsFilter) {
+            return {
+              sort: sort,
+              repeatsFilter: props.repeatsFilter
+            }
+        }
+
+        return null;
     }
 
     handleSelect(repeatID) {
@@ -26,9 +39,10 @@ class RepeatsList extends Component {
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
-
+    
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
+        this.setState({ sort: this.state.sort })
         if (this.props.searchTerm) {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
@@ -37,13 +51,12 @@ class RepeatsList extends Component {
         }
     }
 
-    toggleOrderDate() {
-        this.setState({ sort: !this.state.sort })
-        let sort = this.props.repeatsFilter === 1 ? true : false
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !sort ? 'date_created:asc' : 'date_created:desc')
+    toggleOrderDate() {      
+        this.setState({ sort: !this.state.sort })            
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.state.sort ? 'date_created:asc' : 'date_created:desc')
     }
 
-    render() {
+    render() {                
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -53,10 +66,11 @@ class RepeatsList extends Component {
                         <TableRow>
                             <Header>Patient Name</Header>
                             <Header>Order</Header>
-                            <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
-                                {!this.state.sort && <ExpandLessIcon />}
-                                {this.state.sort && <ExpandMoreIcon />}
-                            </DateCreatedHeader>
+                            {!this.props.searchTerm && <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
+                                {this.state.sort && <ExpandLessIcon />}
+                                {!this.state.sort && <ExpandMoreIcon />}
+                            </DateCreatedHeader>}
+                            {this.props.searchTerm && <DateCreatedSearchHeader>Order Date</DateCreatedSearchHeader>}
                             <Header>Status</Header>
                             <Header></Header>
                         </TableRow>
@@ -186,6 +200,10 @@ const Header = styled(TableCell)`
 
 const DateCreatedHeader = styled(Header)`
     cursor: pointer;
+`
+
+const DateCreatedSearchHeader = styled(Header)`
+    cursor: unset;
 `
 
 const PatientName = styled(TableCell)`
