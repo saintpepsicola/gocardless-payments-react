@@ -30,6 +30,7 @@ class OrderDetails extends React.Component {
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
+        
         return (
             <div>
                 {!fetching && repeat && <div>
@@ -71,10 +72,8 @@ class OrderDetails extends React.Component {
                                     <Flex>
                                         <Box>
                                             <Address>
-                                                {repeat.surgery.address_1}<br />
-                                                {repeat.surgery.address_2}<br />
-                                                {repeat.surgery.address_3}<br />
-                                                {repeat.surgery.postcode}<br />
+                                                {patient.address}<br />
+                                                {patient.postcode}<br />
                                             </Address>
                                         </Box>
                                     </Flex>
