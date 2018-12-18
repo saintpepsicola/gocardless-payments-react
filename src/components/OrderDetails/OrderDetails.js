@@ -73,10 +73,10 @@ class OrderDetails extends React.Component {
                                             <Address>
                                                 {!dependent && patient && patient.address && patient.address}<br />
                                                 {!dependent && patient && patient.postcode && patient.postcode}<br />
-                                                {dependent && dependent.address_line_1 && dependent.address_line_1}<br />
-                                                {dependent && dependent.address_line_2 && dependent.address_line_2}<br />
-                                                {dependent && dependent.city && dependent.city}<br />
-                                                {dependent && dependent.postcode && dependent.postcode}<br />
+                                                {dependent && dependent.address && dependent.address.address_line_1 && dependent.address.address_line_1}<br />
+                                                {dependent && dependent.address && dependent.address.address_line_2 && dependent.address.address_line_2}<br />
+                                                {dependent && dependent.address && dependent.address.city && dependent.address.city}<br />
+                                                {dependent && dependent.address && dependent.address.postcode && dependent.address.postcode}<br />
                                             </Address>
                                         </Box>
                                     </Flex>
