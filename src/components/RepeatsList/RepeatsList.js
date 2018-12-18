@@ -32,7 +32,7 @@ class RepeatsList extends Component {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:asc' : 'date_created:desc')
+            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
         }
     }
 
