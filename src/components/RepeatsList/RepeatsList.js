@@ -15,23 +15,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-    state = { sort: this.props.repeatsFilter === 1 ? false : true }
-    
 
     componentDidMount() { 
         this.setState({ page: this.props.page - 1 })
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const sort = props.repeatsFilter === 1 ? true : false                
-        if (sort !== state.sort && state.repeatsFilter !== props.repeatsFilter) {
-            return {
-              sort: sort,
-              repeatsFilter: props.repeatsFilter
-            }
-        }
-
-        return null;
     }
 
     handleSelect(repeatID) {
@@ -42,18 +28,16 @@ class RepeatsList extends Component {
     
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
-        this.setState({ sort: this.state.sort })
         if (this.props.searchTerm) {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.state.sort ? 'date_created:asc' : 'date_created:desc')
+            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:asc' : 'date_created:desc')
         }
     }
 
-    toggleOrderDate() {      
-        this.setState({ sort: !this.state.sort })            
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.state.sort ? 'date_created:asc' : 'date_created:desc')
+    toggleOrderDate() {         
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
     render() {                
@@ -67,8 +51,8 @@ class RepeatsList extends Component {
                             <Header>Patient Name</Header>
                             <Header>Order</Header>
                             {!this.props.searchTerm && <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
-                                {this.state.sort && <ExpandLessIcon />}
-                                {!this.state.sort && <ExpandMoreIcon />}
+                                {!this.props.toggleDate && <ExpandLessIcon />}
+                                {this.props.toggleDate && <ExpandMoreIcon />}
                             </DateCreatedHeader>}
                             {this.props.searchTerm && <DateCreatedSearchHeader>Order Date</DateCreatedSearchHeader>}
                             <Header>Status</Header>
