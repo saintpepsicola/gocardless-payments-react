@@ -71,12 +71,12 @@ class OrderDetails extends React.Component {
                                     <Flex>
                                         <Box>
                                             <Address>
-                                                {!dependent && patient && patient.address && patient.address}<br />
-                                                {!dependent && patient && patient.postcode && patient.postcode}<br />
-                                                {dependent && dependent.address && dependent.address.address_line_1 && dependent.address.address_line_1}<br />
-                                                {dependent && dependent.address && dependent.address.address_line_2 && dependent.address.address_line_2}<br />
-                                                {dependent && dependent.address && dependent.address.city && dependent.address.city}<br />
-                                                {dependent && dependent.address && dependent.address.postcode && dependent.address.postcode}<br />
+                                                {!dependent && patient && patient.address && patient.address && <br />}
+                                                {!dependent && patient && patient.postcode && patient.postcode && <br />}
+                                                {dependent && dependent.address && dependent.address.address_line_1 && dependent.address.address_line_1 && <br />}
+                                                {dependent && dependent.address && dependent.address.address_line_2 && dependent.address.address_line_2 && <br />}
+                                                {dependent && dependent.address && dependent.address.city && dependent.address.city && <br />}
+                                                {dependent && dependent.address && dependent.address.postcode && dependent.address.postcode && <br />}
                                             </Address>
                                         </Box>
                                     </Flex>
