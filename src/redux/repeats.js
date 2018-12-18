@@ -441,7 +441,7 @@ export default (state = initialState, action) => {
                 ...state,
                 repeats: []
             }
-        case GET_REPEATS_SUCCESS:
+        case GET_REPEATS_SUCCESS:        
             let repeats = action.payload.data.data
             //Add active repeats to firebase
             repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
@@ -451,7 +451,8 @@ export default (state = initialState, action) => {
                 ...state,
                 repeats: action.payload.data.data,
                 totalCount: action.payload.data.pagination.total_count,
-                rowsPerPage: initialState.rowsPerPage
+                rowsPerPage: initialState.rowsPerPage,
+                toggleDate: action.payload.data.pagination.sort === 'date_created:asc' ? false : true
             }
         case GET_REPEATS_FAILURE:
             return {
