@@ -25,7 +25,7 @@ class OrderHistory extends Component {
   handleSelect(repeatID) {
     this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     this.props.getRepeat(repeatID)
-    this.props.changeTab(3)           
+    this.props.changeTab(3)
   }
 
   render() {
@@ -42,7 +42,7 @@ class OrderHistory extends Component {
                 <TableRow>
                   <Header>Patient Name</Header>
                   <Header>Order</Header>
-                  <Header>Date</Header>
+                  <Header>Order Date</Header>
                   <Header>Status</Header>
                   <Header></Header>
                 </TableRow>

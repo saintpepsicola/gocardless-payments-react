@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import CommentField from '../QuickActions/Comments/CommentField';
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
+import CommentField from '../QuickActions/Comments/CommentField'
 
 export default class ConfirmDialog extends React.Component {
 
@@ -16,13 +16,13 @@ export default class ConfirmDialog extends React.Component {
   }
 
   handleClose() {
-    this.props.handleClose();
+    this.props.handleClose()
   }
 
   handleConfirm() {
-    const { repeat } = this.props;
-    this.props.sendNote(repeat.repeat_id, this.state.podMessage);
-    this.props.handleConfirm();
+    const { repeat } = this.props
+    this.props.sendNote(repeat.repeat_id, this.state.podMessage)
+    this.props.handleConfirm()
   }
 
   handleChange(e) {
