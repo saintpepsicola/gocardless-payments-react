@@ -15,9 +15,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-    state = { sort: false }
 
-    componentDidMount() {
+    componentDidMount() { 
         this.setState({ page: this.props.page - 1 })
     }
 
@@ -26,23 +25,22 @@ class RepeatsList extends Component {
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
-
+    
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
         if (this.props.searchTerm) {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.state.sort ? 'date_created:asc' : 'date_created:desc')
+            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
         }
     }
 
-    toggleOrderDate() {
-        this.setState({ sort: !this.state.sort })
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.state.sort ? 'date_created:asc' : 'date_created:desc')
+    toggleOrderDate() {         
+        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
-    render() {
+    render() {                
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -52,10 +50,11 @@ class RepeatsList extends Component {
                         <TableRow>
                             <Header>Patient Name</Header>
                             <Header>Order</Header>
-                            <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
-                                {!this.state.sort && <ExpandLessIcon />}
-                                {this.state.sort && <ExpandMoreIcon />}
-                            </DateCreatedHeader>
+                            {!this.props.searchTerm && <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
+                                {!this.props.toggleDate && <ExpandLessIcon />}
+                                {this.props.toggleDate && <ExpandMoreIcon />}
+                            </DateCreatedHeader>}
+                            {this.props.searchTerm && <DateCreatedSearchHeader>Order Date</DateCreatedSearchHeader>}
                             <Header>Status</Header>
                             <Header></Header>
                         </TableRow>
@@ -71,7 +70,7 @@ class RepeatsList extends Component {
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
                                         <TableCell>
-                                            {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                            {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                             {row.lock && <Chip label="Under Review" variant="outlined" />}
                                         </TableCell>
                                     </OrderRow>
@@ -95,7 +94,7 @@ class RepeatsList extends Component {
                         })}
                     </CompletedOrders>
                 </Table>}
-                {/* <Pagination {...this.props} /> */}
+                {/* <Pagination */}
                 {this.props.repeats.length !== 0 && <TablePagination
                     component='div'
                     count={Number(this.props.totalCount)}
@@ -124,6 +123,15 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
+const CommentFlag = styled.img`
+    &&
+    {
+        padding-right: 10px;
+        top: 5px;
+        position: relative;
+    }
+`
+
 const SearchError = styled(Chip)`
     margin:16px 0;
 `
@@ -176,6 +184,10 @@ const Header = styled(TableCell)`
 
 const DateCreatedHeader = styled(Header)`
     cursor: pointer;
+`
+
+const DateCreatedSearchHeader = styled(Header)`
+    cursor: unset;
 `
 
 const PatientName = styled(TableCell)`

@@ -11,7 +11,8 @@ const mapStateToProps = (state) => ({
     repeatsFilter: state.repeats.repeatsFilter,
     page: state.repeats.page,
     searchError: state.repeats.searchError,
-    searchTerm: state.repeats.searchTerm
+    searchTerm: state.repeats.searchTerm,
+    toggleDate: state.repeats.toggleDate
 })
 
 export default connect(mapStateToProps, actions)(RepeatsList)

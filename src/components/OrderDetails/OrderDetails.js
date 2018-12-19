@@ -11,17 +11,20 @@ import OrderHistory from './OrderHistory'
 
 class OrderDetails extends React.Component {
 
-    componentDidMount() {
-        // Get a single Repeat
-        this.props.getRepeat(this.props.match.params.orderID)
-        window.addEventListener("beforeunload", event => {
+    constructor(props) {
+        super(props)
+        // Remove Under Review on route change
+        this.props.history.listen((location, action) => {
             this.props.unlockRepeat(this.props.repeat.repeat_id)
         })
     }
 
-    componentWillUnmount() {
-        this.props.unlockRepeat(this.props.repeat.repeat_id)
+    async componentDidMount() {
+        // Get a single Repeat
+        await this.props.getRepeat(this.props.match.params.orderID)
+        this.props.lockRepeat(this.props.repeat.repeat_id)
     }
+
     render() {
 
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
@@ -44,7 +47,7 @@ class OrderDetails extends React.Component {
                         </ExpansionPanelSummary>
                         <Content>
                             <PatientDetails pl='24px' pr='24px' pt='8'>
-                                <Box w={5 / 10} >
+                                <Box w={3 / 10} >
                                     <Title>PATIENT DETAILS</Title>
                                     <Flex m='0'>
                                         <Box w='90px'>
@@ -61,18 +64,24 @@ class OrderDetails extends React.Component {
                                             <p>{patient.username ? patient.username : '_'}</p>
                                             <p>{patient.telephone ? patient.telephone : '_'}</p>
                                         </Box>
-                                        <Box w='120px'>
-                                            {typeof patient.address !== 'object' && <Address>{patient.address}</Address>}
-                                            {typeof patient.address === 'object' && <Address>
-                                                {patient.address.address_line_1}<br />
-                                                {patient.address.address_line_2}<br />
-                                                {patient.address.city}<br />
-                                                {patient.address.postcode}<br />
-                                            </Address>}
-                                        </Box>
                                     </Flex>
                                 </Box>
                                 <Box w={3 / 10} >
+                                    <Title>ADDRESS</Title>
+                                    <Flex>
+                                        <Box>
+                                            <Address>
+                                                {!dependent && patient && patient.address && <span>{patient.address}<br /></span>}
+                                                {!dependent && patient && patient.postcode && <span>{patient.postcode}<br /></span>}
+                                                {dependent && dependent.address && dependent.address.address_line_1 && <span>{dependent.address.address_line_1}<br /></span>}
+                                                {dependent && dependent.address && dependent.address.address_line_2 && <span>{dependent.address.address_line_2}<br /></span>}
+                                                {dependent && dependent.address && dependent.address.city && <span>{dependent.address.city}<br /></span>}
+                                                {dependent && dependent.address && dependent.address.postcode && <span>{dependent.address.postcode}<br /></span>}
+                                            </Address>
+                                        </Box>
+                                    </Flex>
+                                </Box>
+                                <Box w={2 / 10} >
                                     <Title>SURGERY</Title>
                                     <Flex>
                                         <Box>
@@ -85,7 +94,7 @@ class OrderDetails extends React.Component {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <Box>
+                                <Box w={2 / 10} >
                                     <Title>NOMINATED PHARMACY</Title>
                                     <Flex>
                                         <Box>
@@ -150,7 +159,7 @@ const PatientDetails = styled(Flex)`
             width:100%;
             &  p
             {
-                font-size: 13px;
+                font-size: 14px;
                 margin:0;
                 line-height:1.5;
                 color: #575757;

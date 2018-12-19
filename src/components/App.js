@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ProtectedRoutes } from './Routes/ProtectedRoutes'
 import ProgressSpinner from './ProgressSpinner/ProgressSpinnerContainer'
-window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true
 
 class App extends Component {
   render() {

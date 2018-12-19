@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import CommentField from '../QuickActions/Comments/CommentField';
 
 export default class ConfirmDialog extends React.Component {
-  
+
   state = {
     podMessage: null
   }
@@ -32,39 +32,39 @@ export default class ConfirmDialog extends React.Component {
   render() {
     return (
       <StyledDialog
-          open={this.props.open}
-          onClose={this.handleClose.bind(this)}
-          aria-labelledby={this.props['aria-labelledby']}
+        open={this.props.open}
+        onClose={this.handleClose.bind(this)}
+        aria-labelledby={this.props['aria-labelledby']}
       >
-          <ConfirmTitle id="form-dialog-title">{this.props.title}</ConfirmTitle>
-          <DialogContent>
-              <ConfirmContentText>
-              {this.props.contentText}
-              </ConfirmContentText>
-              <CommentField
-                  hideSendButton
-                  handleChange={this.handleChange.bind(this)}
-              />
-          </DialogContent>
-          <DialogActions>
-              <Flex w={1} justify='space-between' align='center'>
-                  <Box>
-                      <ConfirmButton label='Cancel' variant='extendedFab' onClick={this.handleClose.bind(this)} color="primary">
-                      Cancel
+        <ConfirmTitle id="form-dialog-title">{this.props.title}</ConfirmTitle>
+        <DialogContent>
+          <ConfirmContentText>
+            {this.props.contentText}
+          </ConfirmContentText>
+          <CommentField
+            hideSendButton
+            handleChange={this.handleChange.bind(this)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Flex w={1} justify='space-between' align='center'>
+            <Box>
+              <ConfirmButton label='Cancel' variant='extendedFab' onClick={this.handleClose.bind(this)} color="primary">
+                Cancel
                       </ConfirmButton>
-                  </Box>
-                  <Box>
-                      <ConfirmButton 
-                          variant='extendedFab'
-                          onClick={this.handleConfirm.bind(this)}
-                          color="primary"
-                          disabled={!this.state.podMessage}
-                      >
-                      Confirm
+            </Box>
+            <Box>
+              <ConfirmButton
+                variant='extendedFab'
+                onClick={this.handleConfirm.bind(this)}
+                color="primary"
+                disabled={!this.state.podMessage}
+              >
+                Confirm
                       </ConfirmButton>
-                  </Box>
-              </Flex>
-          </DialogActions>
+            </Box>
+          </Flex>
+        </DialogActions>
       </StyledDialog>
     )
   }
