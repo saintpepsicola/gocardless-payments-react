@@ -24,7 +24,7 @@ class OrderHistory extends Component {
 
   handleSelect(repeatID) {
     this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
-    this.props.getRepeat(repeatID)
+    //this.props.getRepeat(repeatID)
     this.props.changeTab(3)
   }
 
