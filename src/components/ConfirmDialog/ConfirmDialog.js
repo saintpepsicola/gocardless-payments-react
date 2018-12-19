@@ -11,9 +11,7 @@ import CommentField from '../QuickActions/Comments/CommentField'
 
 export default class ConfirmDialog extends React.Component {
 
-  state = {
-    podMessage: null
-  }
+  state = { podMessage: null }
 
   handleClose() {
     this.props.handleClose()
@@ -30,6 +28,7 @@ export default class ConfirmDialog extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <StyledDialog
         open={this.props.open}
