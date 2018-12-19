@@ -28,7 +28,6 @@ export default class ConfirmDialog extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <StyledDialog
         open={this.props.open}
