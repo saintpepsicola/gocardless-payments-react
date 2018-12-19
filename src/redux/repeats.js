@@ -250,12 +250,12 @@ export const searchRepeats = (name, pageSize = 10, page = 0) => {
     })
 }
 
-export const getRepeatHistory = (podID, patientID) => {
+export const getRepeatHistory = (podID, patientID, repeatID) => {
     return ({
         types: [GET_REPEAT_HISTORY, GET_REPEAT_HISTORY_SUCCESS, GET_REPEAT_HISTORY_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/patients/${patientID}/repeats?showRemedies=true`,
+                url: `/pods/${podID}/patients/${patientID}/repeats/${repeatID}?showRemedies=true`,
                 headers: headers
             }
         }
@@ -277,10 +277,10 @@ export default (state = initialState, action) => {
             return {
                 ...state
             }
-        case GET_REPEAT_HISTORY_SUCCESS:
+        case GET_REPEAT_HISTORY_SUCCESS:        
             return {
                 ...state,
-                repeatHistory: action.payload.data.data.filter(repeat => repeat.gp_status !== 'delivered').slice(0, 5)
+                repeatHistory: action.payload.data.data
             }
         case GET_REPEAT_HISTORY_FAILURE:
             return {
@@ -422,7 +422,7 @@ export default (state = initialState, action) => {
                 ...state,
                 repeats: []
             }
-        case GET_REPEATS_SUCCESS:
+        case GET_REPEATS_SUCCESS:        
             let repeats = action.payload.data.data
             //Add active repeats to firebase
             repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
@@ -432,7 +432,8 @@ export default (state = initialState, action) => {
                 ...state,
                 repeats: action.payload.data.data,
                 totalCount: action.payload.data.pagination.total_count,
-                rowsPerPage: initialState.rowsPerPage
+                rowsPerPage: initialState.rowsPerPage,
+                toggleDate: action.payload.data.pagination.sort === 'date_created:asc' ? false : true
             }
         case GET_REPEATS_FAILURE:
             return {
