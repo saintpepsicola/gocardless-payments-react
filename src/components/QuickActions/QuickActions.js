@@ -6,7 +6,6 @@ import MedicationList from './MedicationList/MedicationListContainer'
 import PanelControls from './PanelControls/PanelControlsContainer'
 import SidePanel from './SidePanel/SidePanelContainer'
 import ProcessButton from './ProcessButton'
-import timeago from 'time-ago'
 
 export default class QuickActions extends React.Component {
 
@@ -27,17 +26,17 @@ export default class QuickActions extends React.Component {
                             <MedicationList {...this.props} />
                         </Flex>
                         {repeat.gp_status === 'delivered' &&
-                        <Flex justify='space-between' align='center'>
-                            <Box align='center' w={8 / 10}>
-                                <ProcessButton label={`Reject order`} {...this.props} />
-                            </Box>
-                            <Box w={3 / 10}>
-                                <ProcessButton label={`Process later`} {...this.props} />
-                            </Box>
-                            <Box >
-                                <ProcessButton disabled={completeDisabled} label={`Complete`} {...this.props} />
-                            </Box>
-                        </Flex>
+                            <Flex justify='space-between' align='center'>
+                                <Box align='center' w={8 / 10}>
+                                    <ProcessButton label={`Reject order`} {...this.props} />
+                                </Box>
+                                <Box w={3 / 10}>
+                                    <ProcessButton label={`Process later`} {...this.props} />
+                                </Box>
+                                <Box >
+                                    <ProcessButton disabled={completeDisabled} label={`Complete`} {...this.props} />
+                                </Box>
+                            </Flex>
                         }
                     </Box>
                     <Box w={3 / 10} > <SidePanel /></Box>
@@ -47,7 +46,8 @@ export default class QuickActions extends React.Component {
 }
 
 const FormattedDate = (props) => {
-    return timeago.ago(Number(props.date))
+    let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
+    return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
 const PanelBox = styled(Box)`
