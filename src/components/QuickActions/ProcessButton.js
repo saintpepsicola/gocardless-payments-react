@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import { withRouter } from "react-router"
-import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog'
 
 class ProcessButton extends React.Component {
 
@@ -28,17 +28,17 @@ class ProcessButton extends React.Component {
     }
 
     handleConfirm() {
-        const { repeat } = this.props;
+        const { repeat } = this.props
         this.props.updateGPStatus(repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
         this.props.history.push(`${process.env.PUBLIC_URL}/`)
         this.props.getRepeats(true)
         this.setState({
             showConfirmModal: false
-        });
+        })
     }
 
     handleClose() {
-        this.setState({ showConfirmModal: false });
+        this.setState({ showConfirmModal: false })
     }
 
     render() {

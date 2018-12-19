@@ -17,17 +17,17 @@ export default class MedicationList extends React.Component {
     }
 
     handleConfirm() {
-        const { repeat } = this.props;
-        const { confirmMedication } = this.state;
+        const { repeat } = this.props
+        const { confirmMedication } = this.state
         this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
         this.setState({
             showConfirmModal: false,
             confirmMedication: null
-        });
+        })
     }
 
     handleClose() {
-        this.setState({ showConfirmModal: false });
+        this.setState({ showConfirmModal: false })
     }
 
     handleToggle(podID, repeat, remedy) {
@@ -35,7 +35,7 @@ export default class MedicationList extends React.Component {
             this.setState({
                 showConfirmModal: true,
                 confirmMedication: remedy
-            });
+            })
         }
         else {
             this.props.toggleMedication(podID, repeat.repeat_id, remedy)
