@@ -277,7 +277,7 @@ export default (state = initialState, action) => {
             return {
                 ...state
             }
-        case GET_REPEAT_HISTORY_SUCCESS:        
+        case GET_REPEAT_HISTORY_SUCCESS:
             return {
                 ...state,
                 repeatHistory: action.payload.data.data
@@ -422,7 +422,7 @@ export default (state = initialState, action) => {
                 ...state,
                 repeats: []
             }
-        case GET_REPEATS_SUCCESS:        
+        case GET_REPEATS_SUCCESS:
             let repeats = action.payload.data.data
             //Add active repeats to firebase
             repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
