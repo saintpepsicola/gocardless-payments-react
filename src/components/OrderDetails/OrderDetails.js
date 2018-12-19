@@ -26,7 +26,7 @@ class OrderDetails extends React.Component {
     }
 
     render() {
-
+        
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
@@ -61,7 +61,7 @@ class OrderDetails extends React.Component {
                                             <p>{patient.nhs_number ? patient.nhs_number : '_'}</p>
                                             <p>{patient.gender ? patient.gender : '_'}</p>
                                             <p> {timestampToDate(patient.birthday)}</p>
-                                            <p>{patient.username ? patient.username : '_'}</p>
+                                            <p>{repeat.patient && repeat.patient.username ? repeat.patient.username : '_'}</p>
                                             <p>{patient.telephone ? patient.telephone : '_'}</p>
                                         </Box>
                                     </Flex>
