@@ -18,7 +18,8 @@ class OrderHistory extends Component {
     const { repeat } = this.props
     const podID = repeat.pod_id
     const patientID = repeat.patient_id
-    this.props.getRepeatHistory(podID, patientID)
+    const repeatID = repeat.repeat_id
+    this.props.getRepeatHistory(podID, patientID, repeatID)
   }
 
   handleSelect(repeatID) {
@@ -53,7 +54,7 @@ class OrderHistory extends Component {
                     <OrderRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
                       <PatientName>{row.patient_forename || repeat.patient_forename} {row.patient_surname || repeat.patient_surname}</PatientName>
                       <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
-                      <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                      <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
                       <Status>{row.gp_status}</Status>
                       <TableCell>{<ArrowRight />}</TableCell>
                     </OrderRow>
