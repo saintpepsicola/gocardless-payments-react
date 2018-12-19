@@ -1,5 +1,5 @@
 import firebase from 'firebase/app'
-import 'firebase/firestore'
+import 'firebase/database'
 
 // // Initialize Firebase
 firebase.initializeApp({
@@ -11,15 +11,7 @@ firebase.initializeApp({
 })
 
 // // Initialize Cloud Firestore through Firebase
-let db = firebase.firestore()
-
-// // Disable deprecated features
-db.settings({
-    timestampsInSnapshots: true
-})
-
-// // Firebase POD Collection
-let firebasePOD = null
+let db = firebase.database()
 
 //GLOBALS
 // Initial State
@@ -38,6 +30,7 @@ let initialState = {
 }
 
 let podID = localStorage[`healthera_pod_id`]
+let userName = localStorage[`user_name`]
 let token = localStorage[`healthera_pod_token`]
 const clientID = process.env.REACT_APP_CLIENT_ID
 
@@ -108,14 +101,6 @@ const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 //Locking Repeats
 const LOCK_REPEAT = 'LOCK_REPEAT'
 const UNLOCK_REPEAT = 'UNLOCK_REPEAT'
-
-export const getRepeatsFromFirebase = () => {
-    return dispatch => {
-        firebasePOD.where('lock', '==', true).onSnapshot(querySnapshot => {
-            dispatch({ type: GET_LOCKED_REPEATS_FROM_FIREBASE, payload: querySnapshot })
-        })
-    }
-}
 
 export const lockRepeat = (repeatID) => {
     return { type: LOCK_REPEAT, payload: { repeatID } }
@@ -226,7 +211,7 @@ export const getRepeat = (repeatID) => {
 export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
     podID = localStorage[`healthera_pod_id`]
     token = localStorage[`healthera_pod_token`]
-    firebasePOD = db.collection('pods').doc(podID).collection('repeats')
+    userName = localStorage[`user_name`]
     headers.Token = token
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
@@ -244,7 +229,9 @@ export const getRepeats = (active, pageSize = 10, page = 0, sort = active ? 'dat
         Promise.all([
             dispatch(getRepeatsfromAPI(active, pageSize, page, sort))
         ]).then(() => {
-            dispatch(getRepeatsFromFirebase())
+            db.ref('pods/' + podID).orderByChild('lock').equalTo(true).on('value', function (snapshot) {
+                dispatch({ type: GET_LOCKED_REPEATS_FROM_FIREBASE, payload: snapshot.val() })
+            })
         })
     }
 }
@@ -406,33 +393,25 @@ export default (state = initialState, action) => {
                 fetching: false
             }
         case UNLOCK_REPEAT:
-            firebasePOD.doc(action.payload.repeatID).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        firebasePOD.doc(action.payload.repeatID).update({ lock: false })
-                    }
-                })
+            setTimeout(() => {
+                db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: false })
+            }, 200)
             return {
                 ...state
             }
         case LOCK_REPEAT:
-            firebasePOD.doc(action.payload.repeatID).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        firebasePOD.doc(action.payload.repeatID).update({ lock: true })
-                    }
-                })
+            db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: true, viewedBy: userName })
             return {
                 ...state
             }
         case GET_LOCKED_REPEATS_FROM_FIREBASE:
             let newRepeats = state.repeats
             state.repeats.forEach(repeat => repeat.lock = false)
-            action.payload.forEach(repeat => {
-                let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat.data().repeat_id)
-                if (state.repeats[result])
+            for (let repeat in action.payload) {
+                let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat)
+                if ((state.repeats[result]))
                     state.repeats[result].lock = true
-            })
+            }
             return {
                 ...state, repeats: [...state.repeats]
             }
@@ -445,7 +424,7 @@ export default (state = initialState, action) => {
             let repeats = action.payload.data.data
             //Add active repeats to firebase
             repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
-                return firebasePOD.doc(repeat.repeat_id).set({ ...repeat }, { merge: true })
+                return db.ref('pods/' + podID + '/' + repeat.repeat_id).update({ name: repeat.patient_forename + ' ' + repeat.patient_surname })
             })
             return {
                 ...state,
