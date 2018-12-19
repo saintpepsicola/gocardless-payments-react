@@ -116,9 +116,8 @@ class RepeatsList extends Component {
 export default withRouter(RepeatsList)
 
 const FormattedDate = (props) => {
-    return (
-        timeago.ago(props.date)
-    )
+    let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
+    return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
 // Styled Components
