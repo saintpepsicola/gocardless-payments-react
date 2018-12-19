@@ -15,8 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-
-    componentDidMount() { 
+    componentDidMount() {
         this.setState({ page: this.props.page - 1 })
     }
 
@@ -25,7 +24,7 @@ class RepeatsList extends Component {
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
-    
+
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
         if (this.props.searchTerm) {
@@ -36,11 +35,11 @@ class RepeatsList extends Component {
         }
     }
 
-    toggleOrderDate() {         
+    toggleOrderDate() {
         this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
-    render() {                
+    render() {
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -129,6 +128,8 @@ const CommentFlag = styled.img`
         padding-right: 10px;
         top: 5px;
         position: relative;
+        height:20px;
+        width:auto;
     }
 `
 
