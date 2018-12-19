@@ -14,9 +14,16 @@ class OrderDetails extends React.Component {
     constructor(props) {
         super(props)
         // Remove Under Review on route change
-        this.props.history.listen((location, action) => {
-            this.props.unlockRepeat(this.props.repeat.repeat_id)
+        this.unlisten = this.props.history.listen((location) => {
+            if (location.pathname.indexOf('order') > -1) {
+                this.props.unlockRepeat(this.props.repeat.repeat_id)
+                this.props.getRepeat(location.pathname.substring(7))
+            }
         })
+    }
+
+    componentWillUnmount() {
+        this.unlisten()
     }
 
     async componentDidMount() {
@@ -26,7 +33,6 @@ class OrderDetails extends React.Component {
     }
 
     render() {
-        
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
@@ -110,9 +116,9 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
-                    {this.props.repeatsFilter === 3 && <Title>ORDER HISTORY</Title>}
+                    {this.props.repeat.gp_status === 'delivered' && <Title>ORDER HISTORY</Title>}
                     <QuickActions />
-                    {this.props.repeatsFilter !== 3 && <OrderHistory {...this.props} />}
+                    {this.props.repeat.gp_status === 'delivered' && <OrderHistory {...this.props} />}
                 </div>}
             </div>
         )
