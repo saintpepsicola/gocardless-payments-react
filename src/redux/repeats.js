@@ -400,7 +400,9 @@ export default (state = initialState, action) => {
                 ...state
             }
         case LOCK_REPEAT:
-            db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: true, viewedBy: userName })
+            setTimeout(() => {
+                db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: true, viewedBy: userName })
+            }, 200)
             return {
                 ...state
             }
