@@ -10,7 +10,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import timeago from 'time-ago'
 
 class OrderHistory extends Component {
 
@@ -39,7 +38,6 @@ class OrderHistory extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <Header>Patient Name</Header>
                   <Header>Order</Header>
                   <Header>Order Date</Header>
                   <Header>Status</Header>
@@ -51,7 +49,6 @@ class OrderHistory extends Component {
                 {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                   return (
                     <OrderRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
-                      <PatientName>{row.patient_forename || repeat.patient_forename} {row.patient_surname || repeat.patient_surname}</PatientName>
                       <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
                       <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
                       <Status>{row.gp_status}</Status>
@@ -71,9 +68,8 @@ class OrderHistory extends Component {
 export default withRouter(OrderHistory)
 
 const FormattedDate = (props) => {
-  return (
-    timeago.ago(props.date * 1000)
-  )
+  let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
+  return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
 // Styled Components
@@ -103,8 +99,7 @@ const Header = styled(TableCell)`
 
 const RepeatHistoryOrders = styled(TableBody)`
   border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
+  background-color: #f9f9f9;
 
   & tr
   {
@@ -119,20 +114,14 @@ const RepeatHistoryOrders = styled(TableBody)`
  }
 `
 
-const PatientName = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-    }
-`
-
 const Status = styled(TableCell)`
     &&
     {
-        font-weight:bold;
+        font-weight:600;
         text-transform:capitalize;
         color: ${props => statusColors[props.children]};
         font-size: 16px;
+        font-family: Assistant;
     }
 `
 
