@@ -85,7 +85,7 @@ class RepeatsList extends Component {
                                     <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                     <Status>{row.gp_status}</Status>
                                     <TableCell>
-                                        {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                        {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                     </TableCell>
                                 </OrderRow>
                             )
