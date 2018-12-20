@@ -84,9 +84,9 @@ const ReplyField = styled(TextField)`
         padding: 10px !important;
     }
 
-    & fieldset
+    && fieldset
     {
-        border-left: 2px solid #0091cc !important;
+        border-left: 2px solid #0091cc;
         border-right: none;
         border-top: none;
         border-bottom: none;
