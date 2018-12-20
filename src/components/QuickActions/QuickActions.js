@@ -18,7 +18,7 @@ export default class QuickActions extends React.Component {
                     <Box p='22px' mr='16px' w={7 / 10} >
                         <Flex justify='space-between'>
                             <Box align='center' w={8 / 10} >
-                                <OrderTitle> <Bigger>{repeat.number_of_medicines} Medications</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
+                                <OrderTitle> <Bigger>{repeat.number_of_medicines} Medication{repeat.number_of_medicines === 1 ? '' : 's'}</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
                             <PanelBox w={6 / 10} > <PanelControls /> </PanelBox>
                         </Flex>
