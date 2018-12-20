@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import CommentField from './CommentField'
 import ScrollToBottom from 'react-scroll-to-bottom'
+import notesIcon from '../../../resources/comment.png'
 
 export default class Comments extends React.Component {
 
@@ -40,7 +41,7 @@ export default class Comments extends React.Component {
             <CommentBox disabled={sendingComment}>
                 <ScrollToBottom>
                     <div>
-                        <Title>NOTES</Title>
+                        <Title><img alt='notes-icon' src={notesIcon} /> Notes</Title>
                         {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
                             <p>{comment.comment}</p>
@@ -89,10 +90,12 @@ const CommentBox = styled.div`
 
 const Comment = styled.div`
     border-left: 2px solid red;
-    border-color: ${props => props.patient ? '#419645' : '#0091cc'};
+    border-color: ${props => props.patient ? '#282828' : '#b4b4b4'};
     padding-left:10px;
     font-size: 16px;
     font-weight: normal;
+    letter-spacing: normal;
+    color: #4a4a4a;
 `
 
 const CommentAuthorTime = styled.p`
@@ -101,9 +104,20 @@ const CommentAuthorTime = styled.p`
 `
 
 const Title = styled.h1`
-    font-size: 18px;
-    font-weight: 900;
-    color: #4a4a4a;
+&&   
+{
+    font-size: 17px;
+    color: #575756;
+    font-weight:normal;
+    display: flex;
+    align-items: center;
+}
+&& img
+{
+    width:auto;
+    height:14px;
+    padding-right: 5px;
+}
 `
 
 const NoCommentText = styled.p`

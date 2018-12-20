@@ -62,7 +62,7 @@ const Container = styled(Paper)`
 const Bigger = styled.span`
 font-size: 16px;
 font-weight: 700;
-color: #4a4a4a;
+color: #282828;
 `
 
 const OrderTitle = styled.h6`

@@ -15,8 +15,8 @@ class OrderDetails extends React.Component {
         super(props)
         // Remove Under Review on route change
         this.unlisten = this.props.history.listen((location) => {
+            this.props.unlockRepeat(this.props.repeat.repeat_id)
             if (location.pathname.indexOf('order') > -1) {
-                this.props.unlockRepeat(this.props.repeat.repeat_id)
                 this.props.getRepeat(location.pathname.substring(7))
             }
         })
@@ -40,7 +40,7 @@ class OrderDetails extends React.Component {
             <div>
                 {!fetching && repeat && <div>
                     <Panel defaultExpanded>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Summary expandIcon={<ExpandMoreIcon />}>
                             <div>
                                 <PanelTitle>
                                     {dependent && `${dependent.forename} ${dependent.surname}`}
@@ -50,10 +50,10 @@ class OrderDetails extends React.Component {
                                     {`Ordered by ${repeat.patient_forename} ${repeat.patient_surname}`}
                                 </PanelSubTitle>}
                             </div>
-                        </ExpansionPanelSummary>
+                        </Summary>
                         <Content>
                             <PatientDetails pl='24px' pr='24px' pt='8'>
-                                <Box w={3 / 10} >
+                                <Box w={3 / 12} >
                                     <Title>PATIENT DETAILS</Title>
                                     <Flex m='0'>
                                         <Box w='90px'>
@@ -72,7 +72,7 @@ class OrderDetails extends React.Component {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <Box w={3 / 10} >
+                                <Box w={3 / 12} >
                                     <Title>ADDRESS</Title>
                                     <Flex>
                                         <Box>
@@ -87,7 +87,7 @@ class OrderDetails extends React.Component {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <Box w={2 / 10} >
+                                <Box w={3 / 12} >
                                     <Title>SURGERY</Title>
                                     <Flex>
                                         <Box>
@@ -100,7 +100,7 @@ class OrderDetails extends React.Component {
                                         </Box>
                                     </Flex>
                                 </Box>
-                                <Box w={2 / 10} >
+                                <Box w={3 / 12} >
                                     <Title>NOMINATED PHARMACY</Title>
                                     <Flex>
                                         <Box>
@@ -116,7 +116,6 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
-                    {this.props.repeat.gp_status === 'delivered' && <Title>ORDER HISTORY</Title>}
                     <QuickActions />
                     {this.props.repeat.gp_status === 'delivered' && <OrderHistory {...this.props} />}
                 </div>}
@@ -131,6 +130,14 @@ const timestampToDate = (date) => {
 }
 
 export default withRouter(OrderDetails)
+
+const Summary = styled(ExpansionPanelSummary)`
+&& > div
+{
+margin:12px 0;
+}
+`
+
 
 const PanelTitle = styled.h3`
             width:100%;
@@ -154,12 +161,15 @@ const PanelSubTitle = styled.h5`
 
 const Title = styled.h4`
             color: #575757;
+            margin-bottom: 8px;
             `
 
 const Address = styled.p`
-            white-space:pre-line;
-            text-transform:uppercase;
-            `
+    && 
+    {  white-space:pre-line;
+       text-transform:uppercase;
+    }
+`
 
 const PatientDetails = styled(Flex)`
             width:100%;
