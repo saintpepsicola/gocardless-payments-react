@@ -67,10 +67,11 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
+    font-family: Assistant;
     border-radius:24px;
     background-color: ${props => buttonColor[props.label]};
     font-size: 14px;
-    font-weight: normal;
+    font-weight: 600;
     color: #fff;
     height: 40px;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);

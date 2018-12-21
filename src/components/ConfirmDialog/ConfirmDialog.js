@@ -130,6 +130,7 @@ const Content = styled(DialogContent)`
 &&
 {
 padding:18px 0;
+overflow: hidden;
 }  
 `
 

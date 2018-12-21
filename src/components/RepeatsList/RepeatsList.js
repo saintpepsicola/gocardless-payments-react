@@ -99,12 +99,8 @@ class RepeatsList extends Component {
                     rowsPerPage={rowsPerPage}
                     page={this.props.page}
                     rowsPerPageOptions={[5]}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
+                    backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                    nextIconButtonProps={{ 'aria-label': 'Next Page' }}
                     onChangePage={this.handleChangePage.bind(this)}
                 />}
             </div>
@@ -113,7 +109,6 @@ class RepeatsList extends Component {
 }
 
 export default withRouter(RepeatsList)
-
 const FormattedDate = (props) => {
     let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
     return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
@@ -121,89 +116,89 @@ const FormattedDate = (props) => {
 
 // Styled Components
 const CommentFlag = styled.img`
-    &&
-    {
-        padding-right: 10px;
-        top: 5px;
-        position: relative;
-        height:20px;
-        width:auto;
-    }
+&&
+{
+padding-right: 10px;
+top: 5px;
+position: relative;
+height:20px;
+width:auto;
+}
 `
 
 const SearchError = styled(Chip)`
-    margin:16px 0;
+margin:16px 0;
 `
 
 const OrderRow = styled(TableRow)`
-    height:66px !important;
-    cursor:pointer;
-
-    & > td
-    {
-        color:#282828;
-        font-size: 16px;
-    } 
+height:66px !important;
+cursor:pointer;
+& > td
+{
+color:#282828;
+font-size: 16px;
+font-family: Assistant;
+} 
 `
 const PendingOrders = styled(TableBody)`
-  border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
+border-radius: 5px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+background-color: #ffffff;
 
-  & tr
-  {
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-     box-shadow:none;
-  }
+& tr
+{
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+box-shadow:none;
+}
 
-  & tr:hover
- {
-    background-color: #ebebeb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
- }
-
+& tr:hover
+{
+background-color: #ebebeb;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 `
 const CompletedOrders = styled(TableBody)`
   background-color: #f5f5f5;
 `
 
 const Header = styled(TableCell)`
-    &&
-    {
-        font-size:16px;
-        color: #b0b0b0;
-        border:0;
-        position: relative;
-    }
+&&
+{
+    font-size:16px;
+    color: #b0b0b0;
+    border:0;
+    position: relative;
+    font-family: Assistant;
+}
 
-    && svg {
-        position: absolute;
-    }	    
+&& svg {
+    position: absolute;
+}	    
 `
 
 const DateCreatedHeader = styled(Header)`
-    cursor: pointer;
+cursor: pointer;
 `
 
 const DateCreatedSearchHeader = styled(Header)`
-    cursor: unset;
+cursor: unset;
 `
 
 const PatientName = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-    }
+&&
+{
+    font-weight:bold;
+}
 `
 
 const Status = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-        text-transform:capitalize;
-        color: ${props => statusColors[props.children]};
-        font-size: 16px;
-    }
+&&
+{
+    font-weight:bold;
+    text-transform:capitalize;
+    color: ${props => statusColors[props.children]};
+    font-size: 16px;
+}
 `
 
 const statusColors = {
