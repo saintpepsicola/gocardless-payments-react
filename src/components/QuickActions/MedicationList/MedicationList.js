@@ -130,6 +130,9 @@ const Medicine = styled(ListItem)`
     span
     {
         display:inline-block;
+        font-family: Assistant;
+        font-size: 15px;
+        font-weight: 600;
     }
 
     &:hover
