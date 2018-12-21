@@ -73,6 +73,7 @@ const ProcessBtn = styled(Button)`
     font-weight: normal;
     color: #fff;
     height: 40px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
     :hover {
         background-color: ${props => buttonColor[props.label]};
         opacity: 0.9;
