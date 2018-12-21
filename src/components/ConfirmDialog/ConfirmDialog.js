@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
 import CommentField from '../QuickActions/Comments/CommentField'
+import OffIcon from '@material-ui/icons/HighlightOffTwoTone'
 
 export default class ConfirmDialog extends React.Component {
 
@@ -35,6 +36,7 @@ export default class ConfirmDialog extends React.Component {
         aria-labelledby={this.props['aria-labelledby']}
       >
         <ConfirmTitle id="form-dialog-title">{this.props.title}</ConfirmTitle>
+        {this.props.medication && <Medicine><UncheckIcon />{this.props.medication.medicine_name}</Medicine>}
         <Content>
           <ConfirmContentText>
             {this.props.contentText}
@@ -102,10 +104,32 @@ padding:0 0 15px 0;
 }
 `
 
+const Medicine = styled.p`
+&&
+{
+border-bottom:1px solid #e5e5e5;
+display: flex;
+padding-bottom: 8px;
+margin: 8px 0;
+font-family: Assistant;
+font-size: 16px;
+color: #4a4a4a;
+align-items:center;
+} 
+&& svg
+{
+padding-right:12px;
+}  
+`
+
+const UncheckIcon = styled(OffIcon)`
+  color:#b71c1c;
+`
+
 const Content = styled(DialogContent)`
 &&
 {
-padding:22px 0;
+padding:18px 0;
 }  
 `
 
@@ -130,5 +154,6 @@ font-weight: normal;
 color:#ffffff !important;
 height: 40px;
 border-radius:25px;
+box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
 }  
 `

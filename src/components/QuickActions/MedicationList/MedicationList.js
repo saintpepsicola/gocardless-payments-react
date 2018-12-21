@@ -53,6 +53,7 @@ export default class MedicationList extends React.Component {
                     handleClose={this.handleClose.bind(this)}
                     handleConfirm={this.handleConfirm.bind(this)}
                     aria-labelledby='form-dialog-title'
+                    medication={this.state.confirmMedication}
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
