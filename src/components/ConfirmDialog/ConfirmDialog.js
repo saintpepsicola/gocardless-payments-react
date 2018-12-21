@@ -49,15 +49,14 @@ export default class ConfirmDialog extends React.Component {
         <DialogActions>
           <Flex w={1} justify='space-between' align='center'>
             <Box>
-              <ConfirmButton label='Cancel' onClick={this.handleClose.bind(this)}>
+              <ConfirmButton color='secondary' label='Cancel' onClick={this.handleClose.bind(this)}>
                 Cancel
               </ConfirmButton>
             </Box>
             <Box>
               <ConfirmButton
                 onClick={this.handleConfirm.bind(this)}
-                disabled={!this.state.podMessage}
-              >
+                disabled={!this.state.podMessage} >
                 Confirm
               </ConfirmButton>
             </Box>
@@ -149,7 +148,7 @@ const ConfirmButton = styled(Button)`
 &&
 {
 margin-top:16px;
-background-color: ${props => props.label === 'Cancel' ? '#939393' : '#509500'};
+background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#509500'};
 font-size: 14px;
 font-weight: normal;
 color:#ffffff !important;
@@ -157,4 +156,9 @@ height: 40px;
 border-radius:25px;
 box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
 }  
+&&:hover
+{
+  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#509500'};
+  opacity: 0.9;
+}
 `
