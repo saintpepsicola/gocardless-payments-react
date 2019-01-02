@@ -67,10 +67,10 @@ class RepeatsList extends Component {
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
-                                        <TableCell>
+                                        <LastColumn>
                                             {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                             {row.lock && <UnderReview label="Under Review" variant="outlined" />}
-                                        </TableCell>
+                                        </LastColumn>
                                     </OrderRow>
                                 )
                             })}
@@ -126,6 +126,13 @@ width:auto;
 }
 `
 
+const LastColumn = styled(TableCell)`
+&&
+{
+text-align:right;
+}
+`
+
 const UnderReview = styled(Chip)`
 &&
 {
@@ -134,7 +141,6 @@ font-family: Assistant;
 font-size: 16px;
 font-weight: 300;
 color: #707070;
-margin-right: -50px;
 }
 `
 
