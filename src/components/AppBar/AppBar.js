@@ -6,7 +6,6 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 
 class AppBar extends Component {
-
     render() {
         return (
             <FullWidthBlueBar >

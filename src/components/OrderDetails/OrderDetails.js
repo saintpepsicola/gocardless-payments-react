@@ -142,6 +142,7 @@ margin:12px 0;
 const PanelTitle = styled.h3`
             width:100%;
             font-size:22px;
+            font-weight: 800;
             color: #4a4a4a;
             margin:0;
             `
@@ -151,9 +152,6 @@ const PanelSubTitle = styled.h5`
     width:100%;
     font-size: 15px;
     font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
     letter-spacing: normal;
     color: #7a7a7a;
     margin: 5px 0px 0px 0px;

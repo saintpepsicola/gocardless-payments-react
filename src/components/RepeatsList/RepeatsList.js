@@ -47,7 +47,7 @@ class RepeatsList extends Component {
                     <TableHead>
                         <TableRow>
                             <Header>Patient Name</Header>
-                            <Header>Order</Header>
+                            <Header>Details</Header>
                             {!this.props.searchTerm && <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
                                 {!this.props.toggleDate && <ExpandLessIcon />}
                                 {this.props.toggleDate && <ExpandMoreIcon />}
@@ -69,7 +69,7 @@ class RepeatsList extends Component {
                                         <Status>Pending</Status>
                                         <TableCell>
                                             {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
-                                            {row.lock && <Chip label="Under Review" variant="outlined" />}
+                                            {row.lock && <UnderReview label="Under Review" variant="outlined" />}
                                         </TableCell>
                                     </OrderRow>
                                 )
@@ -126,6 +126,18 @@ width:auto;
 }
 `
 
+const UnderReview = styled(Chip)`
+&&
+{
+border:0;
+font-family: Assistant;
+font-size: 16px;
+font-weight: 300;
+color: #707070;
+margin-right: -50px;
+}
+`
+
 const SearchError = styled(Chip)`
 margin:16px 0;
 `
@@ -164,11 +176,12 @@ const CompletedOrders = styled(TableBody)`
 const Header = styled(TableCell)`
 &&
 {
-    font-size:16px;
-    color: #b0b0b0;
-    border:0;
-    position: relative;
-    font-family: Assistant;
+font-size: 18px;
+font-weight: normal;
+color: #b0b0b0;
+border:0;
+position: relative;
+font-family: Assistant;
 }
 
 && svg {
