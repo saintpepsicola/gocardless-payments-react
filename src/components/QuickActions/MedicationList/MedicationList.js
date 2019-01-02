@@ -17,17 +17,17 @@ export default class MedicationList extends React.Component {
     }
 
     handleConfirm() {
-        const { repeat } = this.props;
-        const { confirmMedication } = this.state;
+        const { repeat } = this.props
+        const { confirmMedication } = this.state
         this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
         this.setState({
             showConfirmModal: false,
             confirmMedication: null
-        });
+        })
     }
 
     handleClose() {
-        this.setState({ showConfirmModal: false });
+        this.setState({ showConfirmModal: false })
     }
 
     handleToggle(podID, repeat, remedy) {
@@ -35,7 +35,7 @@ export default class MedicationList extends React.Component {
             this.setState({
                 showConfirmModal: true,
                 confirmMedication: remedy
-            });
+            })
         }
         else {
             this.props.toggleMedication(podID, repeat.repeat_id, remedy)
@@ -53,6 +53,7 @@ export default class MedicationList extends React.Component {
                     handleClose={this.handleClose.bind(this)}
                     handleConfirm={this.handleConfirm.bind(this)}
                     aria-labelledby='form-dialog-title'
+                    medication={this.state.confirmMedication}
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
@@ -129,6 +130,9 @@ const Medicine = styled(ListItem)`
     span
     {
         display:inline-block;
+        font-family: Assistant;
+        font-size: 15px;
+        font-weight: 600;
     }
 
     &:hover

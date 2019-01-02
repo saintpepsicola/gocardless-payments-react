@@ -10,7 +10,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import timeago from 'time-ago'
 
 class OrderHistory extends Component {
 
@@ -18,13 +17,13 @@ class OrderHistory extends Component {
     const { repeat } = this.props
     const podID = repeat.pod_id
     const patientID = repeat.patient_id
-    this.props.getRepeatHistory(podID, patientID)
+    const repeatID = repeat.repeat_id
+    this.props.getRepeatHistory(podID, patientID, repeatID)
   }
 
   handleSelect(repeatID) {
     this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
-    this.props.getRepeat(repeatID)
-    this.props.changeTab(3)           
+    this.props.changeTab(3)
   }
 
   render() {
@@ -39,9 +38,8 @@ class OrderHistory extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <Header>Patient Name</Header>
                   <Header>Order</Header>
-                  <Header>Date</Header>
+                  <Header>Order Date</Header>
                   <Header>Status</Header>
                   <Header></Header>
                 </TableRow>
@@ -51,9 +49,8 @@ class OrderHistory extends Component {
                 {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                   return (
                     <OrderRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
-                      <PatientName>{row.patient_forename || repeat.patient_forename} {row.patient_surname || repeat.patient_surname}</PatientName>
-                      <TableCell>{row.number_of_medicines} Medication(s)</TableCell>
-                      <TableCell><FormattedDate date={row.timestamp} /></TableCell>
+                      <TableCell>{row.number_of_medicines} Medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
+                      <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
                       <Status>{row.gp_status}</Status>
                       <TableCell>{<ArrowRight />}</TableCell>
                     </OrderRow>
@@ -71,9 +68,8 @@ class OrderHistory extends Component {
 export default withRouter(OrderHistory)
 
 const FormattedDate = (props) => {
-  return (
-    timeago.ago(props.date * 1000)
-  )
+  let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
+  return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
 // Styled Components
@@ -83,57 +79,54 @@ const Title = styled.h4`
 `
 
 const OrderRow = styled(TableRow)`
-    height:66px !important;
-    & > td
-    {
-        color:#282828;
-        font-size: 16px;
-        cursor: pointer;
-    } 
+&&
+{
+height:66px !important;
+}
+& > td
+{
+  color:#282828;
+  font-size: 16px;
+  cursor: pointer;
+  position:relative;
+} 
 `
 
 const Header = styled(TableCell)`
-    &&
-    {
-        font-size:16px;
-        color: #b0b0b0;
-        border:0;
-    }
+&&
+{
+  font-size:16px;
+  color: #b0b0b0;
+  border:0;
+}
 `
 
 const RepeatHistoryOrders = styled(TableBody)`
-  border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
+border-radius: 5px;
+background-color: #f9f9f9;
 
-  & tr
-  {
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-     box-shadow:none;
-  }
+& tr
+{
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  box-shadow:none;
+}
 
-  & tr:hover
- {
-    background-color: #ebebeb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
- }
-`
-
-const PatientName = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-    }
+& tr:hover
+{
+  background-color: #ebebeb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 `
 
 const Status = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-        text-transform:capitalize;
-        color: ${props => statusColors[props.children]};
-        font-size: 16px;
-    }
+&&
+{
+    font-weight:600;
+    text-transform:capitalize;
+    color: ${props => statusColors[props.children]};
+    font-size: 16px;
+    font-family: Assistant;
+}
 `
 
 const statusColors = {
@@ -144,17 +137,20 @@ const statusColors = {
 }
 
 const Panel = styled(ExpansionPanel)`
-  &&
-    {
-      background: none;
-      box-shadow:none;
-      padding-bottom: 50px;
-    }
+&&
+{
+  background: none;
+  box-shadow:none;
+  padding-bottom: 50px;
+}
 `
 
 const ArrowRight = styled(KeyboardArrowRightRight)`
-  &&
-    {
-      color: #6E6E6E;
-    }
+&&
+{
+  color: #6E6E6E;
+  right:14px;
+  top: 21px;
+  position: absolute;
+}
 `

@@ -20,7 +20,7 @@ export default class UserAvatar extends Component {
                 <Flex onClick={this.handleClick.bind(this)}>
                     <Box pt='6px'>
                         <Name variant='subtitle1'>{this.props.userName}</Name>
-                        <Name variant='subtitle1'>{this.props.podName}</Name>
+                        <PodName variant='subtitle1'>{this.props.podName}</PodName>
                     </Box>
                 </Flex>
             </Avatar >
@@ -31,8 +31,20 @@ export default class UserAvatar extends Component {
 // Styled Components
 const Name = styled(Typography)`
 && {
-    cursor:pointer;
-    color:white;
+cursor:pointer;
+color:white;
+font-family: Assistant;
+font-size: 17px;
+font-weight: 600;
+}
+`
+
+const PodName = styled(Typography)`
+&& {
+font-family: Assistant;
+font-size: 13px;
+font-weight: normal;
+color:white;
 }
 `
 

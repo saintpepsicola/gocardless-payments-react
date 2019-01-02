@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
 import UserAvatar from './UserAvatar'
-import headerBackground from '../../resources/header-bg.png'
 import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 
 class AppBar extends Component {
-
     render() {
         return (
             <FullWidthBlueBar >
@@ -37,7 +35,7 @@ text-align:right;
 const FullWidthBlueBar = styled.div`
 height:110px;
 width:100%;
-background-image:url(${headerBackground});
-background-repeat: repeat-x;
-background-size:contain;
+-webkit-backdrop-filter: blur(8px);
+backdrop-filter: blur(8px);
+background-image: linear-gradient(to top, #257397, #24678b);
 `

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import { withRouter } from "react-router"
-import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog'
 
 class ProcessButton extends React.Component {
 
@@ -16,27 +16,29 @@ class ProcessButton extends React.Component {
             this.props.getRepeats(true)
         }
         else if (this.props.label === 'Reject order') {
-            this.setState({ showConfirmModal: true });
+            this.setState({ showConfirmModal: true })
         }
         else if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
             this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
-            this.props.history.push(`${process.env.PUBLIC_URL}/`)
-            this.props.getRepeats(true)
+                .then(() => {
+                    this.props.history.push(`${process.env.PUBLIC_URL}/`)
+                    this.props.getRepeats(true)
+                })
         }
     }
 
     handleConfirm() {
-        const { repeat } = this.props;
+        const { repeat } = this.props
         this.props.updateGPStatus(repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
         this.props.history.push(`${process.env.PUBLIC_URL}/`)
         this.props.getRepeats(true)
         this.setState({
             showConfirmModal: false
-        });
+        })
     }
 
     handleClose() {
-        this.setState({ showConfirmModal: false });
+        this.setState({ showConfirmModal: false })
     }
 
     render() {
@@ -65,12 +67,14 @@ const ProcessBtn = styled(Button)`
 &&
 {
     margin-top:16px;
+    font-family: Assistant;
     border-radius:24px;
     background-color: ${props => buttonColor[props.label]};
     font-size: 14px;
-    font-weight: normal;
+    font-weight: 600;
     color: #fff;
     height: 40px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
     :hover {
         background-color: ${props => buttonColor[props.label]};
         opacity: 0.9;

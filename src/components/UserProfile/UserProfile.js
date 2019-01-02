@@ -25,6 +25,10 @@ export default class UserProfile extends Component {
         this.setState({ teamMembers: value })
     }
 
+    handleSupport() {
+        alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
+    }
+
     render() {
         let { user, userName } = this.props
         return (
@@ -34,11 +38,11 @@ export default class UserProfile extends Component {
                     <Username>{this.props.userName}</Username>
                     <Action onClick={this.toggleView.bind(this, false)}> Profile</Action>
                     <Action onClick={this.toggleView.bind(this, true)}>Team Members</Action>
-
                     <Links>
                         <Link target='_blank' href='https://healthera.co.uk/'>Legal</Link>
                         <Link target='_blank' href='https://healthera.co.uk/'>Terms & Conditions</Link>
                         <Link onClick={this.logout.bind(this)}> Logout</Link>
+                        <Link onClick={this.handleSupport}> Support</Link>
                     </Links>
                 </SideBar>
                 <Content auto>
@@ -46,12 +50,9 @@ export default class UserProfile extends Component {
                     {!this.state.teamMembers && <div>
                         <Header>Profile</Header>
                         <Subheader>Personal Information</Subheader>
-
                         <Info><span>Name:</span>{userName}</Info>
                         <Info><span>Date of Birth:</span><Birthdate dob={user.birthday} /></Info>
-
                         <Subheader border>Account information</Subheader>
-
                         <Info><span>Email Address:</span>{user.username}</Info>
                         <Info><span>Password:</span>●●●●●●●●●</Info>
                     </div>}
@@ -67,7 +68,6 @@ export default class UserProfile extends Component {
                             })}
                         </Scroll>
                     </div>}
-
                 </Content>
             </Container >
         )
@@ -133,6 +133,7 @@ margin:0;
 padding:0 24px;
 position:relative;
 z-index: 1;
+min-height:100%;
 }
 `
 
@@ -194,14 +195,14 @@ color: #282828;
 line-height:76px;
 border-bottom:1px solid #dcdcdc;
 
-    && span
-    {
-    display: block;
-    line-height: 1;
-    padding-bottom: 18px;
-    font-weight: 400;
-    font-size: 15px;
-    }
+&& span
+{
+display: block;
+line-height: 1;
+padding-bottom: 18px;
+font-weight: 400;
+font-size: 15px;
+}
 }
 `
 

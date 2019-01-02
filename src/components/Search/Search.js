@@ -6,7 +6,6 @@ import { Flex, Box } from 'reflexbox'
 import { withRouter } from "react-router"
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Button from '@material-ui/core/Button'
 
 class Search extends Component {
 
@@ -18,7 +17,7 @@ class Search extends Component {
     if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
       this.interval = setInterval(() => {
-        if(!this.props.searchTerm) {
+        if (!this.props.searchTerm) {
           this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage)
         }
       }, 300000)
@@ -46,21 +45,17 @@ class Search extends Component {
       this.props.getRepeats(value === 1 ? true : false, 10)
   }
 
-  handleSupport() {
-    alert('For Healthera support please call 01223 422018. We are open every Monday to Friday, from 9.30 AM to 6 PM.')
-  }
-
   render() {
     const { searchField } = this.props
     return (
       <Container>
         <Flex>
           <BoxContainer auto align='center'>
-            <Tabs value={this.props.repeatsFilter <= 2 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
+            <TabsContainer value={this.props.repeatsFilter <= 2 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <IconTab icon={<SearchIcon />} />
               {!searchField && <Tab label='Active' />}
               {!searchField && <Tab label='Archive' />}
-            </Tabs>
+            </TabsContainer>
             {/* SEARCHBOX */}
             {searchField &&
               <SearchBox
@@ -71,11 +66,6 @@ class Search extends Component {
                 autoFocus={searchField}
               />}
           </BoxContainer>
-          <Box w='92px'>
-            <VerticalFlex >
-              <Button onClick={this.handleSupport.bind(this)}>Support</Button>
-            </VerticalFlex>
-          </Box>
         </Flex>
       </Container >
     )
@@ -86,7 +76,10 @@ export default withRouter(Search)
 
 // Styled Components
 const Container = styled.div`
-  border-bottom: solid 1px #d3d3d3; 
+border-bottom: solid 1px #d3d3d3; 
+height: 71px;
+display: flex;
+align-items: center;
 `
 
 const IconTab = styled(Tab)`
@@ -94,9 +87,6 @@ const IconTab = styled(Tab)`
 {
   min-width:45px;
 }
-`
-const VerticalFlex = styled(Flex)`
-  height: 100%;
 `
 
 const BoxContainer = styled(Box)`
@@ -108,6 +98,16 @@ const BoxContainer = styled(Box)`
 & > div > div > div > span
 {
   background-color:#2f84b0;
+}
+`
+
+const TabsContainer = styled(Tabs)`
+&& button
+{
+  font-family: Assistant;
+  font-size: 18px;
+  font-weight: bold;
+  height:72px;
 }
 `
 

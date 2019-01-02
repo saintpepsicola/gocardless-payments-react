@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import commentIcon from '../../resources/comment.png'
-import timeago from 'time-ago'
 import TablePagination from '@material-ui/core/TablePagination'
 import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -15,8 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class RepeatsList extends Component {
 
-
-    componentDidMount() { 
+    componentDidMount() {
         this.setState({ page: this.props.page - 1 })
     }
 
@@ -25,7 +23,7 @@ class RepeatsList extends Component {
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
-    
+
     handleChangePage = (event, page) => {
         this.props.resetPagination(page)
         if (this.props.searchTerm) {
@@ -36,11 +34,11 @@ class RepeatsList extends Component {
         }
     }
 
-    toggleOrderDate() {         
+    toggleOrderDate() {
         this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
-    render() {                
+    render() {
         let { rowsPerPage } = this.props
         return (
             <div>
@@ -49,7 +47,7 @@ class RepeatsList extends Component {
                     <TableHead>
                         <TableRow>
                             <Header>Patient Name</Header>
-                            <Header>Order</Header>
+                            <Header>Details</Header>
                             {!this.props.searchTerm && <DateCreatedHeader onClick={this.toggleOrderDate.bind(this)}>Order Date
                                 {!this.props.toggleDate && <ExpandLessIcon />}
                                 {this.props.toggleDate && <ExpandMoreIcon />}
@@ -69,10 +67,10 @@ class RepeatsList extends Component {
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
-                                        <TableCell>
+                                        <LastColumn>
                                             {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
-                                            {row.lock && <Chip label="Under Review" variant="outlined" />}
-                                        </TableCell>
+                                            {row.lock && <UnderReview label="Under Review" variant="outlined" />}
+                                        </LastColumn>
                                     </OrderRow>
                                 )
                             })}
@@ -87,7 +85,7 @@ class RepeatsList extends Component {
                                     <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                     <Status>{row.gp_status}</Status>
                                     <TableCell>
-                                        {row.comment && <img alt='repeat comment' src={commentIcon} />}
+                                        {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                     </TableCell>
                                 </OrderRow>
                             )
@@ -101,12 +99,8 @@ class RepeatsList extends Component {
                     rowsPerPage={rowsPerPage}
                     page={this.props.page}
                     rowsPerPageOptions={[5]}
-                    backIconButtonProps={{
-                        'aria-label': 'Previous Page',
-                    }}
-                    nextIconButtonProps={{
-                        'aria-label': 'Next Page',
-                    }}
+                    backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                    nextIconButtonProps={{ 'aria-label': 'Next Page' }}
                     onChangePage={this.handleChangePage.bind(this)}
                 />}
             </div>
@@ -115,96 +109,115 @@ class RepeatsList extends Component {
 }
 
 export default withRouter(RepeatsList)
-
 const FormattedDate = (props) => {
-    return (
-        timeago.ago(props.date)
-    )
+    let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
+    return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
 // Styled Components
 const CommentFlag = styled.img`
-    &&
-    {
-        padding-right: 10px;
-        top: 5px;
-        position: relative;
-    }
+&&
+{
+padding-right: 10px;
+top: 5px;
+position: relative;
+height:20px;
+width:auto;
+}
+`
+
+const LastColumn = styled(TableCell)`
+&&
+{
+text-align:right;
+}
+`
+
+const UnderReview = styled(Chip)`
+&&
+{
+border:0;
+font-family: Assistant;
+font-size: 16px;
+font-weight: 300;
+color: #707070;
+}
 `
 
 const SearchError = styled(Chip)`
-    margin:16px 0;
+margin:16px 0;
 `
 
 const OrderRow = styled(TableRow)`
-    height:66px !important;
-    cursor:pointer;
-
-    & > td
-    {
-        color:#282828;
-        font-size: 16px;
-    } 
+height:66px !important;
+cursor:pointer;
+& > td
+{
+color:#282828;
+font-size: 16px;
+font-family: Assistant;
+} 
 `
 const PendingOrders = styled(TableBody)`
-  border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
+border-radius: 5px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+background-color: #ffffff;
 
-  & tr
-  {
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-     box-shadow:none;
-  }
+& tr
+{
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+box-shadow:none;
+}
 
-  & tr:hover
- {
-    background-color: #ebebeb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
- }
-
+& tr:hover
+{
+background-color: #ebebeb;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 `
 const CompletedOrders = styled(TableBody)`
   background-color: #f5f5f5;
 `
 
 const Header = styled(TableCell)`
-    &&
-    {
-        font-size:16px;
-        color: #b0b0b0;
-        border:0;
-        position: relative;
-    }
+&&
+{
+font-size: 18px;
+font-weight: normal;
+color: #b0b0b0;
+border:0;
+position: relative;
+font-family: Assistant;
+}
 
-    && svg {
-        position: absolute;
-    }	    
+&& svg {
+    position: absolute;
+}	    
 `
 
 const DateCreatedHeader = styled(Header)`
-    cursor: pointer;
+cursor: pointer;
 `
 
 const DateCreatedSearchHeader = styled(Header)`
-    cursor: unset;
+cursor: unset;
 `
 
 const PatientName = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-    }
+&&
+{
+    font-weight:bold;
+}
 `
 
 const Status = styled(TableCell)`
-    &&
-    {
-        font-weight:bold;
-        text-transform:capitalize;
-        color: ${props => statusColors[props.children]};
-        font-size: 16px;
-    }
+&&
+{
+    font-weight:bold;
+    text-transform:capitalize;
+    color: ${props => statusColors[props.children]};
+    font-size: 16px;
+}
 `
 
 const statusColors = {

@@ -1,67 +1,67 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 export default class CommentField extends React.Component {
 
-  state = {
-    showTextArea: false
-  }
+    state = {
+        showTextArea: false
+    }
 
-  handleClick() {
-    this.setState({ showTextarea: true })
-  }
+    handleClick() {
+        this.setState({ showTextarea: true })
+    }
 
-  handleChange(e) {
-    this.props.handleChange(e);
-  }
+    handleChange(e) {
+        this.props.handleChange(e)
+    }
 
-  handleFocusOut(e) {
-      if(!e.target.value) {
-          this.setState({ showTextarea: false })
-      }
-  }
+    handleFocusOut(e) {
+        if (!e.target.value) {
+            this.setState({ showTextarea: false })
+        }
+    }
 
-  handleReply() {
-    this.props.handleReply();
-    this.setState({ showTextarea: false })
-  }
+    handleReply() {
+        this.props.handleReply()
+        this.setState({ showTextarea: false })
+    }
 
-  handleCancel() {
-    this.setState({ showTextarea: false })
-  }
+    handleCancel() {
+        this.setState({ showTextarea: false })
+    }
 
-  render() {
-    const { hideSendButton, value } = this.props;
-    const { showTextarea } = this.state;
+    render() {
+        const { hideSendButton, value } = this.props
+        const { showTextarea } = this.state
 
-    return (
-      <div>
-        {!showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>LEAVE A NOTE</CommentButton>}
-        
-        {showTextarea && <ReplyField
-            autoFocus
-            multiline
-            fullWidth
-            value={value}
-            onChange={this.handleChange.bind(this)}
-            onBlur={this.handleFocusOut.bind(this)}
-            margin="normal"
-            variant="outlined"
-            placeholder='Please enter your comment'
-        />}
+        return (
+            <div>
+                {!showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>LEAVE A NOTE</CommentButton>}
 
-        {!hideSendButton && showTextarea && <ReplyBtn onClick={this.handleReply.bind(this)} color="primary" aria-label="Process" >
-            SEND
+                {showTextarea && <ReplyField
+                    autoFocus
+                    multiline
+                    fullWidth
+                    value={value}
+                    onChange={this.handleChange.bind(this)}
+                    onBlur={this.handleFocusOut.bind(this)}
+                    margin="normal"
+                    variant="outlined"
+                    placeholder='Please enter your comment'
+                />}
+
+                {!hideSendButton && showTextarea && <ReplyBtn onClick={this.handleReply.bind(this)} color="primary" aria-label="Process" >
+                    SEND
         </ReplyBtn>}
 
-        {!hideSendButton && showTextarea && <ReplyBtn onClick={this.handleCancel.bind(this)} color="primary" aria-label="Process" >
-            CANCEL
+                {!hideSendButton && showTextarea && <ReplyBtn onClick={this.handleCancel.bind(this)} color="primary" aria-label="Process" >
+                    CANCEL
         </ReplyBtn>}
-      </div>
-    );
-  }
+            </div>
+        )
+    }
 
 }
 
@@ -84,9 +84,9 @@ const ReplyField = styled(TextField)`
         padding: 10px !important;
     }
 
-    & fieldset
+    && fieldset
     {
-        border-left: 2px solid #0091cc !important;
+        border-left: 2px solid #0091cc;
         border-right: none;
         border-top: none;
         border-bottom: none;
