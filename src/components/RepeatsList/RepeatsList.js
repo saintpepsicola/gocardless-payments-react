@@ -62,14 +62,16 @@ class RepeatsList extends Component {
                         {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
                             .map((row, index) => {
                                 return (
-                                    <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
                                         <LastColumn>
                                             {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
-                                            {row.lock && <UnderReview label="Under Review" variant="outlined" />}
+                                            {row.lock && <span>
+                                                <UnderReview label="Under Review" variant="outlined" />
+                                                <ReviewAuthor label={`By ${row.viewer}`} variant="outlined" /></span>}
                                         </LastColumn>
                                     </OrderRow>
                                 )
@@ -131,6 +133,26 @@ const LastColumn = styled(TableCell)`
 {
 text-align:right;
 }
+&& > span
+{
+text-align:right;
+}
+`
+
+const ReviewAuthor = styled(Chip)`
+&&
+{
+display:block;
+border:0;
+font-family: Assistant;
+color: #707070;
+font-size: 15px;
+font-weight: 300;
+    && > span
+    {
+        justify-content: flex-end;
+    }
+}
 `
 
 const UnderReview = styled(Chip)`
@@ -139,7 +161,7 @@ const UnderReview = styled(Chip)`
 border:0;
 font-family: Assistant;
 font-size: 16px;
-font-weight: 300;
+font-weight: 600;
 color: #707070;
 }
 `
@@ -151,6 +173,8 @@ margin:16px 0;
 const OrderRow = styled(TableRow)`
 height:66px !important;
 cursor:pointer;
+filter: opacity(0.49);
+filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 & > td
 {
 color:#282828;

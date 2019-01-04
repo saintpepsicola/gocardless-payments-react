@@ -411,8 +411,10 @@ export default (state = initialState, action) => {
             state.repeats.forEach(repeat => repeat.lock = false)
             for (let repeat in action.payload) {
                 let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat)
-                if ((state.repeats[result]))
+                if ((state.repeats[result])) {
                     state.repeats[result].lock = true
+                    state.repeats[result].viewer = action.payload[repeat].viewedBy
+                }
             }
             return {
                 ...state, repeats: [...state.repeats]

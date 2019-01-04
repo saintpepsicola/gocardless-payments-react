@@ -19,19 +19,16 @@ class AppBar extends Component {
 }
 
 export default withRouter(AppBar)
-
 const Container = styled(Flex)`
 max-width:1100px;
 height:100%;
 margin:0 auto;
 box-sizing:border-box;
-
 & > div:nth-child(2)
 {
 text-align:right;
 }
 `
-
 const FullWidthBlueBar = styled.div`
 height:110px;
 width:100%;
