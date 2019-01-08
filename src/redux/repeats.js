@@ -32,7 +32,7 @@ let initialState = {
 let podID = localStorage[`healthera_pod_id`]
 let userName = localStorage[`user_name`]
 let token = localStorage[`healthera_pod_token`]
-let user = JSON.parse(localStorage[`user`])
+let user = localStorage[`user`] ? JSON.parse(localStorage[`user`]) : null
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 let headers = {

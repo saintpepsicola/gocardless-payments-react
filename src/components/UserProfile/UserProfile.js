@@ -39,10 +39,10 @@ export default class UserProfile extends Component {
                     <Action onClick={this.toggleView.bind(this, false)}> Profile</Action>
                     <Action onClick={this.toggleView.bind(this, true)}>Team Members</Action>
                     <Links>
+                        <Link onClick={this.handleSupport}> Support</Link>
                         <Link target='_blank' href='https://healthera.co.uk/'>Legal</Link>
                         <Link target='_blank' href='https://healthera.co.uk/'>Terms & Conditions</Link>
                         <Link onClick={this.logout.bind(this)}> Logout</Link>
-                        <Link onClick={this.handleSupport}> Support</Link>
                     </Links>
                 </SideBar>
                 <Content auto>
