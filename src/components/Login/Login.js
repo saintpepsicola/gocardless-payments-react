@@ -78,6 +78,7 @@ const Input = styled(TextField)`
 &&
 {
 color:#257094;
+margin-bottom:57px;
 }
 && input
 {
@@ -109,11 +110,11 @@ color: #5f95af;
 const LogoImg = styled.img`
 width: 210px;
 height: 29px;
-margin-bottom:16px;
+margin-bottom:25px;
 `
 
 const LoginBox = styled.div`
-padding:32px;
+padding:55px 32px 32px;
 width: 364px;
 height: 421px;
 border-radius: 13px;
