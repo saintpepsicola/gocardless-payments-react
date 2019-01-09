@@ -13,15 +13,6 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import CloseIcon from '@material-ui/icons/Close'
 
-const automaticReplies = [
-  'Incorrect patient details', 'Medication not on your records',
-  'No consent for third party to enter your records',
-  'Wrong strength or Form of medication.',
-  'Item hasn’t been ordered for 6 months',
-  'Your repeat order is too early. Please order at least one week before running out.'
-]
-
-
 export default class ConfirmDialog extends React.Component {
   state = { podMessage: null, value: 1 }
 
@@ -94,6 +85,16 @@ export default class ConfirmDialog extends React.Component {
   }
 
 }
+
+// Automatic Replies
+const automaticReplies = [
+  'Hi there! Unfortunately we are unable to approve your medicine request as it was ordered too early. Please note, you are currently not due an order until xx xx xxxx. Please re-order closer to the time. Thank you!',
+  'Hi there! Unfortunately, we are unable to approve your prescription request due to incorrect information listed in the profile section of the Healthera app. Please check your details, and re-submit your prescription request. Thank you!',
+  'Hi there! Unfortunately, we are unable to approve your prescription request as there is currently no record of this medicine listed on your medication history. Please speak with your GP. Thank you.',
+  'Hi there! Unfortunately, we are unable to approve your prescription request as currently there is no record of consent to order on behalf of this patient. Please speak with your GP. Thank you',
+  'Hi there! Unfortunately, we are unable to approve your prescription request as it has been 6 months since you last ordered this medicine. Please consult with your GP surgery. Thank you.',
+  'Hi there! It appears the item you have ordered is not the correct dosage previously prescribed by your GP. Please contact your GP surgery. Thank you'
+]
 
 
 const StyledDialog = styled(({ color, ...other }) => (

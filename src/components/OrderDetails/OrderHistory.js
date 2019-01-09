@@ -44,7 +44,6 @@ class OrderHistory extends Component {
                   <Header></Header>
                 </TableRow>
               </TableHead>
-              {/* PENDING ORDERS */}
               <RepeatHistoryOrders>
                 {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                   return (
@@ -53,8 +52,7 @@ class OrderHistory extends Component {
                       <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
                       <Status>{row.gp_status}</Status>
                       <TableCell>{<ArrowRight />}</TableCell>
-                    </OrderRow>
-                  )
+                    </OrderRow>)
                 })}
               </RepeatHistoryOrders>
             </Table>
@@ -74,8 +72,8 @@ const FormattedDate = (props) => {
 
 // Styled Components
 const Title = styled.h4`
-  color: #575757;
-  margin: 0px;
+color: #575757;
+margin: 0px;
 `
 
 const OrderRow = styled(TableRow)`
@@ -85,19 +83,19 @@ height:66px !important;
 }
 & > td
 {
-  color:#282828;
-  font-size: 16px;
-  cursor: pointer;
-  position:relative;
+color:#282828;
+font-size: 16px;
+cursor: pointer;
+position:relative;
 } 
 `
 
 const Header = styled(TableCell)`
 &&
 {
-  font-size:16px;
-  color: #b0b0b0;
-  border:0;
+font-size:16px;
+color: #b0b0b0;
+border:0;
 }
 `
 
@@ -107,25 +105,25 @@ background-color: #f9f9f9;
 
 & tr
 {
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  box-shadow:none;
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+box-shadow:none;
 }
 
 & tr:hover
 {
-  background-color: #ebebeb;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+background-color: #ebebeb;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 `
 
 const Status = styled(TableCell)`
 &&
 {
-    font-weight:600;
-    text-transform:capitalize;
-    color: ${props => statusColors[props.children]};
-    font-size: 16px;
-    font-family: Assistant;
+font-weight:600;
+text-transform:capitalize;
+color: ${props => statusColors[props.children]};
+font-size: 16px;
+font-family: Assistant;
 }
 `
 
@@ -139,18 +137,18 @@ const statusColors = {
 const Panel = styled(ExpansionPanel)`
 &&
 {
-  background: none;
-  box-shadow:none;
-  padding-bottom: 50px;
+background: none;
+box-shadow:none;
+padding-bottom: 50px;
 }
 `
 
 const ArrowRight = styled(KeyboardArrowRightRight)`
 &&
 {
-  color: #6E6E6E;
-  right:14px;
-  top: 21px;
-  position: absolute;
+color: #6E6E6E;
+right:14px;
+top: 21px;
+position: absolute;
 }
 `
