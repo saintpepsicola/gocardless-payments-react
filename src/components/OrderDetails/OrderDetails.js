@@ -8,6 +8,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
 import OrderHistory from './OrderHistory'
+import BackArrow from '@material-ui/icons/KeyboardArrowLeft'
 
 class OrderDetails extends React.Component {
 
@@ -26,6 +27,11 @@ class OrderDetails extends React.Component {
         this.unlisten()
     }
 
+    gotoParentOrder() {
+        console.log('going back')
+        window.history.go('-1')
+    }
+
     async componentDidMount() {
         // Get a single Repeat
         await this.props.getRepeat(this.props.match.params.orderID)
@@ -36,6 +42,7 @@ class OrderDetails extends React.Component {
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
+        let completedOrder = repeat ? repeat.gp_status === 'delivered' ? true : false : false
         return (
             <div>
                 {!fetching && repeat && <div>
@@ -116,8 +123,9 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
+                    {!completedOrder && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />}
                     <QuickActions />
-                    {this.props.repeat.gp_status === 'delivered' && <OrderHistory {...this.props} />}
+                    {completedOrder && <OrderHistory {...this.props} />}
                 </div>}
             </div>
         )
@@ -129,69 +137,91 @@ const timestampToDate = (date) => {
     return dob.toLocaleString().split(',')[0]
 }
 
+const OrderHistoryHeader = (props) => {
+    return <OrderHistoryTitle onClick={props.onClick}><BackArrow />ORDER HISTORY</OrderHistoryTitle>
+}
+
 export default withRouter(OrderDetails)
 
 const Summary = styled(ExpansionPanelSummary)`
 && > div
 {
-margin:12px 0;
+margin: 12px 0;
 }
 `
 
+const OrderHistoryTitle = styled.h3`
+&&
+{
+font-family: Assistant;
+font-size: 20px;
+font-weight: 900;
+font-style: normal;
+line-height: normal;
+color: #4a4a4a;
+display:flex;
+align-items:center;
+}
+&& svg
+{
+color:#707070;
+}
+`
 
 const PanelTitle = styled.h3`
-            width:100%;
-            font-size:22px;
-            font-weight: 800;
-            color: #4a4a4a;
-            margin:0;
-            `
+width:100%;
+font-size:22px;
+font-weight: 800;
+color: #4a4a4a;
+margin:0;
+`
 
 const PanelSubTitle = styled.h5`
-    float: left;
-    width:100%;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: normal;
-    color: #7a7a7a;
-    margin: 5px 0px 0px 0px;
+float: left;
+width:100%;
+font-size: 15px;
+font-weight: normal;
+letter-spacing: normal;
+color: #7a7a7a;
+margin: 5px 0px 0px 0px;
 `
 
 const Title = styled.h4`
-            color: #575757;
-            margin-bottom: 8px;
-            `
+color: #575757;
+margin-bottom: 8px;
+`
 
 const Address = styled.p`
-    && 
-    {  white-space:pre-line;
-       text-transform:uppercase;
-    }
+&&
+{
+white-space:pre-line;
+text-transform:uppercase;
+}
 `
 
 const PatientDetails = styled(Flex)`
-            width:100%;
-            &  p
-            {
-                font-size: 14px;
-                margin:0;
-                line-height:1.5;
-                color: #575757;
-            }
-            `
+width:100%;
+& p
+{
+font-size: 14px;
+margin:0;
+line-height:1.5;
+color: #575757;
+}
+`
 
 const Content = styled(ExpansionPanelDetails)`
-            border-top: solid 1px #e4e3e3;
-            &&
+border-top: solid 1px #e4e3e3;
+&&
 {
-                    padding: 0;
-            }
-            `
+padding: 0;
+}
+`
 
 const Panel = styled(ExpansionPanel)`
-            &&
+&&
 {
-                background: none;
-                box-shadow:none;
-            }
+background: none;
+box-shadow:none;
+}
 `
