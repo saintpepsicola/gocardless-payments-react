@@ -32,7 +32,6 @@ export default class ConfirmDialog extends React.Component {
 
   handleReply = (e) => this.setState({ value: e.target.value })
 
-
   render() {
     return (
       <StyledDialog
@@ -83,7 +82,6 @@ export default class ConfirmDialog extends React.Component {
       </StyledDialog>
     )
   }
-
 }
 
 // Automatic Replies
@@ -163,7 +161,7 @@ align-items:center;
 && svg
 {
 margin-right:12px;
-padding: 5px;
+padding:5px;
 }  
 `
 
