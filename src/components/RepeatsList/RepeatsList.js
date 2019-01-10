@@ -11,6 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination'
 import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
 
 class RepeatsList extends Component {
 
@@ -67,12 +68,13 @@ class RepeatsList extends Component {
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
+                                        <TableCell>{row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}</TableCell>
                                         <LastColumn>
-                                            {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                             {row.lock && <span>
                                                 <UnderReview label="Under Review" variant="outlined" />
                                                 <ReviewAuthor label={`By ${row.viewer}`} variant="outlined" /></span>}
                                         </LastColumn>
+                                        <TableCell>{<ArrowRight />}</TableCell>
                                     </OrderRow>
                                 )
                             })}
@@ -119,6 +121,16 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
+const ArrowRight = styled(KeyboardArrowRightRight)`
+&&
+{
+color: #6E6E6E;
+right:14px;
+top: 21px;
+position: absolute;
+}
+`
+
 const CommentFlag = styled.img`
 &&
 {

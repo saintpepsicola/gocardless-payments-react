@@ -16,12 +16,12 @@ export default class QuickActions extends React.Component {
             <Container>
                 <Flex>
                     <Box p='22px' mr='16px' w={7 / 10} >
-                        <Flex justify='space-between'>
+                        <Header justify='space-between'>
                             <Box align='center' w={8 / 10} >
                                 <OrderTitle> <Bigger>{repeat.number_of_medicines} Medication{repeat.number_of_medicines === 1 ? '' : 's'}</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
                             <PanelBox w={6 / 10} > <PanelControls /> </PanelBox>
-                        </Flex>
+                        </Header>
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
@@ -50,6 +50,10 @@ const FormattedDate = (props) => {
     let date = new Date(Number(props.date))
     return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
+
+const Header = styled(Flex)`
+border-bottom:1px solid #e5e5e5;
+`
 
 const PanelBox = styled(Box)`
   text-align:right;

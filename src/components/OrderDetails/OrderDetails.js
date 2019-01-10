@@ -28,7 +28,6 @@ class OrderDetails extends React.Component {
     }
 
     gotoParentOrder() {
-        console.log('going back')
         window.history.go('-1')
     }
 
@@ -60,7 +59,7 @@ class OrderDetails extends React.Component {
                         </Summary>
                         <Content>
                             <PatientDetails pl='24px' pr='24px' pt='8'>
-                                <Box w={3 / 12} >
+                                <Box w={3 / 12}>
                                     <Title>PATIENT DETAILS</Title>
                                     <Flex m='0'>
                                         <Box w='90px'>
@@ -153,6 +152,7 @@ margin: 12px 0;
 const OrderHistoryTitle = styled.h3`
 &&
 {
+cursor:pointer;
 font-family: Assistant;
 font-size: 20px;
 font-weight: 900;
@@ -201,12 +201,36 @@ text-transform:uppercase;
 
 const PatientDetails = styled(Flex)`
 width:100%;
+position:relative;
 & p
 {
 font-size: 14px;
 margin:0;
 line-height:1.5;
 color: #575757;
+}
+&& > div
+{
+    position:relative;
+    padding: 0 20px;
+}
+&& > div:first-child
+{
+    padding-left:0;
+}
+&& > div:last-child:after
+{
+    display:none;
+}
+&& > div:after
+{
+    content: '';
+    height: 110px;
+    width: 1px;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: #d3d3d3;
 }
 `
 
