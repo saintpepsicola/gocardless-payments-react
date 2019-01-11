@@ -19,7 +19,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: 1,
+    repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
     page: 0,
@@ -84,9 +84,6 @@ const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
 
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
-
-// Toggle Searchbar
-const TOGGLE_SEARCH = 'TOGGLE_SEARCH'
 
 // Handle Tab Change
 const CHANGE_TAB = 'CHANGE_TAB'
@@ -173,13 +170,6 @@ export const toggleRepeats = (id) => {
     return ({
         type: TOGGLE_REPEATS,
         payload: { id }
-    })
-}
-
-export const toggleSearch = (state) => {
-    return ({
-        type: TOGGLE_SEARCH,
-        payload: { state }
     })
 }
 
@@ -270,11 +260,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
-            }
-        case TOGGLE_SEARCH:
-            return {
-                ...state, searchField: action.payload.state, searchError: null
+                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
         case GET_REPEAT_HISTORY:
             return {
