@@ -32,7 +32,7 @@ class Search extends Component {
 
   handleBlur = () => {
     setTimeout(() => {
-      this.setState({ searchField: false })
+      //this.setState({ searchField: false })
       this.props.getRepeats(true, this.props.rowsPerPage)
     }, 200)
   }
@@ -152,5 +152,10 @@ const SearchBox = styled.div`
   font-family: Assistant;
   align-items:center;
   display:flex;
+  color:white;
+}
+&& svg, && input::placeholder
+{
+  color:white;
 }
 `
