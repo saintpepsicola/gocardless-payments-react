@@ -30,9 +30,5 @@ text-align:right;
 }
 `
 const FullWidthBlueBar = styled.div`
-height:110px;
-width:100%;
--webkit-backdrop-filter: blur(8px);
-backdrop-filter: blur(8px);
-background-image: linear-gradient(to top, #257397, #24678b);
+
 `

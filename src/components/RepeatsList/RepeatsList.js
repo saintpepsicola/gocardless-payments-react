@@ -20,7 +20,7 @@ class RepeatsList extends Component {
     }
 
     handleSelect(repeatID) {
-        this.props.toggleSearch(false)
+        // this.props.toggleSearch(false)
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
@@ -31,12 +31,12 @@ class RepeatsList extends Component {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
+            this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
         }
     }
 
     toggleOrderDate() {
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
+        this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
     render() {
