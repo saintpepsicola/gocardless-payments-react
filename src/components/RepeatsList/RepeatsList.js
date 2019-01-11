@@ -43,7 +43,6 @@ class RepeatsList extends Component {
         let { rowsPerPage } = this.props
         return (
             <div>
-                {this.props.searchError && <SearchError label={this.props.searchError} />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHead>
                         <TableRow>
@@ -178,10 +177,6 @@ font-size: 16px;
 font-weight: 600;
 color: #707070;
 }
-`
-
-const SearchError = styled(Chip)`
-margin:16px 0;
 `
 
 const OrderRow = styled(TableRow)`

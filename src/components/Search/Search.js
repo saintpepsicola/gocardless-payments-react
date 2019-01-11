@@ -61,10 +61,10 @@ class Search extends Component {
         <Flex w={`100%`}>
           <BoxContainer w={9 / 10} align='center'>
 
-            <TabsContainer value={this.props.repeatsFilter <= 1 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
-              {!searchField && <Tab label='Active' />}
-              {!searchField && <Tab label='Archive' />}
-            </TabsContainer>
+            {!searchField && <TabsContainer value={this.props.repeatsFilter <= 1 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
+              <Tab label='Active' />
+              <Tab label='Archive' />
+            </TabsContainer>}
 
             {/* SEARCHBOX */}
             {searchField &&
