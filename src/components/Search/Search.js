@@ -32,7 +32,7 @@ class Search extends Component {
 
   handleBlur = () => {
     setTimeout(() => {
-      //this.setState({ searchField: false })
+      this.setState({ searchField: false })
       this.props.getRepeats(true, this.props.rowsPerPage)
     }, 200)
   }
