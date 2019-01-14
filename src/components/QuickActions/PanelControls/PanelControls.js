@@ -66,8 +66,8 @@ background-color: ${props => props.selected ? '#2f84b0' : '#575757'};
 mask:url(${props => props.backicon}) no-repeat 50% 50%;
 content:"";
 padding:6px;
-width:20px;
-height:20px;
+width:32px;
+height:32px;
 }
 `
 const Status = styled.p`
