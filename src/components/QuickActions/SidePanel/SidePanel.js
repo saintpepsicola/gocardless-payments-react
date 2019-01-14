@@ -21,7 +21,6 @@ const Panel = styled(Box)`
       height:100%;
       position:absolute;
       transition:transform 0.3s;
-      padding:14px;
       box-sizing: border-box;
 
       & nav li span

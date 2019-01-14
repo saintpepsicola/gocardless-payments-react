@@ -41,7 +41,13 @@ height:100%;
 `
 
 const Title = styled.h1`
-font-size: 18px;
-font-weight: 900;
-color: #4a4a4a;
+font-size:17px;
+color:#575756;
+font-weight:'900';
+display:flex;
+text-transform:'none';
+align-items:center;
+border-bottom:1px solid #e5e5e5;
+padding:14px;
+padding-bottom:30px;
 `

@@ -12,9 +12,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 export default class MedicationList extends React.Component {
 
-    state = {
-        showConfirmModal: false
-    }
+    state = { showConfirmModal: false }
 
     handleConfirm() {
         const { repeat } = this.props
@@ -26,20 +24,10 @@ export default class MedicationList extends React.Component {
         })
     }
 
-    handleClose() {
-        this.setState({ showConfirmModal: false })
-    }
+    handleClose() { this.setState({ showConfirmModal: false }) }
 
     handleToggle(podID, repeat, remedy) {
-        if (remedy.approved) {
-            this.setState({
-                showConfirmModal: true,
-                confirmMedication: remedy
-            })
-        }
-        else {
-            this.props.toggleMedication(podID, repeat.repeat_id, remedy)
-        }
+        remedy.approved ? this.setState({ showConfirmModal: true, confirmMedication: remedy }) : this.props.toggleMedication(podID, repeat.repeat_id, remedy)
     }
 
     render() {
@@ -60,14 +48,11 @@ export default class MedicationList extends React.Component {
                 />
                 {repeat && repeat.remedies && <List component="nav">
                     {meds.map((medication, i) => {
-                        if (medication.medicine) {
-                            controlled = medication.medicine.controlled
-                        }
+                        if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
                             <Medicine onClick={basic || repeat.gp_status !== 'delivered' ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
-                                {
-                                    !basic &&
+                                {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
                                     </ListItemIcon>
@@ -82,64 +67,65 @@ export default class MedicationList extends React.Component {
 }
 
 const MedicineItem = styled(ListItemText)`
-  &::after
-  {
-    content: '';
-    width: 21px;
-    height: 21px;
-    bottom: -4px;
-    position: relative;
-    display:${props => props.controlled ? 'inline-block' : 'none'};
-    margin-left: 8px;
-    background-image: url(${controlledIcon});
-    background-repeat: no-repeat;
-    background-position: center;
-  }
+&::after
+{
+content: '';
+width: 21px;
+height: 21px;
+bottom: -4px;
+position: relative;
+display:${props => props.controlled ? 'inline-block' : 'none'};
+margin-left: 8px;
+background-image: url(${controlledIcon});
+background-repeat: no-repeat;
+background-position: center;
+}
 `
 
 const Container = styled(Flex)`
-    width:100%;
-    &>nav
-    {
-        width:100%;
-        height:360px;
-        overflow-y:auto;
-        padding-right:30px;
-    }
+width:100%;
+&>nav
+{
+width:100%;
+height:360px;
+overflow-y:auto;
+padding-right:30px;
+padding-top:${props => props.basic ? 0 : '8px'};
+}
 
-    & nav::-webkit-scrollbar {
-        width:3px;
-        background-color: #eeeeee;
-    }
+& nav::-webkit-scrollbar {
+width:3px;
+background-color: #eeeeee;
+}
 
-    & nav::-webkit-scrollbar-thumb {
-        background-color: #3d3d3d;
-        border-radius:5px;
-    } 
-    
-    & span
-    {
-       font-weight:${props => props.basic ? '400' : '600'};
-       color:#282828;
-    }
+& nav::-webkit-scrollbar-thumb {
+background-color: #3d3d3d;
+border-radius:5px;
+} 
+
+& span
+{
+font-weight:${props => props.basic ? '400' : '600'};
+color:#282828;
+}
 `
 const Medicine = styled(ListItem)`
 &&
 {
-    padding-right:0;
-    span
-    {
-        display:inline-block;
-        font-family: Assistant;
-        font-size: 15px;
-        font-weight: 600;
-    }
+padding-right:0;
+span
+{
+display:inline-block;
+font-family: Assistant;
+font-size: 15px;
+font-weight: 600;
+}
 
-    &:hover
-    {
-        background-color:#ededed;
-        cursor:pointer;
-    }
+&:hover
+{
+background-color:#ededed;
+cursor:pointer;
+}
 }
 `
 
