@@ -60,8 +60,11 @@ const PanelBox = styled(Box)`
 `
 
 const Container = styled(Paper)`
-  width:100%;
-  margin-bottom:16px;
+&& {
+border-radius: 13px;
+width:100%;
+margin-bottom:16px;
+}
 `
 
 const Bigger = styled.span`

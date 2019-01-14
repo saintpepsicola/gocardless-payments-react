@@ -201,7 +201,7 @@ const ConfirmButton = styled(Button)`
 &&
 {
 margin-top:16px;
-background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#509500'};
+background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#419646'};
 font-size: 14px;
 font-weight: normal;
 color:#ffffff !important;
@@ -211,7 +211,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
 }  
 &&:hover
 {
-  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#509500'};
+  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#419646'};
   opacity: 0.9;
 }
 `
