@@ -25,6 +25,7 @@ class OrderDetails extends React.Component {
 
     componentWillUnmount() {
         this.unlisten()
+        this.props.unlockRepeat(this.props.repeat.repeat_id)
     }
 
     gotoParentOrder() {
