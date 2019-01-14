@@ -90,6 +90,8 @@ class RepeatsList extends Component {
                                     <TableCell>
                                         {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                     </TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>{<ArrowRight />}</TableCell>
                                 </OrderRow>
                             )
                         })}
