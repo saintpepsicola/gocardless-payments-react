@@ -85,5 +85,5 @@ const ProcessBtn = styled(Button)`
 const buttonColor = {
     'Reject': '#939393',
     'Process later': '#2f84b0',
-    'Approve': '#509500'
+    'Approve': '#419646'
 }

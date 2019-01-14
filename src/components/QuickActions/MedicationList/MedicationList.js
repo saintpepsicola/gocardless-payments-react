@@ -146,7 +146,7 @@ const Medicine = styled(ListItem)`
 const CheckIcon = styled(DoneIcon)`
 &&{
 font-size:25px;
-color:#509500;
+color:#419646;
 }
 `
 
