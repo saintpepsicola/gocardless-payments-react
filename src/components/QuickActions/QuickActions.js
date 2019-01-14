@@ -28,13 +28,13 @@ export default class QuickActions extends React.Component {
                         {repeat.gp_status === 'delivered' &&
                             <Flex justify='space-between' align='center'>
                                 <Box align='center' w={8 / 10}>
-                                    <ProcessButton label={`Reject order`} {...this.props} />
+                                    <ProcessButton label={`Reject`} {...this.props} />
                                 </Box>
                                 <Box w={3 / 10}>
                                     <ProcessButton label={`Process later`} {...this.props} />
                                 </Box>
                                 <Box >
-                                    <ProcessButton disabled={completeDisabled} label={`Complete`} {...this.props} />
+                                    <ProcessButton disabled={completeDisabled} label={`Approve`} {...this.props} />
                                 </Box>
                             </Flex>
                         }
@@ -48,7 +48,7 @@ export default class QuickActions extends React.Component {
 const FormattedDate = (props) => {
     let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
     let date = new Date(Number(props.date))
-    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
+    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
 
 const Header = styled(Flex)`

@@ -54,7 +54,6 @@ export default class Comments extends React.Component {
                             handleReply={this.handleReply.bind(this)}
                             value={name}
                         />
-
                     </div>
                 </ScrollToBottom>
             </CommentBox>
