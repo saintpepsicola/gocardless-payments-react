@@ -37,7 +37,7 @@ const OrderStatus = props => {
 }
 
 const Ordertabs = styled(Tabs)`
-&& span[class^="MuiPrivateTabIndicator"]
+&& > div > div > span
 {
 background-color:#2f84b0;
 }
@@ -47,11 +47,11 @@ const Ordertab = styled(Tab)`
 &&
 {
 font-family:Assistant;
-font-size:18px;
+font-size:16px;
 color: #575757;
 text-transform:none;
 }
-&& > span > span[class^="MuiTab-labelContainer"]
+&& > span > span
 {
 padding:9px;
 display: flex;
