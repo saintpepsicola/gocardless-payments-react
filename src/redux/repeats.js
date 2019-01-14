@@ -19,7 +19,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    repeatsFilter: 1,
+    repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
     page: 0,
@@ -32,6 +32,7 @@ let initialState = {
 let podID = localStorage[`healthera_pod_id`]
 let userName = localStorage[`user_name`]
 let token = localStorage[`healthera_pod_token`]
+let user = localStorage[`user`] ? JSON.parse(localStorage[`user`]) : null
 const clientID = process.env.REACT_APP_CLIENT_ID
 
 let headers = {
@@ -83,9 +84,6 @@ const SEND_NOTE_FAILURE = 'SEND_NOTE_FAILURE'
 
 // Toggle Repeats filter : ACTIVE / INACTIVE
 const TOGGLE_REPEATS = 'TOGGLE_REPEATS'
-
-// Toggle Searchbar
-const TOGGLE_SEARCH = 'TOGGLE_SEARCH'
 
 // Handle Tab Change
 const CHANGE_TAB = 'CHANGE_TAB'
@@ -175,13 +173,6 @@ export const toggleRepeats = (id) => {
     })
 }
 
-export const toggleSearch = (state) => {
-    return ({
-        type: TOGGLE_SEARCH,
-        payload: { state }
-    })
-}
-
 export const changeTab = (value) => {
     return ({
         type: CHANGE_TAB,
@@ -212,6 +203,8 @@ export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
     podID = localStorage[`healthera_pod_id`]
     token = localStorage[`healthera_pod_token`]
     userName = localStorage[`user_name`]
+    user = JSON.parse(localStorage[`user`])
+    db.ref('pods/' + podID + '/' + user.user_id).onDisconnect().remove()
     headers.Token = token
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
@@ -229,7 +222,7 @@ export const getRepeats = (active, pageSize = 10, page = 0, sort = active ? 'dat
         Promise.all([
             dispatch(getRepeatsfromAPI(active, pageSize, page, sort))
         ]).then(() => {
-            db.ref('pods/' + podID).orderByChild('lock').equalTo(true).on('value', function (snapshot) {
+            db.ref('pods/' + podID).on('value', function (snapshot) {
                 dispatch({ type: GET_LOCKED_REPEATS_FROM_FIREBASE, payload: snapshot.val() })
             })
         })
@@ -267,11 +260,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_TAB:
             return {
-                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 0 ? true : false, repeats: action.payload.value === 0 ? [] : state.repeats
-            }
-        case TOGGLE_SEARCH:
-            return {
-                ...state, searchField: action.payload.state, searchError: null
+                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
         case GET_REPEAT_HISTORY:
             return {
@@ -394,14 +383,14 @@ export default (state = initialState, action) => {
             }
         case UNLOCK_REPEAT:
             setTimeout(() => {
-                db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: false })
+                db.ref('pods/' + podID + '/' + user.user_id).remove()
             }, 200)
             return {
                 ...state
             }
         case LOCK_REPEAT:
             setTimeout(() => {
-                db.ref('pods/' + podID + '/' + action.payload.repeatID).update({ lock: true, viewedBy: userName })
+                db.ref('pods/' + podID + '/' + user.user_id).update({ name: userName, viewing: action.payload.repeatID })
             }, 200)
             return {
                 ...state
@@ -410,9 +399,13 @@ export default (state = initialState, action) => {
             let newRepeats = state.repeats
             state.repeats.forEach(repeat => repeat.lock = false)
             for (let repeat in action.payload) {
-                let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === repeat)
-                if ((state.repeats[result]))
-                    state.repeats[result].lock = true
+                if (action.payload[repeat].viewing) {
+                    let result = newRepeats.findIndex(oldrepeat => oldrepeat.repeat_id === action.payload[repeat].viewing)
+                    if (result !== -1) {
+                        state.repeats[result].lock = true
+                        state.repeats[result].viewer = action.payload[repeat].name
+                    }
+                }
             }
             return {
                 ...state, repeats: [...state.repeats]
@@ -423,11 +416,6 @@ export default (state = initialState, action) => {
                 repeats: []
             }
         case GET_REPEATS_SUCCESS:
-            let repeats = action.payload.data.data
-            //Add active repeats to firebase
-            repeats.filter(repeat => repeat.gp_status === 'delivered').map(repeat => {
-                return db.ref('pods/' + podID + '/' + repeat.repeat_id).update({ name: repeat.patient_forename + ' ' + repeat.patient_surname })
-            })
             return {
                 ...state,
                 repeats: action.payload.data.data,

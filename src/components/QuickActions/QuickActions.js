@@ -16,25 +16,25 @@ export default class QuickActions extends React.Component {
             <Container>
                 <Flex>
                     <Box p='22px' mr='16px' w={7 / 10} >
-                        <Flex justify='space-between'>
+                        <Header justify='space-between'>
                             <Box align='center' w={8 / 10} >
                                 <OrderTitle> <Bigger>{repeat.number_of_medicines} Medication{repeat.number_of_medicines === 1 ? '' : 's'}</Bigger> | <FormattedDate date={repeat.date_created} /> </OrderTitle>
                             </Box>
                             <PanelBox w={6 / 10} > <PanelControls /> </PanelBox>
-                        </Flex>
+                        </Header>
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
                         {repeat.gp_status === 'delivered' &&
                             <Flex justify='space-between' align='center'>
                                 <Box align='center' w={8 / 10}>
-                                    <ProcessButton label={`Reject order`} {...this.props} />
+                                    <ProcessButton label={`Reject`} {...this.props} />
                                 </Box>
                                 <Box w={3 / 10}>
                                     <ProcessButton label={`Process later`} {...this.props} />
                                 </Box>
                                 <Box >
-                                    <ProcessButton disabled={completeDisabled} label={`Complete`} {...this.props} />
+                                    <ProcessButton disabled={completeDisabled} label={`Approve`} {...this.props} />
                                 </Box>
                             </Flex>
                         }
@@ -47,16 +47,24 @@ export default class QuickActions extends React.Component {
 
 const FormattedDate = (props) => {
     let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
-    return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
+    let date = new Date(Number(props.date))
+    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
+
+const Header = styled(Flex)`
+border-bottom:1px solid #e5e5e5;
+`
 
 const PanelBox = styled(Box)`
   text-align:right;
 `
 
 const Container = styled(Paper)`
-  width:100%;
-  margin-bottom:16px;
+&& {
+border-radius: 13px;
+width:100%;
+margin-bottom:16px;
+}
 `
 
 const Bigger = styled.span`

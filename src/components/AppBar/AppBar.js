@@ -19,23 +19,16 @@ class AppBar extends Component {
 }
 
 export default withRouter(AppBar)
-
 const Container = styled(Flex)`
 max-width:1100px;
 height:100%;
 margin:0 auto;
 box-sizing:border-box;
-
 & > div:nth-child(2)
 {
 text-align:right;
 }
 `
-
 const FullWidthBlueBar = styled.div`
-height:110px;
-width:100%;
--webkit-backdrop-filter: blur(8px);
-backdrop-filter: blur(8px);
-background-image: linear-gradient(to top, #257397, #24678b);
+
 `

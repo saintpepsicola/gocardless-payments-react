@@ -15,11 +15,11 @@ class ProcessButton extends React.Component {
             this.props.history.push(`${process.env.PUBLIC_URL}/`)
             this.props.getRepeats(true)
         }
-        else if (this.props.label === 'Reject order') {
+        else if (this.props.label === 'Reject') {
             this.setState({ showConfirmModal: true })
         }
         else if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
-            this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+            this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Approve' ? 'accepted' : 'declined')
                 .then(() => {
                     this.props.history.push(`${process.env.PUBLIC_URL}/`)
                     this.props.getRepeats(true)
@@ -29,7 +29,7 @@ class ProcessButton extends React.Component {
 
     handleConfirm() {
         const { repeat } = this.props
-        this.props.updateGPStatus(repeat.repeat_id, this.props.label === 'Complete' ? 'accepted' : 'declined')
+        this.props.updateGPStatus(repeat.repeat_id, this.props.label === 'Approve' ? 'accepted' : 'declined')
         this.props.history.push(`${process.env.PUBLIC_URL}/`)
         this.props.getRepeats(true)
         this.setState({
@@ -83,7 +83,7 @@ const ProcessBtn = styled(Button)`
 `
 
 const buttonColor = {
-    'Reject order': '#939393',
+    'Reject': '#939393',
     'Process later': '#2f84b0',
-    'Complete': '#509500'
+    'Approve': '#419646'
 }

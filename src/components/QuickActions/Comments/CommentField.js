@@ -38,7 +38,7 @@ export default class CommentField extends React.Component {
 
         return (
             <div>
-                {!showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>LEAVE A NOTE</CommentButton>}
+                {!showTextarea && <CommentButton onClick={this.handleClick.bind(this)}>Leave a note</CommentButton>}
 
                 {showTextarea && <ReplyField
                     autoFocus
@@ -66,12 +66,15 @@ export default class CommentField extends React.Component {
 }
 
 const CommentButton = styled.div`
-    height: 39px;
-    line-height: 39px;
-    border-left: 2px solid #0091cc;
-    padding-left:10px;
-    color: #2f84b0;
-    cursor:pointer;
+border-left: 2px solid #3c3c3c;
+padding-left:10px;
+cursor:pointer;
+font-family: Assistant;
+font-size: 17px;
+font-weight: normal;
+font-style: normal;
+line-height: normal;
+color: #3c3c3c;
 `
 
 const ReplyField = styled(TextField)`

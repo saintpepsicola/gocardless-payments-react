@@ -30,6 +30,9 @@ const OrderDate = styled.div`
   font-weight: 600;
   color: #9e9e9e;
   text-align:right;
+  bottom: 10px;
+  position: absolute;
+  right: 0px;
 `
 
 const Container = styled.div`

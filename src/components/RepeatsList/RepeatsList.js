@@ -11,6 +11,7 @@ import TablePagination from '@material-ui/core/TablePagination'
 import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
 
 class RepeatsList extends Component {
 
@@ -19,7 +20,7 @@ class RepeatsList extends Component {
     }
 
     handleSelect(repeatID) {
-        this.props.toggleSearch(false)
+        // this.props.toggleSearch(false)
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
@@ -30,19 +31,18 @@ class RepeatsList extends Component {
             this.props.searchRepeats(this.props.searchTerm, this.props.rowsPerPage, page)
         }
         else {
-            this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
+            this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage, page, this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
         }
     }
 
     toggleOrderDate() {
-        this.props.getRepeats(this.props.repeatsFilter === 1 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
+        this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage, this.props.page, !this.props.toggleDate ? 'date_created:desc' : 'date_created:asc')
     }
 
     render() {
         let { rowsPerPage } = this.props
         return (
             <div>
-                {this.props.searchError && <SearchError label={this.props.searchError} />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHead>
                         <TableRow>
@@ -62,15 +62,18 @@ class RepeatsList extends Component {
                         {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
                             .map((row, index) => {
                                 return (
-                                    <OrderRow pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>Pending</Status>
+                                        <TableCell>{row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}</TableCell>
                                         <LastColumn>
-                                            {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
-                                            {row.lock && <UnderReview label="Under Review" variant="outlined" />}
+                                            {row.lock && <span>
+                                                <UnderReview label="Under Review" variant="outlined" />
+                                                <ReviewAuthor label={`By ${row.viewer}`} variant="outlined" /></span>}
                                         </LastColumn>
+                                        <TableCell>{<ArrowRight />}</TableCell>
                                     </OrderRow>
                                 )
                             })}
@@ -87,6 +90,8 @@ class RepeatsList extends Component {
                                     <TableCell>
                                         {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                     </TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>{<ArrowRight />}</TableCell>
                                 </OrderRow>
                             )
                         })}
@@ -109,12 +114,24 @@ class RepeatsList extends Component {
 }
 
 export default withRouter(RepeatsList)
+
 const FormattedDate = (props) => {
-    let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
-    return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
+    let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
+    let date = new Date(Number(props.date))
+    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
 
 // Styled Components
+const ArrowRight = styled(KeyboardArrowRightRight)`
+&&
+{
+color: #6E6E6E;
+right:14px;
+top: 21px;
+position: absolute;
+}
+`
+
 const CommentFlag = styled.img`
 &&
 {
@@ -131,6 +148,26 @@ const LastColumn = styled(TableCell)`
 {
 text-align:right;
 }
+&& > span
+{
+text-align:right;
+}
+`
+
+const ReviewAuthor = styled(Chip)`
+&&
+{
+display:block;
+border:0;
+font-family: Assistant;
+color: #707070;
+font-size: 15px;
+font-weight: 300;
+    && > span
+    {
+        justify-content: flex-end;
+    }
+}
 `
 
 const UnderReview = styled(Chip)`
@@ -139,18 +176,16 @@ const UnderReview = styled(Chip)`
 border:0;
 font-family: Assistant;
 font-size: 16px;
-font-weight: 300;
+font-weight: 600;
 color: #707070;
 }
-`
-
-const SearchError = styled(Chip)`
-margin:16px 0;
 `
 
 const OrderRow = styled(TableRow)`
 height:66px !important;
 cursor:pointer;
+filter: opacity(0.49);
+filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 & > td
 {
 color:#282828;
@@ -222,7 +257,7 @@ const Status = styled(TableCell)`
 
 const statusColors = {
     'Pending': '#f57123',
-    'accepted': '#509500',
+    'accepted': '#419646',
     'declined': '#d0021b',
     'Processing': '#2f84b0',
 }

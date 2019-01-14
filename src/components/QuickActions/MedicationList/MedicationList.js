@@ -6,9 +6,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
-import OffIcon from '@material-ui/icons/HighlightOffTwoTone'
 import controlledIcon from '../../../resources/controlled_med@1x.svg'
 import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
+import CloseIcon from '@material-ui/icons/Close'
 
 export default class MedicationList extends React.Component {
 
@@ -144,9 +144,20 @@ const Medicine = styled(ListItem)`
 `
 
 const CheckIcon = styled(DoneIcon)`
-  color:#0D6F67;
+&&{
+font-size:25px;
+color:#419646;
+}
 `
 
-const UncheckIcon = styled(OffIcon)`
-  color:#b71c1c;
+const UncheckIcon = styled(CloseIcon)`
+&&{
+color:#fff;
+width: 25px;
+height: 25px;
+border-radius:50%;
+background-color: #d0021b;
+padding: 5px;
+box-sizing: border-box;
+}
 `
