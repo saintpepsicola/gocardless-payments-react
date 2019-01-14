@@ -86,7 +86,6 @@ export default class ConfirmDialog extends React.Component {
 
 // Automatic Replies
 const automaticReplies = [
-  'Hi there! Unfortunately we are unable to approve your medicine request as it was ordered too early. Please note, you are currently not due an order until xx xx xxxx. Please re-order closer to the time. Thank you!',
   'Hi there! Unfortunately, we are unable to approve your prescription request due to incorrect information listed in the profile section of the Healthera app. Please check your details, and re-submit your prescription request. Thank you!',
   'Hi there! Unfortunately, we are unable to approve your prescription request as there is currently no record of this medicine listed on your medication history. Please speak with your GP. Thank you.',
   'Hi there! Unfortunately, we are unable to approve your prescription request as currently there is no record of consent to order on behalf of this patient. Please speak with your GP. Thank you',
@@ -201,7 +200,7 @@ const ConfirmButton = styled(Button)`
 &&
 {
 margin-top:16px;
-background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#509500'};
+background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#419646'};
 font-size: 14px;
 font-weight: normal;
 color:#ffffff !important;
@@ -211,7 +210,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
 }  
 &&:hover
 {
-  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#509500'};
+  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#419646'};
   opacity: 0.9;
 }
 `

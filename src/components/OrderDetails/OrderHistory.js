@@ -129,7 +129,7 @@ font-family: Assistant;
 
 const statusColors = {
   'Pending': '#f57123',
-  'accepted': '#509500',
+  'accepted': '#419646',
   'declined': '#d0021b',
   'Processing': '#2f84b0',
 }
