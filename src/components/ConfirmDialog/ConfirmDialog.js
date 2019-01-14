@@ -86,7 +86,6 @@ export default class ConfirmDialog extends React.Component {
 
 // Automatic Replies
 const automaticReplies = [
-  'Hi there! Unfortunately we are unable to approve your medicine request as it was ordered too early. Please note, you are currently not due an order until xx xx xxxx. Please re-order closer to the time. Thank you!',
   'Hi there! Unfortunately, we are unable to approve your prescription request due to incorrect information listed in the profile section of the Healthera app. Please check your details, and re-submit your prescription request. Thank you!',
   'Hi there! Unfortunately, we are unable to approve your prescription request as there is currently no record of this medicine listed on your medication history. Please speak with your GP. Thank you.',
   'Hi there! Unfortunately, we are unable to approve your prescription request as currently there is no record of consent to order on behalf of this patient. Please speak with your GP. Thank you',
