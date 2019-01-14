@@ -144,9 +144,15 @@ const Medicine = styled(ListItem)`
 `
 
 const CheckIcon = styled(DoneIcon)`
-  color:#0D6F67;
+&&{
+font-size:25px;
+color:#509500;
+}
 `
 
 const UncheckIcon = styled(OffIcon)`
-  color:#b71c1c;
+&&{
+font-size:25px;
+color:#b71c1c;
+}
 `

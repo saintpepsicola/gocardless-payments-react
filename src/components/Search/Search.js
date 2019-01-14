@@ -85,7 +85,6 @@ class Search extends Component {
             {!searchField && <IconButton onClick={this.handleSearch.bind(this)}>
               <SearchIcon />
             </IconButton>}
-
             {searchField && <IconButton>
               <CloseIcon />
             </IconButton>}
@@ -154,7 +153,7 @@ const SearchBox = styled.div`
   display:flex;
   color:white;
 }
-&& svg, && input::placeholder
+&& svg, && input::placeholder, && input
 {
   color:white;
 }
