@@ -27,11 +27,11 @@ export default class QuickActions extends React.Component {
                         </Flex>
                         {repeat.gp_status === 'delivered' &&
                             <Flex justify='space-between' align='center'>
-                                <Box align='center' w={8 / 10}>
-                                    <ProcessButton label={`Reject`} {...this.props} />
+                                <Box align='center' w={7 / 10}>
+
                                 </Box>
-                                <Box w={3 / 10}>
-                                    <ProcessButton label={`Process later`} {...this.props} />
+                                <Box w={2 / 10}>
+                                    <ProcessButton label={`Reject`} {...this.props} />
                                 </Box>
                                 <Box >
                                     <ProcessButton disabled={completeDisabled} label={`Approve`} {...this.props} />

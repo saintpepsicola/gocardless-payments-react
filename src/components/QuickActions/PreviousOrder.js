@@ -30,9 +30,9 @@ const OrderDate = styled.div`
   font-weight: 600;
   color: #9e9e9e;
   text-align:right;
-  bottom: 10px;
+  bottom: 20px;
   position: absolute;
-  right: 0px;
+  right: 10px;
 `
 
 const Container = styled.div`
@@ -41,6 +41,7 @@ height:100%;
 `
 
 const Title = styled.h1`
+&& {
 font-size:17px;
 color:#575756;
 font-weight:'900';
@@ -50,4 +51,5 @@ align-items:center;
 border-bottom:1px solid #e5e5e5;
 padding:14px;
 padding-bottom:30px;
+}
 `
