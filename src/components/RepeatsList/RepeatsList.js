@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -12,6 +12,7 @@ import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
+import RepeatsLoader from '../../resources/repeatsloader.png'
 
 class RepeatsList extends Component {
 
@@ -43,6 +44,7 @@ class RepeatsList extends Component {
         let { rowsPerPage } = this.props
         return (
             <div>
+                {this.props.repeats.length === 0 && <RepeatsListLoader />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHead>
                         <TableRow>
@@ -121,7 +123,69 @@ const FormattedDate = (props) => {
     return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
 
+const RepeatsListLoader = () => {
+    return <Loader><img alt='loading-spinner' src={RepeatsLoader} /></Loader>
+}
+
 // Styled Components
+const shine = keyframes`
+10% {
+opacity: 1;
+top: -30%;
+left: -30%;
+transition-property: left, top, opacity;
+transition-duration: 0.7s, 0.7s, 0.15s;
+transition-timing-function: ease;
+}
+100% {
+opacity: 0;
+top: -30%;
+left: -30%;
+transition-property: left, top, opacity;
+}
+`
+
+const Loader = styled.div`
+&&
+{
+position: relative;
+overflow: hidden;
+width: 100%;
+margin:16px;
+}
+
+
+&& img
+{
+width: 100%;
+height: auto;
+}
+
+&&:after
+{
+animation: ${shine} 2s ease-in-out  infinite;
+animation-fill-mode: forwards;  
+content: "";
+position: absolute;
+top: -110%;
+left: -210%;
+width: 200%;
+height: 200%;
+opacity: 0;
+transform: rotate(30deg);
+
+background: rgba(255, 255, 255, 0.45);
+background: linear-gradient(
+to right, 
+rgba(255, 255, 255, 0.13) 0%,
+rgba(255, 255, 255, 0.13) 77%,
+rgba(255, 255, 255, 0.5) 92%,
+rgba(255, 255, 255, 0.0) 100%
+);
+}
+
+`
+
 const ArrowRight = styled(KeyboardArrowRightRight)`
 &&
 {
