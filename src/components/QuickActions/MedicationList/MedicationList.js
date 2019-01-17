@@ -55,8 +55,7 @@ export default class MedicationList extends React.Component {
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
-                                    </ListItemIcon>
-                                }
+                                    </ListItemIcon>}
                             </Medicine>
                         )
                     })}
