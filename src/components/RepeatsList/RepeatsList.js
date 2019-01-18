@@ -12,7 +12,7 @@ import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
-import RepeatsLoader from '../../resources/repeatsloader.png'
+import RepeatsLoader from '../../resources/container_loader.png'
 
 class RepeatsList extends Component {
 
@@ -21,7 +21,6 @@ class RepeatsList extends Component {
     }
 
     handleSelect(repeatID) {
-        // this.props.toggleSearch(false)
         this.props.lockRepeat(repeatID)
         this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
     }
@@ -68,7 +67,7 @@ class RepeatsList extends Component {
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                                        <Status>Pending</Status>
+                                        <Status>New Order</Status>
                                         <TableCell>{row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}</TableCell>
                                         <LastColumn>
                                             {row.lock && <span>
@@ -151,9 +150,7 @@ const Loader = styled.div`
 position: relative;
 overflow: hidden;
 width: 100%;
-margin:16px;
 }
-
 
 && img
 {
@@ -173,7 +170,6 @@ width: 200%;
 height: 200%;
 opacity: 0;
 transform: rotate(30deg);
-
 background: rgba(255, 255, 255, 0.45);
 background: linear-gradient(
 to right, 
@@ -227,10 +223,10 @@ font-family: Assistant;
 color: #707070;
 font-size: 15px;
 font-weight: 300;
-    && > span
-    {
-        justify-content: flex-end;
-    }
+&& > span
+{
+justify-content: flex-end;
+}
 }
 `
 

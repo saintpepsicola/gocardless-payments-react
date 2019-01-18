@@ -8,6 +8,10 @@ import Tab from '@material-ui/core/Tab'
 export default class PanelControls extends React.Component {
     state = { value: 0 }
 
+    componentDidMount() {
+        this.props.selectPanel(1)
+    }
+
     showPanel(e, id) {
         this.setState({ value: id })
         this.props.selectPanel(id + 1)
