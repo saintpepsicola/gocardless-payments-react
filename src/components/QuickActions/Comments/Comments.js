@@ -46,14 +46,11 @@ export default class Comments extends React.Component {
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
                             <p>{comment.comment}</p>
                         </Comment>)}
-
                         {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
-
                         <CommentField
                             handleChange={this.handleChange.bind(this)}
                             handleReply={this.handleReply.bind(this)}
-                            value={name}
-                        />
+                            value={name} />
                     </Container>
                 </ScrollToBottom>
             </CommentBox>

@@ -38,6 +38,11 @@ const OrderDate = styled.div`
 const Container = styled.div`
 position:relative;
 height:100%;
+
+&& p
+{
+    padding:0 14px;
+}
 `
 
 const Title = styled.h1`
