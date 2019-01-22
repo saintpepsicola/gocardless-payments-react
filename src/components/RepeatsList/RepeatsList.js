@@ -44,8 +44,9 @@ class RepeatsList extends Component {
         let { rowsPerPage } = this.props
         return (
             <div>
-                {this.props.repeats.length === 0 && <RepeatsListLoader />}
-                {this.props.repeats.length !== 0 && <RepeatsFilter />}
+                {this.props.fetching && <RepeatsListLoader />}
+                {this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
+                {this.props.repeats.length === 0 && <NoRepeatsMessage />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHead>
                         <TableRow>
@@ -118,6 +119,10 @@ class RepeatsList extends Component {
 
 export default withRouter(RepeatsList)
 
+const NoRepeatsMessage = () => {
+    return <BigBox>No Repeats found</BigBox>
+}
+
 const FormattedDate = (props) => {
     let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
     let date = new Date(Number(props.date))
@@ -129,6 +134,19 @@ const RepeatsListLoader = () => {
 }
 
 // Styled Components
+const BigBox = styled.section`
+&&
+{
+color: #6E6E6E;
+height: 60vh;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 22px;
+}
+`
+
 const shine = keyframes`
 10% {
 opacity: 1;

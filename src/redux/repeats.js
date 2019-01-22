@@ -19,6 +19,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
+    showSearchFilters: true,
     repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
@@ -99,6 +100,29 @@ const GET_REPEAT_HISTORY_FAILURE = 'GET_REPEAT_HISTORY_FAILURE'
 //Locking Repeats
 const LOCK_REPEAT = 'LOCK_REPEAT'
 const UNLOCK_REPEAT = 'UNLOCK_REPEAT'
+
+//Filtering by Surgeries
+const GET_SURGERIES = 'GET_SURGERIES'
+const GET_SURGERIES_SUCCESS = 'GET_SURGERIES_SUCCESS'
+const GET_SURGERIES_FAILURE = 'GET_SURGERIES_FAILURE'
+const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
+let surgeryFilter = null
+
+export const setSurgeryFilter = (value) => {
+    return { type: SET_SURGERIES_FILTER, payload: { value } }
+}
+
+export const getSurgeries = () => {
+    return {
+        types: [GET_SURGERIES, GET_SURGERIES_SUCCESS, GET_SURGERIES_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/`,
+                headers: headers
+            }
+        }
+    }
+}
 
 export const lockRepeat = (repeatID) => {
     return { type: LOCK_REPEAT, payload: { repeatID } }
@@ -210,7 +234,7 @@ export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}&${surgeryFilter}`,
                 headers: headers
             }
         }
@@ -258,9 +282,27 @@ export const getRepeatHistory = (podID, patientID, repeatID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case CHANGE_TAB:
+        case SET_SURGERIES_FILTER:
+            surgeryFilter = action.payload.value
             return {
-                ...state, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
+                ...state
+            }
+        case GET_SURGERIES:
+            return {
+                ...state, surgeries: []
+            }
+        case GET_SURGERIES_SUCCESS:
+            return {
+                ...state, surgeries: action.payload.data.data[0].surgeries
+            }
+        case GET_SURGERIES_FAILURE:
+            return {
+                ...state, surgeries: []
+            }
+        case CHANGE_TAB:
+            surgeryFilter = null
+            return {
+                ...state, showSearchFilters: false, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
         case GET_REPEAT_HISTORY:
             return {
@@ -413,7 +455,8 @@ export default (state = initialState, action) => {
         case GET_REPEATS:
             return {
                 ...state,
-                repeats: []
+                repeats: [],
+                fetching: true
             }
         case GET_REPEATS_SUCCESS:
             return {
@@ -421,11 +464,13 @@ export default (state = initialState, action) => {
                 repeats: action.payload.data.data,
                 totalCount: action.payload.data.pagination.total_count,
                 rowsPerPage: initialState.rowsPerPage,
+                fetching: false,
                 toggleDate: action.payload.data.pagination.sort === 'date_created:asc' ? false : true
             }
         case GET_REPEATS_FAILURE:
             return {
                 ...state,
+                fetching: false,
                 error: action.error
             }
         default:
