@@ -17,10 +17,10 @@ class Search extends Component {
 
   componentDidMount() {
     if (this.props) {
-      this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage)
+      this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
       this.interval = setInterval(() => {
         if (!this.props.searchTerm) {
-          this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage)
+          this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
         }
       }, 300000)
     }
@@ -33,7 +33,7 @@ class Search extends Component {
   handleBlur = () => {
     setTimeout(() => {
       this.setState({ searchField: false })
-      this.props.getRepeats(true, this.props.rowsPerPage)
+      this.props.getRepeats(true)
     }, 200)
   }
 
@@ -51,7 +51,7 @@ class Search extends Component {
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.resetPagination()
     if (value <= 1)
-      this.props.getRepeats(value === 0 ? true : false, 10)
+      this.props.getRepeats(value === 0 ? true : false)
   }
 
   render() {
