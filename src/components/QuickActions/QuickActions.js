@@ -10,7 +10,7 @@ import ProcessButton from './ProcessButton'
 export default class QuickActions extends React.Component {
 
     render() {
-        let { repeat } = this.props
+        let { repeat, repeatsFilter } = this.props
         let completeDisabled = repeat.remedies && repeat.remedies.filter(remedy => remedy.approved).length === 0 ? true : false
         return (
             <Container>
@@ -25,7 +25,7 @@ export default class QuickActions extends React.Component {
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
-                        {(repeat.gp_status === 'delivered' || repeat.response_grace_timestamp) &&
+                        {(repeat.gp_status === 'delivered' || (repeatsFilter === 0 && repeat.response_grace_timestamp)) &&
                             <Flex justify='space-between' align='center'>
                                 <Box align='center' w={7 / 10}> </Box>
                                 <Box w={2 / 10}>
