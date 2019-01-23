@@ -123,7 +123,7 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
-                    {!completedOrder && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />}
+                    {!completedOrder && this.props.repeatsFilter === 3 && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />}
                     <QuickActions />
                     {completedOrder && <OrderHistory {...this.props} />}
                 </div>}

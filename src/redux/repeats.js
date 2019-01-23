@@ -19,7 +19,7 @@ let initialState = {
     repeats: [],
     error: null,
     fetching: false,
-    showSearchFilters: true,
+    showSearchFilters: false,
     repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
@@ -106,7 +106,12 @@ const GET_SURGERIES = 'GET_SURGERIES'
 const GET_SURGERIES_SUCCESS = 'GET_SURGERIES_SUCCESS'
 const GET_SURGERIES_FAILURE = 'GET_SURGERIES_FAILURE'
 const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
+const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER'
 let surgeryFilter = null
+
+export const toggleSearchFilter = () => {
+    return { type: TOGGLE_SEARCH_FILTER }
+}
 
 export const setSurgeryFilter = (value) => {
     return { type: SET_SURGERIES_FILTER, payload: { value } }
@@ -282,6 +287,10 @@ export const getRepeatHistory = (podID, patientID, repeatID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case TOGGLE_SEARCH_FILTER:
+            return {
+                ...state, showSearchFilters: !state.showSearchFilters
+            }
         case SET_SURGERIES_FILTER:
             surgeryFilter = action.payload.value
             return {
