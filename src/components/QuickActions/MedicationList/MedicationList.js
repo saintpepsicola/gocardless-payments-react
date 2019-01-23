@@ -18,10 +18,7 @@ export default class MedicationList extends React.Component {
         const { repeat } = this.props
         const { confirmMedication } = this.state
         this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
-        this.setState({
-            showConfirmModal: false,
-            confirmMedication: null
-        })
+        this.setState({ showConfirmModal: false, confirmMedication: null })
     }
 
     handleClose() { this.setState({ showConfirmModal: false }) }
@@ -50,7 +47,7 @@ export default class MedicationList extends React.Component {
                     {meds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={basic || repeat.gp_status !== 'delivered' ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine onClick={!repeat.response_grace_timestamp && (basic || repeat.gp_status !== 'delivered') ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>

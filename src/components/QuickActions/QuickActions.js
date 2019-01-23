@@ -25,11 +25,9 @@ export default class QuickActions extends React.Component {
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
-                        {repeat.gp_status === 'delivered' &&
+                        {(repeat.gp_status === 'delivered' || repeat.response_grace_timestamp) &&
                             <Flex justify='space-between' align='center'>
-                                <Box align='center' w={7 / 10}>
-
-                                </Box>
+                                <Box align='center' w={7 / 10}> </Box>
                                 <Box w={2 / 10}>
                                     <ProcessButton label={`Reject`} {...this.props} />
                                 </Box>
