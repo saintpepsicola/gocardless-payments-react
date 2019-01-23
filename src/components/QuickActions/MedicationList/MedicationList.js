@@ -28,7 +28,7 @@ export default class MedicationList extends React.Component {
     }
 
     render() {
-        let { basic, repeat } = this.props
+        let { basic, repeat, repeatsFilter } = this.props
         let meds = basic ? repeat.previous_order ? repeat.previous_order.remedies : [] : repeat.remedies
         let controlled = false
         return (
@@ -47,7 +47,7 @@ export default class MedicationList extends React.Component {
                     {meds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={!repeat.response_grace_timestamp && (basic || repeat.gp_status !== 'delivered') ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
