@@ -90,7 +90,7 @@ class RepeatsList extends Component {
                                     <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                     <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                     <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                                    <Status>{row.gp_status}</Status>
+                                    <Status>{row.response_grace_timestamp ? 'Pending' : row.gp_status}</Status>
                                     <TableCell>
                                         {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
                                     </TableCell>
@@ -336,8 +336,9 @@ font-size: 16px;
 `
 
 const statusColors = {
-    'Pending': '#f57123',
+    'Pending': '#257195',
     'accepted': '#419646',
     'declined': '#d0021b',
     'Processing': '#2f84b0',
+    'New Order': '#fd8524',
 }
