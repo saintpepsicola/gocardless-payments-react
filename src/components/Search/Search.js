@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
+import FilterIcon from '@material-ui/icons/FilterList'
 import CloseIcon from '@material-ui/icons/Close'
 import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
@@ -43,7 +44,13 @@ class Search extends Component {
   }
 
   handleSearch = () => {
+    if (this.props.showSearchFilters)
+      this.props.toggleSearchFilter()
     this.setState({ searchField: true })
+  }
+
+  handleFilter = () => {
+    this.props.toggleSearchFilter()
   }
 
   handleTabChange = (e, value) => {
@@ -82,9 +89,14 @@ class Search extends Component {
               </SearchBox>}
           </BoxContainer>
           <VerticalAlign w={1 / 10}>
-            {!searchField && <IconButton onClick={this.handleSearch.bind(this)}>
-              <SearchIcon />
-            </IconButton>}
+            {!searchField && <span>
+              <IconButton onClick={this.handleFilter.bind(this)}>
+                <FilterIcon />
+              </IconButton>
+              <IconButton onClick={this.handleSearch.bind(this)}>
+                <SearchIcon />
+              </IconButton>
+            </span>}
             {searchField && <IconButton>
               <CloseIcon />
             </IconButton>}
@@ -107,54 +119,54 @@ align-items: center;
 const VerticalAlign = styled(Box)`
 &&
 {
-  display:flex;
-  align-items:center;
-  justify-content: flex-end;
+display:flex;
+align-items:center;
+justify-content: flex-end;
 }
 && svg
 {
-  color:white;
+color:white;
 }
 `
 
 const BoxContainer = styled(Box)`
 &&
 {
-  display:flex;
+display:flex;
 }
 
 & > div > div > div > span
 {
-  background-color:#2f84b0;
+background-color:#2f84b0;
 }
 `
 
 const TabsContainer = styled(Tabs)`
 && button
 {
-  font-family: Assistant;
-  font-size: 18px;
-  font-weight: ${props => props.selected ? 'bold' : '400'};
-  height:58px;
-  color:white;
-  font-family: Assistant;
-  font-size: 19px;
-  font-weight: bold;
-  text-transform:none;
-  color: #ffffff;
+font-family: Assistant;
+font-size: 18px;
+font-weight: ${props => props.selected ? 'bold' : '400'};
+height:58px;
+color:white;
+font-family: Assistant;
+font-size: 19px;
+font-weight: bold;
+text-transform:none;
+color: #ffffff;
 }
 `
 
 const SearchBox = styled.div`
 &&
 {
-  font-family: Assistant;
-  align-items:center;
-  display:flex;
-  color:white;
+font-family: Assistant;
+align-items:center;
+display:flex;
+color:white;
 }
 && svg, && input::placeholder, && input
 {
-  color:white;
+color:white;
 }
 `

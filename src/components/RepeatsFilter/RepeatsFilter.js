@@ -12,12 +12,7 @@ export default class RepeatsFilter extends Component {
         //Load surgery options
         await this.props.getSurgeries()
         if (this.props.surgeries) {
-            this.setState({
-                surgeries: this.props.surgeries.map(surgery => ({
-                    value: surgery,
-                    label: surgery.surgery_name,
-                }))
-            })
+            this.setState({ surgeries: this.props.surgeries.map(surgery => ({ value: surgery, label: surgery.surgery_name, })) })
         }
     }
 
@@ -33,48 +28,46 @@ export default class RepeatsFilter extends Component {
     render() {
         return (
             <div>
-
                 <Selector disableUnderline disabled value={0}>
                     <MenuItem value={0}>GP/Surgery</MenuItem>
                 </Selector>
                 <Autocomplete
                     value={this.state.value}
                     onChange={this.handleChange.bind(this)}
-                    options={this.state.surgeries}
-                />
+                    options={this.state.surgeries} />
             </div>)
     }
 }
 
 const Autocomplete = styled(ReactSelect)`
 && {
-margin: 12px 8px 0 0;
-height: 43px;
-border-radius: 13px;
-box-shadow: 0 1px 2px 0 rgba(80,80,80,0.2);
-background-color: #ffffff;
-font-size: 16px;
-padding: 0 12px;
-color: #257195;
-width: 400px;
-display: inline-block;
+    margin: 12px 8px 0 0;
+    height: 43px;
+    border-radius: 13px;
+    box-shadow: 0 1px 2px 0 rgba(80,80,80,0.2);
+    background-color: #ffffff;
+    font-size: 16px;
+    padding: 0 12px;
+    color: #257195;
+    width: 400px;
+    display: inline-block;
 }
 && > div {
-border:0;
-margin-top:1px;
-box-shadow:none;
+    border:0;
+    margin-top:1px;
+    box-shadow:none;
 }
 `
 
 const Selector = styled(Select)`
 && {
-margin: 12px 8px 0 0;
-height: 44px;
-border-radius: 13px;
-box-shadow: 0 1px 2px 0 rgba(80, 80, 80, 0.2);
-background-color: #ffffff;
-font-size: 16px;
-padding:0 12px;
-color: #257195;
+    margin: 12px 8px 0 0;
+    height: 44px;
+    border-radius: 13px;
+    box-shadow: 0 1px 2px 0 rgba(80, 80, 80, 0.2);
+    background-color: #ffffff;
+    font-size: 16px;
+    padding:0 12px;
+    color: #257195;
 }
 `
