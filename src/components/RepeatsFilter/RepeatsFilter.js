@@ -56,7 +56,6 @@ export default class RepeatsFilter extends Component {
                 </Selector>
                 <Autocomplete
                     className="react-select"
-                    menuIsOpen={true}
                     styles={colourStyles}
                     value={this.state.value}
                     onChange={this.handleChange.bind(this)}
