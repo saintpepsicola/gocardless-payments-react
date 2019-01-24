@@ -45,7 +45,7 @@ export default class RepeatsFilter extends Component {
         arr.push(e.value.surgery_id)
         let filter = `filter={"surgeries":${JSON.stringify(arr)}}`
         await this.props.setSurgeryFilter(filter)
-        this.props.getRepeats(true)
+        this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
     }
 
     render() {

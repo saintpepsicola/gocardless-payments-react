@@ -18,19 +18,19 @@ export default class PanelControls extends React.Component {
     }
 
     render() {
-        let { repeat: { gp_status } } = this.props
-        let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
+        let { repeat: { gp_status }, completed } = this.props
+        //let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
         return (
             <div>
-                {completedOrder && <Ordertabs
+                {!completed && <Ordertabs
                     value={this.state.value}
                     indicatorColor="primary"
                     textColor="primary"
                     onChange={this.showPanel.bind(this)}>
-                    <Ordertab backicon={NotesIcon} label="Notes" />
-                    <Ordertab backicon={PreviousOrderIcon} label="Previous Order" />
+                    <Ordertab disableRipple backicon={NotesIcon} label="Notes" />
+                    <Ordertab disableRipple backicon={PreviousOrderIcon} label="Previous Order" />
                 </Ordertabs>}
-                {gp_status !== 'delivered' && <OrderStatus status={gp_status} />}
+                {completed && <OrderStatus status={gp_status} />}
             </div >
         )
     }
@@ -81,6 +81,5 @@ font-size: 17px;
 font-weight:600;
 text-align:right;
 color:${props => props.status ? '#417505' : 'red'};
-padding-right:32px;
 }
 `

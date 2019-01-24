@@ -34,7 +34,7 @@ export default class Comments extends React.Component {
     }
 
     render() {
-        const { comments } = this.props
+        const { comments, chat } = this.props
         const { noCommentsMessage, sendingComment, name } = this.state
         let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
         return (
@@ -47,10 +47,10 @@ export default class Comments extends React.Component {
                             <p>{comment.comment}</p>
                         </Comment>)}
                         {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
-                        <CommentField
+                        {chat && <CommentField
                             handleChange={this.handleChange.bind(this)}
                             handleReply={this.handleReply.bind(this)}
-                            value={name} />
+                            value={name} />}
                     </Container>
                 </ScrollToBottom>
             </CommentBox>
@@ -119,6 +119,7 @@ align-items:center;
 border-bottom:1px solid #e5e5e5;
 padding:14px;
 padding-bottom:30px;
+margin-bottom:0;
 }
 && img
 {

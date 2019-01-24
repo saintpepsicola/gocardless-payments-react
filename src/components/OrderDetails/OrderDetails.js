@@ -7,7 +7,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
-import OrderHistory from './OrderHistory'
 import BackArrow from '@material-ui/icons/KeyboardArrowLeft'
 
 class OrderDetails extends React.Component {
@@ -46,7 +45,7 @@ class OrderDetails extends React.Component {
         return (
             <div>
                 {!fetching && repeat && <div>
-                    <Panel defaultExpanded>
+                    <Panel>
                         <Summary expandIcon={<ExpandMoreIcon />}>
                             <div>
                                 <PanelTitle>
@@ -125,7 +124,6 @@ class OrderDetails extends React.Component {
                     </Panel>
                     {!completedOrder && this.props.repeatsFilter === 3 && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />}
                     <QuickActions />
-                    {completedOrder && <OrderHistory {...this.props} />}
                 </div>}
             </div>
         )
@@ -212,26 +210,26 @@ color: #575757;
 }
 && > div
 {
-    position:relative;
-    padding: 0 20px;
+position:relative;
+padding: 0 20px;
 }
 && > div:first-child
 {
-    padding-left:0;
+padding-left:0;
 }
 && > div:last-child:after
 {
-    display:none;
+display:none;
 }
 && > div:after
 {
-    content: '';
-    height: 110px;
-    width: 1px;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    background-color: #d3d3d3;
+content: '';
+height: 110px;
+width: 1px;
+right: 0;
+bottom: 0;
+position: absolute;
+background-color: #d3d3d3;
 }
 `
 
