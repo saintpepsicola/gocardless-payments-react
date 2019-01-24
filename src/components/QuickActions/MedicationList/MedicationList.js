@@ -28,9 +28,11 @@ export default class MedicationList extends React.Component {
     }
 
     render() {
-        let { basic, repeat, repeatsFilter } = this.props
+        let { basic, repeat, repeatsFilter, withinGracePeriod } = this.props
         let meds = basic ? repeat.previous_order ? repeat.previous_order.remedies : [] : repeat.remedies
         let controlled = false
+        let approvedMeds = meds.filter(medication => medication.approved)
+        let rejectedMeds = meds.filter(medication => !medication.approved)
         return (
             <Container basic={basic ? 1 : 0}>
                 <ConfirmDialog
@@ -43,8 +45,40 @@ export default class MedicationList extends React.Component {
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
                 />
-                {repeat && repeat.remedies && <List component="nav">
+                {repeat && repeat.remedies && !withinGracePeriod && <List component="nav">
                     {meds.map((medication, i) => {
+                        if (medication.medicine) { controlled = medication.medicine.controlled }
+                        return (
+                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                {!basic &&
+                                    <ListItemIcon>
+                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                    </ListItemIcon>}
+                            </Medicine>
+                        )
+                    })}
+                </List>}
+
+                {/* GRACE PERIOD LIST */}
+                {repeat && repeat.remedies && withinGracePeriod && <List component="nav">
+                    {/* APPROVED MEDICATIONS */}
+                    {approvedMeds.length !== 0 && <SubTitle>Ordered</SubTitle>}
+                    {approvedMeds.map((medication, i) => {
+                        if (medication.medicine) { controlled = medication.medicine.controlled }
+                        return (
+                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                {!basic &&
+                                    <ListItemIcon>
+                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                    </ListItemIcon>}
+                            </Medicine>
+                        )
+                    })}
+                    {/* REJECTED MEDICATIONS */}
+                    {rejectedMeds.length !== 0 && <SubTitle>Pending</SubTitle>}
+                    {rejectedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
                             <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
@@ -85,7 +119,6 @@ width:100%;
 width:100%;
 height:360px;
 overflow-y:auto;
-padding-right:30px;
 padding-top:${props => props.basic ? 0 : '8px'};
 }
 
@@ -122,6 +155,15 @@ font-weight: 600;
 background-color:#ededed;
 cursor:pointer;
 }
+}
+`
+
+const SubTitle = styled.h3`
+&&{
+font-family: Assistant;
+font-size: 18px;
+color: #282828;
+margin: 22px 0 4px 0px;
 }
 `
 
