@@ -15,10 +15,11 @@ export default class QuickActions extends React.Component {
 
     render() {
         let { value } = this.state
+        let TabTitle = (this.props.repeat.gp_status === 'delivered' ? 'Active' : '') + " Order"
         return (
             <div>
                 <QuickActionTabs value={this.state.value} onChange={this.handleChange.bind(this)}>
-                    <QuickActionTab disableRipple label="Active Order" />
+                    <QuickActionTab disableRipple label={TabTitle} />
                     <QuickActionTab disableRipple label="Order History" />
                 </QuickActionTabs>
 

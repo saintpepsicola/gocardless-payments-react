@@ -24,16 +24,9 @@ class OrderHistory extends Component {
     const { repeat, repeatHistory } = this.props
     return (
       <div>
+        {repeatHistory.length === 0 && <NoRepeatsMessage />}
         {repeat && repeatHistory && <div>
           <TableContainer>
-            {/* <TableHead>
-              <TableRow>
-                <Header>Order</Header>
-                <Header>Order Date</Header>
-                <Header>Status</Header>
-                <Header></Header>
-              </TableRow>
-            </TableHead> */}
             <RepeatHistoryOrders>
               {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                 return (
@@ -59,7 +52,24 @@ const FormattedDate = (props) => {
   return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
 }
 
+const NoRepeatsMessage = () => {
+  return <BigBox>No Repeats found</BigBox>
+}
+
 // Styled Components
+const BigBox = styled.section`
+&&
+{
+color: #6E6E6E;
+height: 60vh;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 22px;
+}
+`
+
 const TableContainer = styled(Table)`
 &&
 {
@@ -73,6 +83,7 @@ width: 1100px;
 const RepeatHistoryOrders = styled(TableBody)`
 &&
 {
+  position:relative;
 background-color: #f9f9f9;
 border-radius: 13px;
 display: block;
@@ -109,6 +120,7 @@ flex:1;
 height: 66px;
 width: 100%;
 display: flex;
+position:relative;
 align-items: center;
 cursor:pointer;
 justify-content: left;
