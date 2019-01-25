@@ -82,24 +82,6 @@ class RepeatsList extends Component {
                                 )
                             })}
                     </PendingOrders>
-                    {/* OTHER ORDERS
-                    <CompletedOrders>
-                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
-                            return (
-                                <OrderRow onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
-                                    <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
-                                    <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
-                                    <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                                    <Status>{(row.response_grace_timestamp && this.props.repeatsFilter === 0) ? 'Pending' : row.gp_status}</Status>
-                                    <TableCell>
-                                        {row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}
-                                    </TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>{<ArrowRight />}</TableCell>
-                                </OrderRow>
-                            )
-                        })}
-                    </CompletedOrders> */}
                 </Table>}
                 {/* <Pagination */}
                 {this.props.repeats.length !== 0 && <TablePagination
