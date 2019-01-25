@@ -20,6 +20,7 @@ let initialState = {
     error: null,
     fetching: false,
     showSearchFilters: false,
+    showFilterIcon: true,
     repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
@@ -68,9 +69,6 @@ const UPDATE_GP_STATUS_FAILURE = 'UPDATE_GP_STATUS_FAILURE'
 const SEARCH_REPEATS = 'SEARCH_REPEATS'
 const SEARCH_REPEATS_SUCCESS = 'SEARCH_REPEATS_SUCCESS'
 const SEARCH_REPEATS_FAILURE = 'SEARCH_REPEATS_FAILURE'
-
-// Select a repeat
-const SELECT_REPEAT = 'SELECT_REPEAT'
 
 // Toggle Medication
 const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
@@ -187,13 +185,6 @@ export const changeTab = (value) => {
     return ({
         type: CHANGE_TAB,
         payload: { value }
-    })
-}
-
-export const selectRepeat = (id) => {
-    return ({
-        type: SELECT_REPEAT,
-        payload: { id }
     })
 }
 
@@ -335,7 +326,7 @@ export default (state = initialState, action) => {
         case CHANGE_TAB:
             surgeryFilter = null
             return {
-                ...state, showSearchFilters: false, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
+                ...state, showFilterIcon: true, showSearchFilters: false, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
         case GET_REPEAT_HISTORY:
             return {
@@ -399,11 +390,6 @@ export default (state = initialState, action) => {
             return {
                 ...state, medicines: action.payload
             }
-        case SELECT_REPEAT:
-            return {
-                ...state,
-                selectedRepeat: action.payload
-            }
         case SEARCH_REPEATS:
             return {
                 ...state,
@@ -431,6 +417,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 selectedRepeat: null,
+                showFilterIcon: false,
                 fetching: true
             }
         case GET_REPEAT_SUCCESS:

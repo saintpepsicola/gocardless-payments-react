@@ -63,6 +63,7 @@ class Search extends Component {
 
   render() {
     const { searchField } = this.state
+    let { showFilterIcon } = this.props
     return (
       <Container>
         <Flex w={`100%`}>
@@ -90,9 +91,9 @@ class Search extends Component {
           </BoxContainer>
           <VerticalAlign w={1 / 10}>
             {!searchField && <span>
-              <IconButton onClick={this.handleFilter.bind(this)}>
+              {showFilterIcon && <IconButton onClick={this.handleFilter.bind(this)}>
                 <FilterIcon />
-              </IconButton>
+              </IconButton>}
               <IconButton onClick={this.handleSearch.bind(this)}>
                 <SearchIcon />
               </IconButton>
