@@ -29,6 +29,7 @@ export default class MedicationList extends React.Component {
             return {
                 remedy_id: remedy.remedy_id,
                 approved: remedy.approved,
+                medicine_name: remedy.medicine_name,
                 comment: !remedy.approved ? remedy.rejectionReason : null
             }
         })
