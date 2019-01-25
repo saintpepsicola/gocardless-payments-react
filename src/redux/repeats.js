@@ -23,6 +23,8 @@ let initialState = {
     repeatsFilter: 0,
     totalCount: null,
     rowsPerPage: 10,
+    medicines: [],
+    modalVisible: false,
     page: 0,
     repeatHistory: [],
     searchField: false,
@@ -44,6 +46,8 @@ let headers = {
 
 // Action constants
 // All Repeats
+const TOGGLE_BLUR = 'TOGGLE_BLUR'
+
 const GET_REPEATS = 'GET_REPEATS'
 const GET_REPEATS_SUCCESS = 'GET_REPEATS_SUCCESS'
 const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
@@ -70,8 +74,9 @@ const SELECT_REPEAT = 'SELECT_REPEAT'
 
 // Toggle Medication
 const TOGGLE_MEDICATION = 'TOGGLE_MEDICATION'
-const TOGGLE_MEDICATION_SUCCESS = 'TOGGLE_MEDICATION_SUCCESS'
-const TOGGLE_MEDICATION_FAILURE = 'TOGGLE_MEDICATION_FAILURE'
+const UPDATE_MEDICATION = 'UPDATE_MEDICATION'
+const UPDATE_MEDICATION_SUCCESS = 'UPDATE_MEDICATION_SUCCESS'
+const UPDATE_MEDICATION_FAILURE = 'UPDATE_MEDICATION_FAILURE'
 
 // Get Repeat Notes
 const GET_NOTES = 'GET_NOTES'
@@ -109,6 +114,10 @@ const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
 const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER'
 let surgeryFilter = null
 
+export const toggleBlur = (value) => {
+    return { type: TOGGLE_BLUR, payload: { value } }
+}
+
 export const toggleSearchFilter = () => {
     return { type: TOGGLE_SEARCH_FILTER }
 }
@@ -141,20 +150,6 @@ export const resetPagination = (page = 0) => {
     return { type: RESET_PAGE, payload: { page } }
 }
 
-export const updateGPStatus = (repeatID, gpStatus) => {
-    return {
-        types: [UPDATE_GP_STATUS, UPDATE_GP_STATUS_SUCCESS, UPDATE_GP_STATUS_FAILURE],
-        payload: {
-            request: {
-                url: `/pods/${podID}/repeats/${repeatID}`,
-                method: 'PUT',
-                data: { gp_status: gpStatus },
-                headers: headers
-            }
-        }
-    }
-}
-
 export const getNotes = (repeatID) => {
     return {
         types: [GET_NOTES, GET_NOTES_SUCCESS, GET_NOTES_FAILURE],
@@ -175,20 +170,6 @@ export const sendNote = (repeatID, message) => {
                 url: `/repeats/${repeatID}/comments`,
                 method: 'POST',
                 data: { comment: message },
-                headers: headers
-            }
-        }
-    }
-}
-
-export const toggleMedication = (podID, repeatID, remedy) => {
-    return {
-        types: [TOGGLE_MEDICATION, TOGGLE_MEDICATION_SUCCESS, TOGGLE_MEDICATION_FAILURE],
-        payload: {
-            request: {
-                url: `/pods/${podID}/repeats/${repeatID}/remedies/${remedy.remedy_id}`,
-                method: 'PUT',
-                data: { approved: !remedy.approved },
                 headers: headers
             }
         }
@@ -226,6 +207,51 @@ export const getRepeat = (repeatID) => {
             }
         }
     })
+}
+
+export const toggleMedications = (remedies) => {
+    return ({
+        type: TOGGLE_MEDICATION,
+        payload: { remedies }
+    })
+}
+
+export const updateMedications = (repeatID, remedies) => {
+    return {
+        types: [UPDATE_MEDICATION, UPDATE_MEDICATION_SUCCESS, UPDATE_MEDICATION_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/repeats/${repeatID}/remedies/`,
+                method: 'PUT',
+                data: { medicines: remedies },
+                headers: headers
+            }
+        }
+    }
+}
+
+export const updateGPStatus2 = (repeatID, gpStatus) => {
+    return {
+        types: [UPDATE_GP_STATUS, UPDATE_GP_STATUS_SUCCESS, UPDATE_GP_STATUS_FAILURE],
+        payload: {
+            request: {
+                url: `/pods/${podID}/repeats/${repeatID}`,
+                method: 'PUT',
+                data: { gp_status: gpStatus },
+                headers: headers
+            }
+        }
+    }
+}
+
+export const updateGPStatus = (repeatID, gpStatus, remedies) => {
+    return dispatch => {
+        Promise.all([
+            dispatch(updateMedications(repeatID, remedies))
+        ]).then(() => {
+            dispatch(updateGPStatus2(repeatID, gpStatus))
+        })
+    }
 }
 
 export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
@@ -287,15 +313,13 @@ export const getRepeatHistory = (podID, patientID, repeatID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case TOGGLE_BLUR:
+            return { ...state, modalVisible: action.payload.value }
         case TOGGLE_SEARCH_FILTER:
-            return {
-                ...state, showSearchFilters: !state.showSearchFilters
-            }
+            return { ...state, showSearchFilters: !state.showSearchFilters }
         case SET_SURGERIES_FILTER:
             surgeryFilter = action.payload.value
-            return {
-                ...state
-            }
+            return { ...state }
         case GET_SURGERIES:
             return {
                 ...state, surgeries: []
@@ -341,7 +365,7 @@ export default (state = initialState, action) => {
             }
         case UPDATE_GP_STATUS_SUCCESS:
             return {
-                ...state
+                ...state, medicines: []
             }
         case UPDATE_GP_STATUS_FAILURE:
             return {
@@ -373,18 +397,7 @@ export default (state = initialState, action) => {
             }
         case TOGGLE_MEDICATION:
             return {
-                ...state
-            }
-        case TOGGLE_MEDICATION_SUCCESS:
-            let returnedRemedy = action.payload.data.data[0]
-            state.selectedRepeat.remedies.filter(remedy => remedy.remedy_id === returnedRemedy.remedy_id)[0].approved = returnedRemedy.approved
-            return {
-                ...state,
-                selectedRepeat: { ...state.selectedRepeat }
-            }
-        case TOGGLE_MEDICATION_FAILURE:
-            return {
-                ...state
+                ...state, medicines: action.payload
             }
         case SELECT_REPEAT:
             return {

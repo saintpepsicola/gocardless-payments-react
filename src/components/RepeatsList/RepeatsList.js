@@ -63,14 +63,14 @@ class RepeatsList extends Component {
                     </TableHead>
                     {/* PENDING ORDERS */}
                     <PendingOrders>
-                        {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status === 'delivered')
+                        {this.props.repeats && this.props.repeats
                             .map((row, index) => {
                                 return (
-                                    <OrderRow locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow muted={this.props.repeatsFilter !== 0} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                                        <Status>New Order</Status>
+                                        <Status>{(row.response_grace_timestamp && this.props.repeatsFilter === 0) ? 'Pending' : row.gp_status === 'delivered' ? 'New Order' : row.gp_status}</Status>
                                         <TableCell>{row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}</TableCell>
                                         <LastColumn>
                                             {row.lock && <span>
@@ -82,7 +82,7 @@ class RepeatsList extends Component {
                                 )
                             })}
                     </PendingOrders>
-                    {/* OTHER ORDERS */}
+                    {/* OTHER ORDERS
                     <CompletedOrders>
                         {this.props.repeats && this.props.repeats.filter(repeat => repeat.gp_status !== 'delivered').map((row, index) => {
                             return (
@@ -99,7 +99,7 @@ class RepeatsList extends Component {
                                 </OrderRow>
                             )
                         })}
-                    </CompletedOrders>
+                    </CompletedOrders> */}
                 </Table>}
                 {/* <Pagination */}
                 {this.props.repeats.length !== 0 && <TablePagination
@@ -264,8 +264,8 @@ color: #707070;
 const OrderRow = styled(TableRow)`
 height:66px !important;
 cursor:pointer;
-filter: opacity(0.49);
 filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
+background-color: ${props => props.muted ? `#f5f5f5` : `#ffffff`};
 & > td
 {
 color: #282828;
@@ -275,8 +275,6 @@ font-family: Assistant;
 `
 const PendingOrders = styled(TableBody)`
 border-radius: 5px;
-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-background-color: #ffffff;
 
 & tr
 {
@@ -289,9 +287,6 @@ box-shadow:none;
 background-color: #ebebeb;
 box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
-`
-const CompletedOrders = styled(TableBody)`
-background-color: #f5f5f5;
 `
 
 const Header = styled(TableCell)`

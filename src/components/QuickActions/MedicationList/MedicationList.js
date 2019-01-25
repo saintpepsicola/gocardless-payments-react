@@ -12,20 +12,41 @@ import CloseIcon from '@material-ui/icons/Close'
 
 export default class MedicationList extends React.Component {
 
-    state = { showConfirmModal: false }
+    state = { showConfirmModal: false, index: null, remedies: [] }
 
-    handleConfirm() {
-        const { repeat } = this.props
-        const { confirmMedication } = this.state
-        this.props.toggleMedication(repeat.pod_id, repeat.repeat_id, confirmMedication)
+    handleConfirm(rejectionReason) {
+        const { remedies, index } = this.state
+        remedies[index].rejectionReason = rejectionReason
+        this.updateRemedies(remedies, index)
         this.setState({ showConfirmModal: false, confirmMedication: null })
     }
 
-    handleClose() { this.setState({ showConfirmModal: false }) }
-
-    handleToggle(podID, repeat, remedy) {
-        remedy.approved ? this.setState({ showConfirmModal: true, confirmMedication: remedy }) : this.props.toggleMedication(podID, repeat.repeat_id, remedy)
+    updateRemedies(remedies, index) {
+        if (index >= 0)
+            remedies[index].approved = !remedies[index].approved
+        this.forceUpdate()
+        let updatedRemedies = remedies.map(remedy => {
+            return {
+                remedy_id: remedy.remedy_id,
+                approved: remedy.approved,
+                comment: !remedy.approved ? remedy.rejectionReason : null
+            }
+        })
+        this.props.toggleMedications(updatedRemedies)
     }
+
+    handleToggle(index, remedies) {
+        this.setState({
+            showConfirmModal: remedies[index].approved ? true : false,
+            remedies: remedies,
+            index: index
+        })
+
+        if (!remedies[index].approved)
+            this.updateRemedies(remedies, index)
+    }
+
+    handleClose() { this.setState({ showConfirmModal: false }) }
 
     render() {
         let { basic, repeat, repeatsFilter, withinGracePeriod } = this.props
@@ -40,7 +61,7 @@ export default class MedicationList extends React.Component {
                     handleClose={this.handleClose.bind(this)}
                     handleConfirm={this.handleConfirm.bind(this)}
                     aria-labelledby='form-dialog-title'
-                    medication={this.state.confirmMedication}
+                    medication={this.state.remedies[this.state.index]}
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
                     {...this.props}
@@ -49,14 +70,13 @@ export default class MedicationList extends React.Component {
                     {meds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, i, meds)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
                                     </ListItemIcon>}
-                            </Medicine>
-                        )
+                            </Medicine>)
                     })}
                 </List>}
 
@@ -67,11 +87,11 @@ export default class MedicationList extends React.Component {
                     {approvedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
-                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                        <CheckIcon muted />
                                     </ListItemIcon>}
                             </Medicine>
                         )
@@ -81,11 +101,11 @@ export default class MedicationList extends React.Component {
                     {rejectedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={(basic || (repeatsFilter === 1 && repeat.gp_status !== 'delivered')) ? () => { } : this.handleToggle.bind(this, repeat.pod_id, repeat, medication)} key={i} divider >
+                            <Medicine onClick={this.handleToggle.bind(this, i, rejectedMeds)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
-                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                        <UncheckIcon muted />
                                     </ListItemIcon>}
                             </Medicine>
                         )
@@ -170,7 +190,7 @@ margin: 22px 0 4px 0px;
 const CheckIcon = styled(DoneIcon)`
 &&{
 font-size:25px;
-color:#419646;
+color:${props => props.muted ? '#282828' : '#419646'};
 }
 `
 
@@ -180,7 +200,7 @@ color:#fff;
 width: 25px;
 height: 25px;
 border-radius:50%;
-background-color: #d0021b;
+background-color:#d0021b;
 padding: 5px;
 box-sizing: border-box;
 }
