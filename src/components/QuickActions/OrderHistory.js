@@ -53,7 +53,7 @@ const FormattedDate = (props) => {
 }
 
 const NoRepeatsMessage = () => {
-  return <BigBox>No Previous Orders found</BigBox>
+  return <BigBox>No Previous Orders.</BigBox>
 }
 
 // Styled Components
