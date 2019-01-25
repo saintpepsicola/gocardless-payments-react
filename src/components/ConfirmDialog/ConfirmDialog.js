@@ -20,10 +20,6 @@ export default class ConfirmDialog extends React.Component {
     this.props.toggleBlur(this.props.open)
   }
 
-  componentWillUnmount() {
-    this.props.toggleBlur()
-  }
-
   handleClose() { this.props.handleClose() }
 
   handleConfirm() { this.props.handleConfirm(automaticReplies[Number(this.state.value) - 1]) }
