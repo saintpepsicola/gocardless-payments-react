@@ -91,7 +91,7 @@ export default class MedicationList extends React.Component {
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
-                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                        <CheckIcon muted />
                                     </ListItemIcon>}
                             </Medicine>
                         )
@@ -105,7 +105,7 @@ export default class MedicationList extends React.Component {
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
-                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                        <UncheckIcon muted />
                                     </ListItemIcon>}
                             </Medicine>
                         )
@@ -190,7 +190,7 @@ margin: 22px 0 4px 0px;
 const CheckIcon = styled(DoneIcon)`
 &&{
 font-size:25px;
-color:#419646;
+color:${props => props.muted ? '#282828' : '#419646'};
 }
 `
 
@@ -200,7 +200,7 @@ color:#fff;
 width: 25px;
 height: 25px;
 border-radius:50%;
-background-color: #d0021b;
+background-color:#d0021b;
 padding: 5px;
 box-sizing: border-box;
 }
