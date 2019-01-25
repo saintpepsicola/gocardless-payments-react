@@ -19,7 +19,7 @@ export default class QuickActions extends React.Component {
             <div>
                 <QuickActionTabs value={this.state.value} onChange={this.handleChange.bind(this)}>
                     <QuickActionTab disableRipple label="Active Order" />
-                    <QuickActionTab disableRipple label="Order History" />
+                    {this.props.repeatsFilter !== 3 && <QuickActionTab disableRipple label="Order History" />}
                 </QuickActionTabs>
 
                 {/* ACTIVE ORDER */}
