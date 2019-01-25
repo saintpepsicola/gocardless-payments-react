@@ -48,7 +48,7 @@ class RepeatsList extends Component {
                 {this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
                 {this.props.repeats.length === 0 && <NoRepeatsMessage />}
                 {this.props.repeats.length !== 0 && <Table>
-                    <TableHead>
+                    <TableHeader>
                         <TableRow>
                             <Header>Patient Name</Header>
                             <Header>Details</Header>
@@ -60,7 +60,7 @@ class RepeatsList extends Component {
                             <Header>Status</Header>
                             <Header></Header>
                         </TableRow>
-                    </TableHead>
+                    </TableHeader>
                     {/* PENDING ORDERS */}
                     <PendingOrders>
                         {this.props.repeats && this.props.repeats
@@ -273,19 +273,88 @@ font-size: 16px;
 font-family: Assistant;
 }
 `
-const PendingOrders = styled(TableBody)`
-border-radius: 5px;
 
+const TableHeader = styled(TableHead)`
+&& {
+   display:block;
+   width:1100px; 
+}
+&& > tr > th
+{
+padding:0;
+padding-left:26px;
+box-sizing: border-box;
+}  
+&& > tr > th:first-child
+{
+width:260px;
+}
+&& > tr > th:nth-child(2),&& > tr > th:nth-child(3)
+{
+width:190px;
+} 
+&& > tr > th:nth-child(4)
+{
+width:120px;
+}    
+`
+
+const PendingOrders = styled(TableBody)`
 & tr
 {
 transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 box-shadow:none;
+display:flex;
+align-items:center;
+width:1100px;
+border-bottom:1px solid #e5e5e5; 
+}
+
+& > tr > td
+{
+height:66px;
+display: flex;
+justify-content:left;
+align-items: center;
+padding:0;
+padding-left:26px;
+box-sizing: border-box;
+border:0;
+}
+
+&& > tr:first-child
+{
+border-top-right-radius:13px;
+border-top-left-radius:13px;
+} 
+
+&& > tr:last-child
+{
+border-bottom-right-radius:13px;
+border-bottom-left-radius:13px;
+}   
+
+&& > tr > td:first-child
+{
+width:260px;
+}  
+
+&& > tr > td:nth-child(2),&& > tr > td:nth-child(3)
+{
+width:190px;
+} 
+&& > tr > td:nth-child(4)
+{
+width:120px;
+}  
+&& > tr > td:nth-child(5),&& > tr > td:nth-child(6)
+{
+flex:1;
 }
 
 & tr:hover
 {
 background-color: #ebebeb;
-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 `
 
