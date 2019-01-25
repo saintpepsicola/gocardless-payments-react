@@ -16,19 +16,19 @@ import CloseIcon from '@material-ui/icons/Close'
 export default class ConfirmDialog extends React.Component {
   state = { podMessage: null, value: 1 }
 
-  handleClose() {
-    this.props.handleClose()
+  componentDidUpdate() {
+    this.props.toggleBlur(this.props.open)
   }
 
-  handleConfirm() {
-    const { repeat } = this.props
-    this.props.sendNote(repeat.repeat_id, this.state.value === '0' ? this.state.podMessage : automaticReplies[Number(this.state.value) - 1])
-    this.props.handleConfirm()
+  componentWillUnmount() {
+    this.props.toggleBlur()
   }
 
-  handleChange(e) {
-    this.setState({ podMessage: e.target.value.trim() })
-  }
+  handleClose() { this.props.handleClose() }
+
+  handleConfirm() { this.props.handleConfirm(automaticReplies[Number(this.state.value) - 1]) }
+
+  handleChange(e) { this.setState({ podMessage: e.target.value.trim() }) }
 
   handleReply = (e) => this.setState({ value: e.target.value })
 
@@ -86,11 +86,8 @@ export default class ConfirmDialog extends React.Component {
 
 // Automatic Replies
 const automaticReplies = [
-  'Hi there! Unfortunately, we are unable to approve your prescription request due to incorrect information listed in the profile section of the Healthera app. Please check your details, and re-submit your prescription request. Thank you!',
-  'Hi there! Unfortunately, we are unable to approve your prescription request as there is currently no record of this medicine listed on your medication history. Please speak with your GP. Thank you.',
-  'Hi there! Unfortunately, we are unable to approve your prescription request as currently there is no record of consent to order on behalf of this patient. Please speak with your GP. Thank you',
-  'Hi there! Unfortunately, we are unable to approve your prescription request as it has been 6 months since you last ordered this medicine. Please consult with your GP surgery. Thank you.',
-  'Hi there! It appears the item you have ordered is not the correct dosage previously prescribed by your GP. Please contact your GP surgery. Thank you'
+  `Your repeat order is too early. Please order at least one week before running out.`,
+  `This medication was not prescribed by your GP.`
 ]
 
 
@@ -98,7 +95,7 @@ const StyledDialog = styled(({ color, ...other }) => (
   <Dialog {...other} classes={{ paper: 'paper' }} />
 ))`
 && .paper {
-padding:22px 22px 8px 22px !important;
+padding:22px 22px 20px 22px;
 width: 483px;
 border-radius: 22.5px;
 box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -114,6 +111,23 @@ margin-right:25px;
 `
 
 const AutomaticReplies = styled(RadioGroup)`
+&& label
+{
+display:flex;
+align-items:center;
+padding: 4px 0;
+}
+&& label span:nth-child(2)
+{
+font-family: Assistant;
+font-size: 17px;
+font-weight: normal;
+font-style: normal;
+font-stretch: normal;
+line-height: 1.47;
+letter-spacing: normal;
+color: #3c3c3c;
+}
 && svg
 {
 color:black;
@@ -167,11 +181,11 @@ padding:5px;
 const UncheckIcon = styled(CloseIcon)`
 &&  
 {
-  color:#fff;
-  width: 16px;
-  height: 16px;
-  border-radius:50%;
-  background-color: #d0021b;
+color:#fff;
+width: 16px;
+height: 16px;
+border-radius:50%;
+background-color: #d0021b;
 }
 `
 
@@ -199,8 +213,9 @@ padding-bottom:15px;
 const ConfirmButton = styled(Button)`
 &&
 {
+width: 117px;
 margin-top:16px;
-background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#419646'};
+background-color: ${props => props.label === 'Cancel' ? '#939393' : props.disabled ? '#ededed' : '#2f84b0'};
 font-size: 14px;
 font-weight: normal;
 color:#ffffff !important;
@@ -210,7 +225,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.28);
 }  
 &&:hover
 {
-  background-color: ${props => props.label === 'Cancel' ? '#939393' : '#419646'};
-  opacity: 0.9;
+background-color: ${props => props.label === 'Cancel' ? '#939393' : '#419646'};
+opacity: 0.9;
 }
 `

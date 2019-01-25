@@ -6,6 +6,7 @@ const mapStateToProps = (state) => ({
     panels: state.userInterface.panels,
     repeat: state.repeats.selectedRepeat,
     repeatsFilter: state.repeats.repeatsFilter,
+    medicines: state.repeats.medicines,
     repeatHistory: state.repeats.repeatHistory
 })
 

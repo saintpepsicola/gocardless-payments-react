@@ -10,7 +10,7 @@ class ProcessButton extends React.Component {
         showConfirmModal: false
     }
 
-    handleClick() {
+    async handleClick() {
         if (this.props.label === 'Process later') {
             this.props.history.push(`${process.env.PUBLIC_URL}/`)
             this.props.getRepeats(true)
@@ -19,11 +19,9 @@ class ProcessButton extends React.Component {
             this.setState({ showConfirmModal: true })
         }
         else if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
-            this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Approve' || this.props.label === 'Complete' ? 'accepted' : 'declined')
-                .then(() => {
-                    this.props.history.push(`${process.env.PUBLIC_URL}/`)
-                    this.props.getRepeats(true)
-                })
+            await this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Approve' || this.props.label === 'Complete' ? 'accepted' : 'declined', this.props.medicines.remedies)
+            this.props.history.push(`${process.env.PUBLIC_URL}/`)
+            setTimeout(() => this.props.getRepeats(true), 100)
         }
     }
 
