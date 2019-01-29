@@ -6,13 +6,17 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
-import controlledIcon from '../../../resources/controlled_med@1x.svg'
-import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
+import controlledIcon from '../../resources/controlled_med@1x.svg'
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog'
 import CloseIcon from '@material-ui/icons/Close'
 
 export default class MedicationList extends React.Component {
 
     state = { showConfirmModal: false, index: null, remedies: [] }
+
+    componentDidMount() {
+        this.props.saveMedications(this.props.repeat.remedies)
+    }
 
     handleConfirm(rejectionReason) {
         const { remedies, index } = this.state
@@ -33,7 +37,7 @@ export default class MedicationList extends React.Component {
                 comment: !remedy.approved ? remedy.rejectionReason : null
             }
         })
-        this.props.toggleMedications(updatedRemedies)
+        this.props.saveMedications(updatedRemedies)
     }
 
     handleToggle(index, remedies) {
@@ -45,6 +49,12 @@ export default class MedicationList extends React.Component {
 
         if (!remedies[index].approved)
             this.updateRemedies(remedies, index)
+    }
+
+    handlePendingToggle(index, remedies) {
+        if (window.confirm("Do you really want to approve this?")) {
+            this.handleToggle(index, remedies)
+        }
     }
 
     handleClose() { this.setState({ showConfirmModal: false }) }
@@ -66,8 +76,8 @@ export default class MedicationList extends React.Component {
                     medication={this.state.remedies[this.state.index]}
                     title='You have rejected a repeat item from the order'
                     contentText='Please leave a note to the patient about your decision'
-                    {...this.props}
-                />
+                    {...this.props} />
+
                 {repeat && repeat.remedies && !withinGracePeriod && <List component="nav">
                     {meds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
@@ -103,7 +113,7 @@ export default class MedicationList extends React.Component {
                     {rejectedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={this.handleToggle.bind(this, i, rejectedMeds)} key={i} divider >
+                            <Medicine onClick={this.handlePendingToggle.bind(this, i, rejectedMeds)} key={i} divider >
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>

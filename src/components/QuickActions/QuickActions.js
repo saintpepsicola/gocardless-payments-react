@@ -6,40 +6,56 @@ import QuickActionsGrace from './QuickActionsGrace'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import OrderHistory from './OrderHistory'
+import Button from '@material-ui/core/Button'
+import BackIcon from '@material-ui/icons/ArrowBackIos'
+import { withRouter } from 'react-router'
 
-export default class QuickActions extends React.Component {
+class QuickActions extends React.Component {
 
     state = { value: 0 }
 
     handleChange = (event, value) => { this.setState({ value }) }
 
+    gotoParentOrder() {
+        this.props.history.push(`${process.env.PUBLIC_URL}/order/${this.props.parentOrder}`)
+        this.props.updateParentOrder(null)
+    }
+
     render() {
         let { value } = this.state
+        let { orderID, parentOrder } = this.props
         let TabTitle = (this.props.repeat.gp_status === 'delivered' ? 'Active' : '') + " Order"
         return (
             <div>
-                <QuickActionTabs value={this.state.value} onChange={this.handleChange.bind(this)}>
+                {(!orderID && !parentOrder) && <QuickActionTabs value={this.state.value} onChange={this.handleChange.bind(this)}>
                     <QuickActionTab disableRipple label={TabTitle} />
                     <QuickActionTab disableRipple label="Order History" />
-                </QuickActionTabs>
+                </QuickActionTabs>}
+
+                {parentOrder && <CustomButton variant="contained" onClick={this.gotoParentOrder.bind(this)} aria-label="Back" >
+                    <BackIcon />
+                    Go Back
+                </CustomButton>}
 
                 {/* ACTIVE ORDER */}
-                {value === 0 && <ActiveOrder {...this.props} />}
+                {value === 0 && < ActiveOrder {...this.props} />}
 
                 {/* ORDER HISTORY */}
                 {value === 1 && <div><OrderHistory {...this.props} /></div>}
-
             </div>
         )
     }
 }
 
+export default withRouter(QuickActions)
+
 const ActiveOrder = (props) => {
     return props.repeat.gp_status === 'delivered' ? <QuickActionsPending {...props} />
         : (props.repeatsFilter === 0 && props.repeat.response_grace_timestamp) ? <QuickActionsGrace {...props} />
             : <QuickActionsCompleted {...props} />
-
 }
+
+
 
 const QuickActionTabs = styled(Tabs)`
 &&
@@ -51,6 +67,16 @@ padding:5px 0;
 display:none;
 }
 `
+const CustomButton = styled(Button)`
+&&
+{ 
+background: none;
+color: #333;
+box-shadow: none;
+margin: 6px 0;
+}
+`
+
 const QuickActionTab = styled(Tab)`
 &&
 { 

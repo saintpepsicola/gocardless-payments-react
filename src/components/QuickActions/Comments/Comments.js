@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import CommentField from './CommentField'
 import ScrollToBottom from 'react-scroll-to-bottom'
-import notesIcon from '../../../resources/comment.png'
 
 export default class Comments extends React.Component {
 
@@ -36,15 +35,14 @@ export default class Comments extends React.Component {
     render() {
         const { comments, chat } = this.props
         const { noCommentsMessage, sendingComment, name } = this.state
-        let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
         return (
             <CommentBox disabled={sendingComment}>
-                <Title big={completedOrder}>{!completedOrder && <img alt='notes-icon' src={notesIcon} />} Notes</Title>
+                <Title> Notes</Title>
                 <ScrollToBottom>
                     <Container>
                         {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
-                            <p>{comment.comment}</p>
+                            <p dangerouslySetInnerHTML={{ __html: comment.comment }}  ></p>
                         </Comment>)}
                         {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
                         {chat && <CommentField
@@ -112,9 +110,8 @@ const Title = styled.h1`
 {
 font-size:17px;
 color:#575756;
-font-weight:${props => props.big ? '900' : 'normal'};
+font-weight:'900';
 display:flex;
-text-transform:${props => props.big ? 'uppercase' : 'none'};
 align-items:center;
 border-bottom:1px solid #e5e5e5;
 padding:14px;

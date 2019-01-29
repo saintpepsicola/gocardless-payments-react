@@ -5,19 +5,21 @@ import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-// import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 class OrderHistory extends Component {
 
+  state = { show: false, orderID: null }
+
   componentDidMount() {
     const { repeat: { pod_id, patient_id, repeat_id } } = this.props
     this.props.getRepeatHistory(pod_id, patient_id, repeat_id)
+    this.setState({ orderID: repeat_id })
   }
 
   handleSelect(repeatID) {
+    this.props.updateParentOrder(this.state.orderID)
     this.props.history.push(`${process.env.PUBLIC_URL}/order/${repeatID}`)
-    this.props.changeTab(3)
   }
 
   render() {
@@ -26,7 +28,7 @@ class OrderHistory extends Component {
       <div>
         {repeatHistory.length === 0 && <NoRepeatsMessage />}
         {repeat && repeatHistory && <div>
-          <TableContainer>
+          <TableContainer hide={this.state.show ? 1 : 0}>
             <RepeatHistoryOrders>
               {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
                 return (
@@ -35,7 +37,8 @@ class OrderHistory extends Component {
                     <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
                     <Status>{row.gp_status}</Status>
                     <TableCell>{<ArrowRight />}</TableCell>
-                  </TableRow>)
+                  </TableRow>
+                )
               })}
             </RepeatHistoryOrders>
           </TableContainer>
@@ -75,7 +78,7 @@ const TableContainer = styled(Table)`
 {
 width: 100%;
 border-collapse: collapse;
-display: block;
+display: ${props => props.hide ? 'none' : 'block'};
 width: 1100px;
 }
 `
@@ -83,7 +86,7 @@ width: 1100px;
 const RepeatHistoryOrders = styled(TableBody)`
 &&
 {
-  position:relative;
+position: relative;
 background-color: #f9f9f9;
 border-radius: 13px;
 display: block;
@@ -103,17 +106,17 @@ font-size: 16px;
 
 && > tr > td:first-child
 {
-width:260px;
-}  
+width: 260px;
+}
 
 && > tr > td:nth-child(2),&& > tr > td:nth-child(3)
 {
-width:190px;
-} 
+width: 190px;
+}
 && > tr > td:nth-child(4)
 {
-flex:1;
-}    
+flex: 1;
+}
 
 && > tr
 {
@@ -130,7 +133,7 @@ justify-content: left;
 const Status = styled(TableCell)`
 &&
 {
-font-weight:600;
+font-weight: 600;
 text-transform:capitalize;
 color: ${props => statusColors[props.children]};
 font-size: 16px;

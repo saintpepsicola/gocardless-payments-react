@@ -66,7 +66,7 @@ class RepeatsList extends Component {
                         {this.props.repeats && this.props.repeats
                             .map((row, index) => {
                                 return (
-                                    <OrderRow muted={this.props.repeatsFilter !== 0} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
@@ -198,7 +198,6 @@ const CommentFlag = styled.img`
 &&
 {
 padding-right: 10px;
-top: 5px;
 position: relative;
 height:20px;
 width:auto;
@@ -244,10 +243,13 @@ color: #707070;
 `
 
 const OrderRow = styled(TableRow)`
+&& {
 height:66px !important;
 cursor:pointer;
+position:relative;
 filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 background-color: ${props => props.muted ? `#f5f5f5` : `#ffffff`};
+}
 & > td
 {
 color: #282828;

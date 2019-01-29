@@ -8,12 +8,12 @@ import { withRouter } from "react-router"
 class AppBar extends Component {
     render() {
         return (
-            <FullWidthBlueBar >
+            <div >
                 <Container p={2} align='center' justify='center'>
                     <Box w={1 / 2}><UserAvatar {...this.props} /></Box>
                     <Box w={1 / 2}><Logo /></Box>
                 </Container>
-            </ FullWidthBlueBar>
+            </div>
         )
     }
 }
@@ -28,7 +28,4 @@ box-sizing:border-box;
 {
 text-align:right;
 }
-`
-const FullWidthBlueBar = styled.div`
-
 `

@@ -6,33 +6,43 @@ import ConfirmDialog from '../ConfirmDialog/ConfirmDialog'
 
 class ProcessButton extends React.Component {
 
-    state = {
-        showConfirmModal: false
-    }
+    state = { showConfirmModal: false }
 
     async handleClick() {
-        if (this.props.label === 'Process later') {
-            this.props.history.push(`${process.env.PUBLIC_URL}/`)
-            this.props.getRepeats(true)
-        }
-        else if (this.props.label === 'Reject') {
-            this.setState({ showConfirmModal: true })
-        }
-        else if (window.confirm(`Are you sure you want to ${this.props.label} this order?`)) {
-            await this.props.updateGPStatus(this.props.repeat.repeat_id, this.props.label === 'Approve' || this.props.label === 'Complete' ? 'accepted' : 'declined', this.props.medicines.remedies)
-            this.props.history.push(`${process.env.PUBLIC_URL}/`)
-            setTimeout(() => this.props.getRepeats(true), 100)
+        let { repeat: { repeat_id }, medicines } = this.props
+        let fullyRejected = medicines.filter(remedy => remedy.approved).length === 0 ? true : false
+        switch (this.props.label) {
+            case 'Process':
+                await this.props.updateGPStatus(repeat_id, fullyRejected ? 'declined' : 'accepted', medicines)
+                this.showActiveTab()
+                break
+            case 'Approve':
+                await this.props.updateGPStatus(repeat_id, 'accepted', medicines)
+                this.showActiveTab()
+                break
+            case 'Reject':
+                this.setState({ showConfirmModal: true })
+                // await this.props.updateGPStatus(repeat_id, 'declined', medicines)
+                break
+            case 'Complete':
+                await this.props.updateGPStatus(repeat_id, fullyRejected ? 'declined' : 'accepted', medicines)
+                this.showActiveTab()
+                break
+            default:
+                break
         }
     }
 
-    handleConfirm() {
-        const { repeat } = this.props
-        this.props.updateGPStatus(repeat.repeat_id, this.props.label === 'Approve' ? 'accepted' : 'declined')
+    showActiveTab() {
         this.props.history.push(`${process.env.PUBLIC_URL}/`)
-        this.props.getRepeats(true)
-        this.setState({
-            showConfirmModal: false
-        })
+        setTimeout(() => this.props.getRepeats(true), 100)
+    }
+
+    handleConfirm(reason) {
+        let { repeat: { repeat_id }, medicines } = this.props
+        this.props.updateGPStatus(repeat_id, 'declined', medicines, reason)
+        this.setState({ showConfirmModal: false })
+        this.showActiveTab()
     }
 
     handleClose() {
@@ -85,7 +95,7 @@ opacity: 0.9;
 
 const buttonColor = {
     'Reject': '#939393',
-    'Process later': '#2f84b0',
+    'Process': '#419646',
     'Approve': '#419646',
     'Complete': '#419646'
 }

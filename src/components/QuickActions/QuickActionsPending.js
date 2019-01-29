@@ -2,15 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import { Flex, Box } from 'reflexbox'
-import MedicationList from './MedicationList/MedicationListContainer'
+import MedicationList from './MedicationList'
 import PanelControls from './PanelControls/PanelControlsContainer'
 import SidePanel from './SidePanel/SidePanelContainer'
 import ProcessButton from './ProcessButton'
 
 export default class QuickActionsPending extends React.Component {
     render() {
-        let { repeat } = this.props
-        let completeDisabled = repeat.remedies && repeat.remedies.filter(remedy => remedy.approved).length === 0 ? true : false
+        let { repeat, medicines } = this.props
+        let showProcess = medicines && medicines.filter(remedy => !remedy.approved).length !== 0 ? true : false
         return (
             <Container>
                 <Flex>
@@ -24,10 +24,13 @@ export default class QuickActionsPending extends React.Component {
                         <Flex>
                             <MedicationList {...this.props} />
                         </Flex>
-                        <Flex justify='flex-end'>
+                        {showProcess && <Flex justify='flex-end'>
+                            <ProcessButton label={`Process`} {...this.props} />
+                        </Flex>}
+                        {!showProcess && <Flex justify='flex-end'>
                             <ProcessButton label={`Reject`} {...this.props} />
-                            <ProcessButton disabled={completeDisabled} label={`Approve`} {...this.props} />
-                        </Flex>
+                            <ProcessButton label={`Approve`} {...this.props} />
+                        </Flex>}
                     </Box>
                     <Box w={3 / 10} ><SidePanel chat={true} /></Box>
                 </Flex>

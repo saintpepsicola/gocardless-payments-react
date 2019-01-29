@@ -19,11 +19,6 @@ class Search extends Component {
   componentDidMount() {
     if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
-      this.interval = setInterval(() => {
-        if (!this.props.searchTerm) {
-          this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
-        }
-      }, 300000)
     }
   }
 

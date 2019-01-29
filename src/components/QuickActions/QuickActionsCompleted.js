@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import { Flex, Box } from 'reflexbox'
-import MedicationList from './MedicationList/MedicationListContainer'
+import MedicationList from './MedicationList'
 import PanelControls from './PanelControls/PanelControlsContainer'
 import SidePanel from './SidePanel/SidePanelContainer'
 
@@ -23,7 +23,7 @@ export default class QuickActionsCompleted extends React.Component {
                             <MedicationList {...this.props} />
                         </Flex>
                     </Box>
-                    <Box w={3 / 10} ><SidePanel chat={false} /></Box>
+                    <Box w={3 / 10} ><SidePanel {...this.props} chat={false} /></Box>
                 </Flex>
             </Container>
         )

@@ -5,7 +5,6 @@ import PreviousOrder from '../PreviousOrder'
 import Comments from '../Comments/CommentsContainer'
 
 export default class SidePanel extends React.Component {
-
   render() {
     return (
       <PanelContainer className='side-panel' panels={this.props.panels}>
@@ -30,7 +29,6 @@ width: 100%;
 overflow: hidden;
 white-space: nowrap;
 }
-
 `
 
 const PanelContainer = styled(Flex)`
@@ -49,5 +47,4 @@ ${Panel}:nth-child(2)
 {
 transform: translateX(${props => props.panels[1].position}px);
 }
-
 `
