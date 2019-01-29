@@ -198,7 +198,6 @@ const CommentFlag = styled.img`
 &&
 {
 padding-right: 10px;
-top: 5px;
 position: relative;
 height:20px;
 width:auto;
@@ -244,10 +243,13 @@ color: #707070;
 `
 
 const OrderRow = styled(TableRow)`
+&& {
 height:66px !important;
 cursor:pointer;
+position:relative;
 filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 background-color: ${props => props.muted ? `#f5f5f5` : `#ffffff`};
+}
 & > td
 {
 color: #282828;

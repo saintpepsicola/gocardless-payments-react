@@ -7,7 +7,8 @@ const mapStateToProps = (state) => ({
     repeat: state.repeats.selectedRepeat,
     repeatsFilter: state.repeats.repeatsFilter,
     medicines: state.repeats.medicines,
-    repeatHistory: state.repeats.repeatHistory
+    repeatHistory: state.repeats.repeatHistory,
+    parentOrder: state.repeats.parentOrder
 })
 
 export default connect(mapStateToProps, actions)(QuickActions) 

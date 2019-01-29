@@ -19,20 +19,17 @@ export default class PanelControls extends React.Component {
 
     render() {
         let { repeat: { gp_status }, completed } = this.props
-        //let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
-        return (
-            <div>
-                {!completed && <Ordertabs
-                    value={this.state.value}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    onChange={this.showPanel.bind(this)}>
-                    <Ordertab disableRipple backicon={NotesIcon} label="Notes" />
-                    <Ordertab disableRipple backicon={PreviousOrderIcon} label="Previous Order" />
-                </Ordertabs>}
-                {completed && <OrderStatus status={gp_status} />}
-            </div >
-        )
+        return (<div>
+            {!completed && <Ordertabs
+                value={this.state.value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={this.showPanel.bind(this)}>
+                <Ordertab disableRipple backicon={NotesIcon} label="Notes" />
+                <Ordertab disableRipple backicon={PreviousOrderIcon} label="Previous Order" />
+            </Ordertabs>}
+            {completed && <OrderStatus status={gp_status} />}
+        </div >)
     }
 }
 

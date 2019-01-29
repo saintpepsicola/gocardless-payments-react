@@ -11,8 +11,6 @@ import { Flex, Box } from 'reflexbox'
 
 class OrderDetails extends React.Component {
 
-    state = { parentOrder: {} }
-
     constructor(props) {
         super(props)
         // Remove Under Review on route change
@@ -29,15 +27,9 @@ class OrderDetails extends React.Component {
         this.props.unlockRepeat(this.props.repeat.repeat_id)
     }
 
-    gotoParentOrder() {
-        this.props.history.push(`${process.env.PUBLIC_URL}/order/${this.state.parentOrder}`)
-    }
-
     async componentDidMount() {
         // Get a single Repeat
         await this.props.getRepeat(this.props.match.params.orderID)
-        if (this.props.repeat.gp_status === 'delivered')
-            this.setState({ parentOrder: this.props.repeat.repeat_id })
         this.props.lockRepeat(this.props.repeat.repeat_id)
     }
 
@@ -45,7 +37,6 @@ class OrderDetails extends React.Component {
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
-        //let completedOrder = repeat ? repeat.gp_status === 'delivered' ? true : false : false
         return (
             <div>
                 {!fetching && repeat && <div>
@@ -126,7 +117,6 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
-                    {/* {!completedOrder && this.props.repeatsFilter === 3 && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />} */}
                     <QuickActions />
                 </div>}
             </div>
@@ -139,10 +129,6 @@ const timestampToDate = (date) => {
     return dob.toLocaleString().split(',')[0]
 }
 
-// const OrderHistoryHeader = (props) => {
-//     return <OrderHistoryTitle onClick={props.onClick}><BackArrow />ORDER HISTORY</OrderHistoryTitle>
-// }
-
 export default withRouter(OrderDetails)
 
 const Summary = styled(ExpansionPanelSummary)`
@@ -151,25 +137,6 @@ const Summary = styled(ExpansionPanelSummary)`
 margin: 12px 0;
 }
 `
-
-// const OrderHistoryTitle = styled.h3`
-// &&
-// {
-// cursor:pointer;
-// font-family: Assistant;
-// font-size: 20px;
-// font-weight: 900;
-// font-style: normal;
-// line-height: normal;
-// color: #4a4a4a;
-// display:flex;
-// align-items:center;
-// }
-// && svg
-// {
-// color:#707070;
-// }
-// `
 
 const PanelTitle = styled.h3`
 width:100%;

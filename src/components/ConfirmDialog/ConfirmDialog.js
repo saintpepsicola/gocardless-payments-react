@@ -26,9 +26,14 @@ export default class ConfirmDialog extends React.Component {
 
   handleClose() { this.props.handleClose() }
 
-  handleConfirm() { this.props.handleConfirm(automaticReplies[Number(this.state.value) - 1]) }
+  handleConfirm() {
+    let rejectionReason = automaticReplies[this.state.value - 1] ? automaticReplies[this.state.value - 1] : this.state.podMessage
+    this.props.handleConfirm(rejectionReason)
+  }
 
-  handleChange(e) { this.setState({ podMessage: e.target.value.trim() }) }
+  handleChange(e) {
+    this.setState({ podMessage: e.target.value.trim() })
+  }
 
   handleReply = (e) => this.setState({ value: e.target.value })
 
@@ -86,10 +91,11 @@ export default class ConfirmDialog extends React.Component {
 
 // Automatic Replies
 const automaticReplies = [
-  `Your repeat order is too early. Please order at least one week before running out.`,
-  `This medication was not prescribed by your GP.`
+  `Item(s) ordered too early. Please order within one week of running out.`,
+  `Order Item(s) is not in your GP’s repeat list. Please contact your GP.`,
+  `Item(s) have not been ordered for more than 6 months. Please contact your GP for a review.`,
+  `Incorrect personal information. Please review your personal information to match your GP record.`
 ]
-
 
 const StyledDialog = styled(({ color, ...other }) => (
   <Dialog {...other} classes={{ paper: 'paper' }} />
