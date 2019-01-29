@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
-import FilterIcon from '@material-ui/icons/FilterList'
+import { ReactComponent as FilterIcon } from '../../resources/filter.svg'
 import CloseIcon from '@material-ui/icons/Close'
 import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton'
 class Search extends Component {
 
   state = {
-    searchField: false
+    searchField: false, filter: true
   }
 
   componentDidMount() {
@@ -45,6 +45,7 @@ class Search extends Component {
   }
 
   handleFilter = () => {
+    this.setState({ filter: !this.state.filter })
     this.props.toggleSearchFilter()
   }
 
@@ -86,10 +87,10 @@ class Search extends Component {
           </BoxContainer>
           <VerticalAlign w={1 / 10}>
             {!searchField && <span>
-              {showFilterIcon && <IconButton onClick={this.handleFilter.bind(this)}>
+              {showFilterIcon && <Filter dot={this.state.filter ? 1 : 0} disableRipple onClick={this.handleFilter.bind(this)}>
                 <FilterIcon />
-              </IconButton>}
-              <IconButton onClick={this.handleSearch.bind(this)}>
+              </Filter>}
+              <IconButton disableRipple onClick={this.handleSearch.bind(this)}>
                 <SearchIcon />
               </IconButton>
             </span>}
@@ -106,6 +107,14 @@ class Search extends Component {
 export default withRouter(Search)
 
 // Styled Components
+const Filter = styled(IconButton)`
+&&:hover {
+background:none;
+}
+&& #dot {
+display: ${props => props.dot ? 'none' : 'block'};
+}
+`
 const Container = styled.div`
 border-top:1px solid #377da0;
 height:58px;
