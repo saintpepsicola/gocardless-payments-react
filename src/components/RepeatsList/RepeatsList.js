@@ -77,7 +77,7 @@ class RepeatsList extends Component {
                                                 <UnderReview label="Under Review" variant="outlined" />
                                                 <ReviewAuthor label={`By ${row.viewer}`} variant="outlined" /></span>}
                                         </LastColumn>
-                                        <TableCell>{<ArrowRight />}</TableCell>
+                                        <TableCell>{!row.lock && <ArrowRight />}</TableCell>
                                     </OrderRow>
                                 )
                             })}
