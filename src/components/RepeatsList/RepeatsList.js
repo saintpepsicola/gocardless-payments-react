@@ -66,7 +66,7 @@ class RepeatsList extends Component {
                         {this.props.repeats && this.props.repeats
                             .map((row, index) => {
                                 return (
-                                    <OrderRow muted={this.props.repeatsFilter !== 0} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
