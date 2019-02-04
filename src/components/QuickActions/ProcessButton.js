@@ -22,7 +22,6 @@ class ProcessButton extends React.Component {
                 break
             case 'Reject':
                 this.setState({ showConfirmModal: true })
-                // await this.props.updateGPStatus(repeat_id, 'declined', medicines)
                 break
             case 'Complete':
                 await this.props.updateGPStatus(repeat_id, fullyRejected ? 'declined' : 'accepted', medicines)
