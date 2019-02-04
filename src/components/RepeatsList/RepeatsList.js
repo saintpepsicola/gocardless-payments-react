@@ -66,7 +66,6 @@ class RepeatsList extends Component {
                         {this.props.repeats && this.props.repeats
                             .map((row, index) => {
                                 let expired = row.response_grace_timestamp ? new Date(row.response_grace_timestamp * 1000) < new Date() : true
-
                                 return (
                                     <OrderRow muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
