@@ -40,7 +40,7 @@ class OrderDetails extends React.Component {
         return (
             <div>
                 {!fetching && repeat && <div>
-                    <Panel>
+                    <Panel defaultExpanded='true'>
                         <Summary expandIcon={<ExpandMoreIcon />}>
                             <div>
                                 <PanelTitle>
