@@ -65,12 +65,13 @@ class RepeatsList extends Component {
                     <PendingOrders>
                         {this.props.repeats && this.props.repeats
                             .map((row, index) => {
+                                let expired = row.response_grace_timestamp ? new Date(row.response_grace_timestamp * 1000) < new Date() : true
                                 return (
                                     <OrderRow muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                                        <Status>{(row.response_grace_timestamp && this.props.repeatsFilter === 0) ? 'Pending' : row.gp_status === 'delivered' ? 'New Order' : row.gp_status}</Status>
+                                        <Status>{(!expired && this.props.repeatsFilter === 0) ? 'Pending' : row.gp_status === 'delivered' ? 'New Order' : row.gp_status}</Status>
                                         <TableCell>{row.comment && <CommentFlag alt='repeat comment' src={commentIcon} />}</TableCell>
                                         <LastColumn>
                                             {row.lock && <span>
