@@ -32,6 +32,10 @@ export default class Comments extends React.Component {
         this.props.sendNote(repeatID, this.state.podMessage)
     }
 
+    cleanHTML(html) {
+        return html.replace(/(\r\n|\n|\r)/gm, "")
+    }
+
     render() {
         const { comments, chat } = this.props
         const { noCommentsMessage, sendingComment, name } = this.state
@@ -42,7 +46,7 @@ export default class Comments extends React.Component {
                     <Container>
                         {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
-                            <p dangerouslySetInnerHTML={{ __html: comment.comment }}  ></p>
+                            <p dangerouslySetInnerHTML={{ __html: this.cleanHTML(comment.comment) }}  ></p>
                         </Comment>)}
                         {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
                         {chat && <CommentField
