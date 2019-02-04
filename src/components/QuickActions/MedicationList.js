@@ -83,7 +83,8 @@ export default class MedicationList extends React.Component {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
                             <Medicine onClick={medicationInteraction ? this.handleToggle.bind(this, i, meds) : () => { }} key={i} divider >
-                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                <MedicineItem secondary={medication.rejectionReason} controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon /> : <UncheckIcon />}
@@ -129,7 +130,7 @@ export default class MedicationList extends React.Component {
 }
 
 const MedicineItem = styled(ListItemText)`
-&::after
+&&::after
 {
 content: '';
 width: 21px;
@@ -148,43 +149,48 @@ const Container = styled(Flex)`
 width:100%;
 &>nav
 {
-width:100%;
+width: 100%;
 height:360px;
 overflow-y:auto;
 padding-top:${props => props.basic ? 0 : '8px'};
 }
 
 & nav::-webkit-scrollbar {
-width:3px;
+width: 3px;
 background-color: #eeeeee;
 }
 
 & nav::-webkit-scrollbar-thumb {
 background-color: #3d3d3d;
 border-radius:5px;
-} 
+}
 
 & span
 {
-font-weight:${props => props.basic ? '400' : '600'};
+font-weight: ${props => props.basic ? '400' : '600'};
 color:#282828;
 }
 `
 const Medicine = styled(ListItem)`
 &&
 {
-padding-right:0;
+padding-right: 0;
 span
 {
-display:inline-block;
+display: inline-block;
 font-family: Assistant;
 font-size: 15px;
 font-weight: 600;
 }
 
+&& p
+{
+padding-left:13px;
+}
+
 &:hover
 {
-background-color:#ededed;
+background-color: #ededed;
 cursor:pointer;
 }
 }
@@ -194,21 +200,21 @@ const SubTitle = styled.h3`
 &&{
 font-family: Assistant;
 font-size: 18px;
-color: #282828;
-margin: 22px 0 4px 0px;
+color:#282828;
+margin:22px 0 4px 0px;
 }
 `
 
 const CheckIcon = styled(DoneIcon)`
 &&{
-font-size:25px;
+font-size: 25px;
 color:${props => props.muted ? '#282828' : '#419646'};
 }
 `
 
 const UncheckIcon = styled(CloseIcon)`
 &&{
-color:#fff;
+color: #fff;
 width: 25px;
 height: 25px;
 border-radius:50%;
