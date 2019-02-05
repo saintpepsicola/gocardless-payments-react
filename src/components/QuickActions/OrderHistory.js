@@ -24,7 +24,7 @@ class OrderHistory extends Component {
 
   render() {
     const { repeat, repeatHistory } = this.props
-    let expired = repeat.response_grace_timestamp ? new Date(repeat.response_grace_timestamp * 1000) < new Date() : true
+
     return (
       <div>
         {repeatHistory.length === 0 && <NoRepeatsMessage />}
@@ -32,6 +32,7 @@ class OrderHistory extends Component {
           <TableContainer hide={this.state.show ? 1 : 0}>
             <RepeatHistoryOrders>
               {Array.isArray(repeatHistory) && repeatHistory.map((row, index) => {
+                let expired = row.response_grace_timestamp ? new Date(row.response_grace_timestamp * 1000) < new Date() : true
                 return (
                   <TableRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
                     <TableCell>{row.number_of_medicines} Medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
