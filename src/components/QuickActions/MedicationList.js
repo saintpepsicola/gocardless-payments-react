@@ -213,13 +213,13 @@ color:${props => props.muted ? '#282828' : '#419646'};
 const UncheckIcon = styled(CloseIcon)`
 &&{
 color:${props => props.muted ? '#282828' : '#ffffff'};
-width: 25px;
-height: 25px;
+width: 24px;
+height: 24px;
 border-radius:50%;
 background-color:${props => props.muted ? '#ffffff' : '#d0021b'};
-border:1px solid red;
+border:2px solid red;
 border-color:${props => props.muted ? '#282828' : '#ffffff'};
-padding:3px;
+padding:1px;
 box-sizing: border-box;
 }
 `
