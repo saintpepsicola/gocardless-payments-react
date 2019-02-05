@@ -24,6 +24,7 @@ class OrderHistory extends Component {
 
   render() {
     const { repeat, repeatHistory } = this.props
+    let expired = repeat.response_grace_timestamp ? new Date(repeat.response_grace_timestamp * 1000) < new Date() : true
     return (
       <div>
         {repeatHistory.length === 0 && <NoRepeatsMessage />}
@@ -35,7 +36,7 @@ class OrderHistory extends Component {
                   <TableRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
                     <TableCell>{row.number_of_medicines} Medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                     <TableCell><FormattedDate date={row.date_created} /></TableCell>
-                    <Status>{row.gp_status}</Status>
+                    <Status>{!expired ? 'Pending' : row.gp_status === 'delivered' ? 'New Order' : row.gp_status}</Status>
                     <TableCell>{<ArrowRight />}</TableCell>
                   </TableRow>
                 )
@@ -142,10 +143,11 @@ font-family: Assistant;
 `
 
 const statusColors = {
-  'Pending': '#f57123',
+  'Pending': '#257195',
   'accepted': '#419646',
   'declined': '#d0021b',
   'Processing': '#2f84b0',
+  'New Order': '#fd8524',
 }
 
 const ArrowRight = styled(KeyboardArrowRightRight)`
