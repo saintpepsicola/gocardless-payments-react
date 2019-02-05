@@ -34,7 +34,7 @@ class OrderHistory extends Component {
                 return (
                   <TableRow key={index} onClick={this.handleSelect.bind(this, row.repeat_id)}>
                     <TableCell>{row.number_of_medicines} Medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
-                    <TableCell><FormattedDate date={row.date_created / 1000} /></TableCell>
+                    <TableCell><FormattedDate date={row.date_created} /></TableCell>
                     <Status>{row.gp_status}</Status>
                     <TableCell>{<ArrowRight />}</TableCell>
                   </TableRow>
@@ -52,7 +52,7 @@ export default withRouter(OrderHistory)
 
 const FormattedDate = (props) => {
   let options = { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: true }
-  return new Date(Number(props.date)).toLocaleDateString('en-GB', options)
+  return new Date(Number(Math.floor(props.date))).toLocaleDateString('en-GB', options)
 }
 
 const NoRepeatsMessage = () => {
