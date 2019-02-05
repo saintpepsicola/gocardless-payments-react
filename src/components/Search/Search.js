@@ -29,6 +29,7 @@ class Search extends Component {
   handleBlur = () => {
     setTimeout(() => {
       this.setState({ searchField: false })
+      this.props.changeTab(0)
       this.props.getRepeats(true)
     }, 200)
   }
