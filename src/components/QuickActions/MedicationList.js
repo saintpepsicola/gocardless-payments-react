@@ -5,10 +5,12 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import DoneIcon from '@material-ui/icons/CheckCircleOutlined'
 import controlledIcon from '../../resources/controlled_med@1x.svg'
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog'
-import CloseIcon from '@material-ui/icons/Close'
+import CheckedIconImage from '../../resources/checked.png'
+import CheckedIconImageHistory from '../../resources/checkedHistory.png'
+import UnCheckedIconImage from '../../resources/reject.png'
+import UnCheckedIconImageHistory from '../../resources/rejectHistory.png'
 
 export default class MedicationList extends React.Component {
 
@@ -203,23 +205,22 @@ margin:22px 0 4px 0px;
 }
 `
 
-const CheckIcon = styled(DoneIcon)`
+const CheckIcon = styled.div`
 &&{
-font-size: 25px;
-color:${props => props.muted ? '#282828' : '#419646'};
+background-image:url(${props => props.muted ? CheckedIconImageHistory : CheckedIconImage}); 
+background-size:24px;
+height:25px;
+width:25px;
+background-repeat:no-repeat;
 }
 `
 
-const UncheckIcon = styled(CloseIcon)`
+const UncheckIcon = styled.div`
 &&{
-color:${props => props.muted ? '#282828' : '#ffffff'};
-width: 24px;
-height: 24px;
-border-radius:50%;
-background-color:${props => props.muted ? '#ffffff' : '#d0021b'};
-border:2px solid red;
-border-color:${props => props.muted ? '#282828' : '#ffffff'};
-padding:1px;
-box-sizing: border-box;
+width: 25px;
+height: 25px;
+background-size:24px;
+background-repeat:no-repeat;
+background-image:url(${props => props.muted ? UnCheckedIconImageHistory : UnCheckedIconImage}); 
 }
 `
