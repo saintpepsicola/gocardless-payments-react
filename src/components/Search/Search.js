@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton'
 class Search extends Component {
 
   state = {
-    searchField: false, filter: true
+    searchField: false
   }
 
   componentDidMount() {
@@ -45,7 +45,6 @@ class Search extends Component {
   }
 
   handleFilter = () => {
-    this.setState({ filter: !this.state.filter })
     this.props.toggleSearchFilter()
   }
 
@@ -59,7 +58,7 @@ class Search extends Component {
 
   render() {
     const { searchField } = this.state
-    let { showFilterIcon } = this.props
+    let { showFilterIcon, showSearchFilters } = this.props
     return (
       <Container>
         <Flex w={`100%`}>
@@ -87,7 +86,7 @@ class Search extends Component {
           </BoxContainer>
           <VerticalAlign w={1 / 10}>
             {!searchField && <span>
-              {showFilterIcon && <Filter dot={this.state.filter ? 1 : 0} disableRipple onClick={this.handleFilter.bind(this)}>
+              {showFilterIcon && <Filter dot={!showSearchFilters ? 1 : 0} disableRipple onClick={this.handleFilter.bind(this)}>
                 <FilterIcon />
               </Filter>}
               <IconButton disableRipple onClick={this.handleSearch.bind(this)}>

@@ -370,14 +370,14 @@ cursor: unset;
 const PatientName = styled(TableCell)`
 &&
 {
-font-weight: bold;
+font-weight: 600;
 }
 `
 
 const Status = styled(TableCell)`
 &&
 {
-font-weight: bold;
+font-weight: 600;
 text-transform:capitalize;
 color: ${props => statusColors[props.children]};
 font-size: 16px;

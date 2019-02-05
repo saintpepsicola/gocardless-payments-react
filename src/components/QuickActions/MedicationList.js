@@ -51,9 +51,12 @@ export default class MedicationList extends React.Component {
             this.updateRemedies(remedies, index)
     }
 
-    handlePendingToggle(index, remedies) {
+    handlePendingToggle(index, med, allmeds) {
+
         if (window.confirm("Do you really want to approve this?")) {
-            this.handleToggle(index, remedies)
+            med.approved = true
+            this.forceUpdate()
+            this.props.saveMedications(allmeds)
         }
     }
 
@@ -84,7 +87,6 @@ export default class MedicationList extends React.Component {
                         return (
                             <Medicine onClick={medicationInteraction ? this.handleToggle.bind(this, i, meds) : () => { }} key={i} divider >
                                 <MedicineItem secondary={medication.rejectionReason} controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
-
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon muted={this.props.completed} /> : <UncheckIcon muted={this.props.completed} />}
@@ -106,31 +108,27 @@ export default class MedicationList extends React.Component {
                                     <ListItemIcon>
                                         <CheckIcon muted />
                                     </ListItemIcon>}
-                            </Medicine>
-                        )
+                            </Medicine>)
                     })}
                     {/* REJECTED MEDICATIONS */}
                     {rejectedMeds.length !== 0 && <SubTitle>Pending</SubTitle>}
                     {rejectedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
-                        return (
-                            <Medicine onClick={this.handlePendingToggle.bind(this, i, rejectedMeds)} key={i} divider >
-                                <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
-                                {!basic &&
-                                    <ListItemIcon>
-                                        <UncheckIcon />
-                                    </ListItemIcon>}
-                            </Medicine>
-                        )
+                        return (<Medicine onClick={this.handlePendingToggle.bind(this, i, medication, meds)} key={i} divider >
+                            <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                            {!basic &&
+                                <ListItemIcon>
+                                    <UncheckIcon />
+                                </ListItemIcon>}
+                        </Medicine>)
                     })}
                 </List>}
-            </Container >
-        )
+            </Container >)
     }
 }
 
 const MedicineItem = styled(ListItemText)`
-&&::after
+&& span::after
 {
 content: '';
 width: 21px;
