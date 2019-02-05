@@ -20,7 +20,7 @@ export default class QuickActionsCompleted extends React.Component {
                             <PanelBox w={6 / 10} > <PanelControls completed={true} /> </PanelBox>
                         </Header>
                         <Flex>
-                            <MedicationList {...this.props} />
+                            <MedicationList completed {...this.props} />
                         </Flex>
                     </Box>
                     <Box w={3 / 10} ><SidePanel {...this.props} chat={false} /></Box>

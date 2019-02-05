@@ -87,7 +87,7 @@ export default class MedicationList extends React.Component {
 
                                 {!basic &&
                                     <ListItemIcon>
-                                        {medication.approved ? <CheckIcon /> : <UncheckIcon />}
+                                        {medication.approved ? <CheckIcon muted={this.props.completed} /> : <UncheckIcon muted={this.props.completed} />}
                                     </ListItemIcon>}
                             </Medicine>)
                     })}
@@ -118,7 +118,7 @@ export default class MedicationList extends React.Component {
                                 <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
-                                        <UncheckIcon muted />
+                                        <UncheckIcon />
                                     </ListItemIcon>}
                             </Medicine>
                         )
@@ -214,12 +214,14 @@ color:${props => props.muted ? '#282828' : '#419646'};
 
 const UncheckIcon = styled(CloseIcon)`
 &&{
-color: #fff;
+color:${props => props.muted ? '#282828' : '#ffffff'};
 width: 25px;
 height: 25px;
 border-radius:50%;
-background-color:#d0021b;
-padding: 5px;
+background-color:${props => props.muted ? '#ffffff' : '#d0021b'};
+border:1px solid red;
+border-color:${props => props.muted ? '#282828' : '#ffffff'};
+padding:3px;
 box-sizing: border-box;
 }
 `
