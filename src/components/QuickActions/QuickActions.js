@@ -52,7 +52,7 @@ export default withRouter(QuickActions)
 const ActiveOrder = (props) => {
     let expired = props.repeat.response_grace_timestamp ? new Date(props.repeat.response_grace_timestamp * 1000) < new Date() : true
     return props.repeat.gp_status === 'delivered' ? <QuickActionsPending {...props} />
-        : (props.repeatsFilter === 0 && !expired) ? <QuickActionsGrace {...props} />
+        : (!expired) ? <QuickActionsGrace {...props} />
             : <QuickActionsCompleted {...props} />
 }
 
