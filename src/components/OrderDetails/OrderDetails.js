@@ -7,8 +7,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Flex, Box } from 'reflexbox'
-import OrderHistory from './OrderHistory'
-import BackArrow from '@material-ui/icons/KeyboardArrowLeft'
 
 class OrderDetails extends React.Component {
 
@@ -28,10 +26,6 @@ class OrderDetails extends React.Component {
         this.props.unlockRepeat(this.props.repeat.repeat_id)
     }
 
-    gotoParentOrder() {
-        window.history.go('-1')
-    }
-
     async componentDidMount() {
         // Get a single Repeat
         await this.props.getRepeat(this.props.match.params.orderID)
@@ -42,11 +36,10 @@ class OrderDetails extends React.Component {
         let dependent = this.props.repeat && this.props.repeat.dependent ? this.props.repeat.dependent : false
         let { repeat, fetching } = this.props
         let patient = repeat ? (repeat.dependent ? repeat.dependent : repeat.patient) : false
-        let completedOrder = repeat ? repeat.gp_status === 'delivered' ? true : false : false
         return (
             <div>
                 {!fetching && repeat && <div>
-                    <Panel defaultExpanded>
+                    <Panel defaultExpanded={true}>
                         <Summary expandIcon={<ExpandMoreIcon />}>
                             <div>
                                 <PanelTitle>
@@ -123,9 +116,7 @@ class OrderDetails extends React.Component {
                             </PatientDetails>
                         </Content>
                     </Panel>
-                    {!completedOrder && <OrderHistoryHeader onClick={this.gotoParentOrder.bind(this)} />}
                     <QuickActions />
-                    {completedOrder && <OrderHistory {...this.props} />}
                 </div>}
             </div>
         )
@@ -137,35 +128,12 @@ const timestampToDate = (date) => {
     return dob.toLocaleString().split(',')[0]
 }
 
-const OrderHistoryHeader = (props) => {
-    return <OrderHistoryTitle onClick={props.onClick}><BackArrow />ORDER HISTORY</OrderHistoryTitle>
-}
-
 export default withRouter(OrderDetails)
 
 const Summary = styled(ExpansionPanelSummary)`
 && > div
 {
 margin: 12px 0;
-}
-`
-
-const OrderHistoryTitle = styled.h3`
-&&
-{
-cursor:pointer;
-font-family: Assistant;
-font-size: 20px;
-font-weight: 900;
-font-style: normal;
-line-height: normal;
-color: #4a4a4a;
-display:flex;
-align-items:center;
-}
-&& svg
-{
-color:#707070;
 }
 `
 
@@ -212,26 +180,26 @@ color: #575757;
 }
 && > div
 {
-    position:relative;
-    padding: 0 20px;
+position:relative;
+padding: 0 20px;
 }
 && > div:first-child
 {
-    padding-left:0;
+padding-left:0;
 }
 && > div:last-child:after
 {
-    display:none;
+display:none;
 }
 && > div:after
 {
-    content: '';
-    height: 110px;
-    width: 1px;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    background-color: #d3d3d3;
+content: '';
+height: 110px;
+width: 1px;
+right: 0;
+bottom: 0;
+position: absolute;
+background-color: #d3d3d3;
 }
 `
 

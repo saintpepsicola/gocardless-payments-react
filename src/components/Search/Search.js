@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
+import { ReactComponent as FilterIcon } from '../../resources/filter.svg'
 import CloseIcon from '@material-ui/icons/Close'
 import styled from 'styled-components'
 import { Flex, Box } from 'reflexbox'
@@ -17,12 +18,7 @@ class Search extends Component {
 
   componentDidMount() {
     if (this.props) {
-      this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage)
-      this.interval = setInterval(() => {
-        if (!this.props.searchTerm) {
-          this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false, this.props.rowsPerPage)
-        }
-      }, 300000)
+      this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
     }
   }
 
@@ -33,7 +29,8 @@ class Search extends Component {
   handleBlur = () => {
     setTimeout(() => {
       this.setState({ searchField: false })
-      this.props.getRepeats(true, this.props.rowsPerPage)
+      this.props.changeTab(0)
+      this.props.getRepeats(true)
     }, 200)
   }
 
@@ -43,7 +40,13 @@ class Search extends Component {
   }
 
   handleSearch = () => {
+    if (this.props.showSearchFilters)
+      this.props.toggleSearchFilter()
     this.setState({ searchField: true })
+  }
+
+  handleFilter = () => {
+    this.props.toggleSearchFilter()
   }
 
   handleTabChange = (e, value) => {
@@ -51,11 +54,12 @@ class Search extends Component {
     this.props.history.push(`${process.env.PUBLIC_URL}/`)
     this.props.resetPagination()
     if (value <= 1)
-      this.props.getRepeats(value === 0 ? true : false, 10)
+      this.props.getRepeats(value === 0 ? true : false)
   }
 
   render() {
     const { searchField } = this.state
+    let { showFilterIcon, showSearchFilters } = this.props
     return (
       <Container>
         <Flex w={`100%`}>
@@ -82,9 +86,14 @@ class Search extends Component {
               </SearchBox>}
           </BoxContainer>
           <VerticalAlign w={1 / 10}>
-            {!searchField && <IconButton onClick={this.handleSearch.bind(this)}>
-              <SearchIcon />
-            </IconButton>}
+            {!searchField && <span>
+              {showFilterIcon && <Filter dot={!showSearchFilters ? 1 : 0} disableRipple onClick={this.handleFilter.bind(this)}>
+                <FilterIcon />
+              </Filter>}
+              <IconButton disableRipple onClick={this.handleSearch.bind(this)}>
+                <SearchIcon />
+              </IconButton>
+            </span>}
             {searchField && <IconButton>
               <CloseIcon />
             </IconButton>}
@@ -98,6 +107,14 @@ class Search extends Component {
 export default withRouter(Search)
 
 // Styled Components
+const Filter = styled(IconButton)`
+&&:hover {
+background:none;
+}
+&& #dot {
+display: ${props => props.dot ? 'none' : 'block'};
+}
+`
 const Container = styled.div`
 border-top:1px solid #377da0;
 height:58px;
@@ -107,54 +124,54 @@ align-items: center;
 const VerticalAlign = styled(Box)`
 &&
 {
-  display:flex;
-  align-items:center;
-  justify-content: flex-end;
+display:flex;
+align-items:center;
+justify-content: flex-end;
 }
 && svg
 {
-  color:white;
+color:white;
 }
 `
 
 const BoxContainer = styled(Box)`
 &&
 {
-  display:flex;
+display:flex;
 }
 
 & > div > div > div > span
 {
-  background-color:#2f84b0;
+background-color:#2f84b0;
 }
 `
 
 const TabsContainer = styled(Tabs)`
 && button
 {
-  font-family: Assistant;
-  font-size: 18px;
-  font-weight: ${props => props.selected ? 'bold' : '400'};
-  height:58px;
-  color:white;
-  font-family: Assistant;
-  font-size: 19px;
-  font-weight: bold;
-  text-transform:none;
-  color: #ffffff;
+font-family: Assistant;
+font-size: 18px;
+font-weight: ${props => props.selected ? 'bold' : '400'};
+height:58px;
+color:white;
+font-family: Assistant;
+font-size: 19px;
+font-weight: bold;
+text-transform:none;
+color: #ffffff;
 }
 `
 
 const SearchBox = styled.div`
 &&
 {
-  font-family: Assistant;
-  align-items:center;
-  display:flex;
-  color:white;
+font-family: Assistant;
+align-items:center;
+display:flex;
+color:white;
 }
 && svg, && input::placeholder, && input
 {
-  color:white;
+color:white;
 }
 `

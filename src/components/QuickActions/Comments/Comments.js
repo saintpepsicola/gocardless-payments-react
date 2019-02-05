@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import CommentField from './CommentField'
 import ScrollToBottom from 'react-scroll-to-bottom'
-import notesIcon from '../../../resources/comment.png'
 
 export default class Comments extends React.Component {
 
@@ -33,28 +32,28 @@ export default class Comments extends React.Component {
         this.props.sendNote(repeatID, this.state.podMessage)
     }
 
+    cleanHTML(html) {
+        return html.replace(/(\r\n|\n|\r)/gm, "")
+    }
+
     render() {
-        const { comments } = this.props
+        const { comments, chat } = this.props
         const { noCommentsMessage, sendingComment, name } = this.state
-        let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
         return (
             <CommentBox disabled={sendingComment}>
-                <Title big={completedOrder}>{!completedOrder && <img alt='notes-icon' src={notesIcon} />} Notes</Title>
+                <Title> Notes</Title>
                 <ScrollToBottom>
-                    <div>
+                    <Container>
                         {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
-                            <p>{comment.comment}</p>
+                            <p dangerouslySetInnerHTML={{ __html: this.cleanHTML(comment.comment) }}  ></p>
                         </Comment>)}
-
                         {comments && comments.length === 0 && <NoCommentText>{noCommentsMessage}</NoCommentText>}
-
-                        <CommentField
+                        {chat && <CommentField
                             handleChange={this.handleChange.bind(this)}
                             handleReply={this.handleReply.bind(this)}
-                            value={name}
-                        />
-                    </div>
+                            value={name} />}
+                    </Container>
                 </ScrollToBottom>
             </CommentBox>
         )
@@ -63,9 +62,9 @@ export default class Comments extends React.Component {
 
 const CommentBox = styled.div`
 && {
-font-size: 14px;
-font-weight: 400;
-color: #4a4a4a;
+font-size:14px;
+font-weight:400;
+color:#4a4a4a;
 white-space:pre-line;
 max-width:100%;
 line-height:1.5;
@@ -81,7 +80,7 @@ height:420px;
 
 & > div > div::-webkit-scrollbar {
 width:3px;
-background-color: #eeeeee;
+background-color:#eeeeee;
 }
 
 & > div > div::-webkit-scrollbar-thumb {
@@ -91,30 +90,37 @@ border-radius:5px;
 }
 `
 
+const Container = styled.div`
+padding:14px;
+`
+
 const Comment = styled.div`
 border-left: 2px solid red;
 border-color: ${props => props.patient ? '#419645' : '#0091cc'};
 padding-left:10px;
-font-size: 16px;
-font-weight: normal;
-letter-spacing: normal;
-color: #4a4a4a;
+font-size:16px;
+font-weight:normal;
+letter-spacing:normal;
+color:#4a4a4a;
 `
 
 const CommentAuthorTime = styled.p`
-color: #999;
-font-size: 10px;
+color:#999;
+font-size:10px;
 `
 
 const Title = styled.h1`
 &&   
 {
-font-size: 17px;
-color: #575756;
-font-weight:${props => props.big ? '900' : 'normal'};
-display: flex;
-text-transform:${props => props.big ? 'uppercase' : 'none'};
-align-items: center;
+font-size:17px;
+color:#575756;
+font-weight:'900';
+display:flex;
+align-items:center;
+border-bottom:1px solid #e5e5e5;
+padding:14px;
+padding-bottom:30px;
+margin-bottom:0;
 }
 && img
 {

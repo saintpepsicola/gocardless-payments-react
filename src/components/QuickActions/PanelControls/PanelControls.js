@@ -8,27 +8,28 @@ import Tab from '@material-ui/core/Tab'
 export default class PanelControls extends React.Component {
     state = { value: 0 }
 
+    componentDidMount() {
+        this.props.selectPanel(1)
+    }
+
     showPanel(e, id) {
         this.setState({ value: id })
         this.props.selectPanel(id + 1)
     }
 
     render() {
-        let { repeat: { gp_status } } = this.props
-        let completedOrder = this.props.repeat ? this.props.repeat.gp_status === 'delivered' ? true : false : false
-        return (
-            <div>
-                {completedOrder && <Ordertabs
-                    value={this.state.value}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    onChange={this.showPanel.bind(this)}>
-                    <Ordertab backicon={NotesIcon} label="Notes" />
-                    <Ordertab backicon={PreviousOrderIcon} label="Previous Order" />
-                </Ordertabs>}
-                {gp_status !== 'delivered' && <OrderStatus status={gp_status} />}
-            </div >
-        )
+        let { repeat: { gp_status }, completed } = this.props
+        return (<div>
+            {!completed && <Ordertabs
+                value={this.state.value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={this.showPanel.bind(this)}>
+                <Ordertab disableRipple backicon={NotesIcon} label="Notes" />
+                <Ordertab disableRipple backicon={PreviousOrderIcon} label="Previous Order" />
+            </Ordertabs>}
+            {completed && <OrderStatus status={gp_status} />}
+        </div >)
     }
 }
 
@@ -77,6 +78,5 @@ font-size: 17px;
 font-weight:600;
 text-align:right;
 color:${props => props.status ? '#417505' : 'red'};
-padding-right:32px;
 }
 `
