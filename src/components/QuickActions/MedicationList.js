@@ -86,7 +86,7 @@ export default class MedicationList extends React.Component {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
                             <Medicine onClick={medicationInteraction ? this.handleToggle.bind(this, i, meds) : () => { }} key={i} divider >
-                                <MedicineItem secondary={medication.rejectionReason} controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
+                                <MedicineItem secondary={!medication.approved ? medication.rejectionReason : ''} controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
                                         {medication.approved ? <CheckIcon muted={this.props.completed} /> : <UncheckIcon muted={this.props.completed} />}
