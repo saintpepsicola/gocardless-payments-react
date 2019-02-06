@@ -38,13 +38,13 @@ export default class Comments extends React.Component {
 
     render() {
         const { comments, chat } = this.props
-        const { noCommentsMessage, sendingComment, name } = this.state
+        const { noCommentsMessage, name } = this.state
         return (
-            <CommentBox disabled={sendingComment}>
+            <CommentBox>
                 <Title> Notes</Title>
                 <ScrollToBottom>
                     <Container>
-                        {comments && comments.map((comment, i) => <Comment key={i} patient={comment.author_role === 'pod' ? false : true}>
+                        {comments && comments.map((comment, i) => <Comment disabled={!chat} key={i} patient={comment.author_role === 'pod' ? false : true}>
                             <CommentAuthorTime>{comment.comment_updated}</CommentAuthorTime>
                             <p dangerouslySetInnerHTML={{ __html: this.cleanHTML(comment.comment) }}  ></p>
                         </Comment>)}
@@ -75,17 +75,19 @@ display:none;
 
 & > div > div {
 overflow-y:auto;
-height:420px;
+height:400px;
 }
 
-& > div > div::-webkit-scrollbar {
-width:3px;
-background-color:#eeeeee;
+&& > div > div::-webkit-scrollbar {
+width:10px;
+position:relative;
 }
 
-& > div > div::-webkit-scrollbar-thumb {
+&& > div > div::-webkit-scrollbar-thumb {
 background-color: #3d3d3d;
 border-radius:5px;
+border: 3px solid transparent;
+background-clip: content-box;
 } 
 }
 `
@@ -95,13 +97,15 @@ padding:14px;
 `
 
 const Comment = styled.div`
+&& {
 border-left: 2px solid red;
-border-color: ${props => props.patient ? '#419645' : '#0091cc'};
+border-color: ${props => props.disabled ? (props.patient ? '#282828' : '#b4b4b4') : props.patient ? '#419645' : '#0091cc'};
 padding-left:10px;
 font-size:16px;
 font-weight:normal;
 letter-spacing:normal;
 color:#4a4a4a;
+}
 `
 
 const CommentAuthorTime = styled.p`
