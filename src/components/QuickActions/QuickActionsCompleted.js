@@ -49,6 +49,8 @@ const Container = styled(Paper)`
 border-radius: 13px;
 width:100%;
 margin-bottom:16px;
+overflow: hidden;
+background:#f9f9f9;
 }
 `
 

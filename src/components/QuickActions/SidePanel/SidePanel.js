@@ -7,7 +7,7 @@ import Comments from '../Comments/CommentsContainer'
 export default class SidePanel extends React.Component {
   render() {
     return (
-      <PanelContainer className='side-panel' panels={this.props.panels}>
+      <PanelContainer disabled={this.props.chat} className='side-panel' panels={this.props.panels}>
         <Panel> <Comments  {...this.props} /></Panel>
         <Panel> <PreviousOrder {...this.props} /> </Panel>
       </PanelContainer>
@@ -32,7 +32,8 @@ white-space: nowrap;
 `
 
 const PanelContainer = styled(Flex)`
-background:#eee;
+border-left: 1px solid #bfbfbf;
+background: ${props => props.disabled ? '#eeeeee' : '#f9f9f9'};
 overflow:hidden;
 height:100%;
 position:relative;
