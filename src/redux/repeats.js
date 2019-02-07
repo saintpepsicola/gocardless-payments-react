@@ -115,7 +115,6 @@ const GET_SURGERIES_FAILURE = 'GET_SURGERIES_FAILURE'
 const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
 const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER'
 let surgeryFilter = null
-let backlog = false
 
 export const toggleBlur = (value) => {
     return { type: TOGGLE_BLUR, payload: { value } }
@@ -262,13 +261,11 @@ export const getRepeatsfromAPI = (active, pageSize, page, sort) => {
     user = JSON.parse(localStorage[`user`])
     db.ref('pods/' + podID + '/' + user.user_id).onDisconnect().remove()
     headers.Token = token
-    if (backlog)
-        active = true
     return ({
         types: [GET_REPEATS, GET_REPEATS_SUCCESS, GET_REPEATS_FAILURE],
         payload: {
             request: {
-                url: `/pods/${podID}/repeats?backlog=${backlog}&is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}&${surgeryFilter}`,
+                url: `/pods/${podID}/repeats?is_active=${active}&page=${page + 1}&page_size=${pageSize}&sort=${sort}&${surgeryFilter}`,
                 headers: headers
             }
         }
@@ -335,7 +332,6 @@ export default (state = initialState, action) => {
             return { ...state, surgeries: [] }
         case CHANGE_TAB:
             surgeryFilter = null
-            backlog = action.payload.value === -1 ? true : false
             return {
                 ...state, medicines: [], parentOrder: null, showFilterIcon: true, showSearchFilters: false, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
