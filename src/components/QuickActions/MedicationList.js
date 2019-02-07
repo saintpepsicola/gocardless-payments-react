@@ -87,7 +87,7 @@ export default class MedicationList extends React.Component {
                     {meds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
                         return (
-                            <Medicine onClick={medicationInteraction ? this.handleToggle.bind(this, i, meds) : () => { }} key={i} divider >
+                            <Medicine interaction={medicationInteraction ? 1 : 0} onClick={medicationInteraction ? this.handleToggle.bind(this, i, meds) : () => { }} key={i} divider >
                                 <MedicineItem secondary={!medication.approved ? medication.rejectionReason : ''} controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                                 {!basic &&
                                     <ListItemIcon>
@@ -116,7 +116,7 @@ export default class MedicationList extends React.Component {
                     {rejectedMeds.length !== 0 && <SubTitle>Pending</SubTitle>}
                     {rejectedMeds.map((medication, i) => {
                         if (medication.medicine) { controlled = medication.medicine.controlled }
-                        return (<Medicine onClick={this.handlePendingToggle.bind(this, i, medication, meds)} key={i} divider >
+                        return (<Medicine interaction={1} onClick={this.handlePendingToggle.bind(this, i, medication, meds)} key={i} divider >
                             <MedicineItem controlled={controlled ? 1 : 0} primary={`${i + 1}. ${medication.medicine_name}`} />
                             {!basic &&
                                 <ListItemIcon>
@@ -190,8 +190,8 @@ padding-left:13px;
 
 &:hover
 {
-background-color: #ededed;
-cursor:pointer;
+background-color: ${props => props.interaction ? '#ededed' : 'none'};
+cursor: ${props => props.interaction ? 'pointer' : 'auto'};
 }
 }
 `

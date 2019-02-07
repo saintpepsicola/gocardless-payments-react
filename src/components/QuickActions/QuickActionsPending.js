@@ -40,9 +40,8 @@ export default class QuickActionsPending extends React.Component {
 }
 
 const FormattedDate = (props) => {
-    let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
     let date = new Date(Number(props.date))
-    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
+    return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', { hour: 'numeric', minute: 'numeric' })
 }
 
 const Header = styled(Flex)`
@@ -58,6 +57,7 @@ const Container = styled(Paper)`
 border-radius: 13px;
 width:100%;
 margin-bottom:16px;
+overflow: hidden;
 }
 `
 

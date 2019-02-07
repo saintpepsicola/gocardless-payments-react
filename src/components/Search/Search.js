@@ -114,6 +114,11 @@ background:none;
 && #dot {
 display: ${props => props.dot ? 'none' : 'block'};
 }
+
+&& span
+{
+margin-top:13px;
+}
 `
 const Container = styled.div`
 border-top:1px solid #377da0;
