@@ -68,6 +68,7 @@ class Search extends Component {
             {!searchField && <TabsContainer value={this.props.repeatsFilter <= 1 ? this.props.repeatsFilter : false} indicatorColor='primary' onChange={this.handleTabChange.bind(this)}>
               <Tab label='Active' />
               <Tab label='Archive' />
+              <Tab value={-1} label='Backlog' />
             </TabsContainer>}
 
             {/* SEARCHBOX */}
@@ -117,7 +118,7 @@ display: ${props => props.dot ? 'none' : 'block'};
 
 && span
 {
-  margin-top:13px;
+margin-top:13px;
 }
 `
 const Container = styled.div`
