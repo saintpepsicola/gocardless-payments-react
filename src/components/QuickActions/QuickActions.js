@@ -61,12 +61,15 @@ class QuickActions extends React.Component {
                                 <Flex>
                                     <MedicationList withinGracePeriod={grace} completed={completed} {...this.props} />
                                 </Flex>
-                                {showProcess && <Flex justify='flex-end'>
+                                {showProcess && pending && <Flex justify='flex-end'>
                                     <ProcessButton label={`Process`} {...this.props} />
                                 </Flex>}
-                                {!showProcess && <Flex justify='flex-end'>
+                                {!showProcess && pending && <Flex justify='flex-end'>
                                     <ProcessButton label={`Reject`} {...this.props} />
                                     <ProcessButton label={`Approve`} {...this.props} />
+                                </Flex>}
+                                {grace && <Flex justify='flex-end'>
+                                    <ProcessButton label={`Complete`} {...this.props} />
                                 </Flex>}
                             </Box>
                             <Box w={3 / 10} ><SidePanel {...this.props} chat={!completed ? true : false} /></Box>
