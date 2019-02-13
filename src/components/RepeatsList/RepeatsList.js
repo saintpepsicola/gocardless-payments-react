@@ -45,7 +45,7 @@ class RepeatsList extends Component {
         return (
             <div>
                 {this.props.fetching && <RepeatsListLoader />}
-                {this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
+                {!this.props.fetching && this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
                 {this.props.repeats.length === 0 && <NoRepeatsMessage />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHeader>
