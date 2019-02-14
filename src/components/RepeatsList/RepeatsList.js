@@ -12,7 +12,6 @@ import Chip from '@material-ui/core/Chip'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import KeyboardArrowRightRight from '@material-ui/icons/KeyboardArrowRight'
-import RepeatsLoader from '../../resources/container_loader.png'
 import RepeatsFilter from '../RepeatsFilter/RepeatsFilter'
 
 class RepeatsList extends Component {
@@ -44,8 +43,7 @@ class RepeatsList extends Component {
         let { rowsPerPage } = this.props
         return (
             <div>
-                {this.props.fetching && <RepeatsListLoader />}
-                {!this.props.fetching && this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
+                {this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
                 {this.props.repeats.length === 0 && <NoRepeatsMessage />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHeader>
@@ -67,7 +65,7 @@ class RepeatsList extends Component {
                             .map((row, index) => {
                                 let expired = row.response_grace_timestamp ? new Date(row.response_grace_timestamp * 1000) < new Date() : true
                                 return (
-                                    <OrderRow muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                    <OrderRow delay={index * 50} muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
                                         <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
@@ -112,10 +110,6 @@ const FormattedDate = (props) => {
     return date.toDateString() === new Date().toDateString() ? `Today, ${date.toLocaleTimeString('en-GB', { hour: 'numeric', minute: 'numeric' })}` : date.toLocaleDateString('en-GB', options)
 }
 
-const RepeatsListLoader = () => {
-    return <Loader><img alt='loading-spinner' src={RepeatsLoader} /></Loader>
-}
-
 // Styled Components
 const BigBox = styled.section`
 &&
@@ -128,61 +122,6 @@ justify-content: center;
 align-items: center;
 font-size: 22px;
 }
-`
-
-const shine = keyframes`
-10% {
-opacity: 1;
-top: -30%;
-left: -30%;
-transition-property: left, top, opacity;
-transition-duration: 0.7s, 0.7s, 0.15s;
-transition-timing-function: ease;
-}
-100% {
-opacity: 0;
-top: -30%;
-left: -30%;
-transition-property: left, top, opacity;
-}
-`
-
-const Loader = styled.div`
-&&
-{
-position: relative;
-overflow: hidden;
-width: 100%;
-}
-
-&& img
-{
-width: 100%;
-height: auto;
-}
-
-&&:after
-{
-animation: ${shine} 2s ease-in-out  infinite;
-animation-fill-mode: forwards;
-content: "";
-position: absolute;
-top: -110%;
-left: -210%;
-width: 200%;
-height: 200%;
-opacity: 0;
-transform: rotate(30deg);
-background: rgba(255, 255, 255, 0.45);
-background: linear-gradient(
-to right,
-rgba(255, 255, 255, 0.13) 0%,
-rgba(255, 255, 255, 0.13) 77%,
-rgba(255, 255, 255, 0.5) 92%,
-rgba(255, 255, 255, 0.0) 100%
-);
-}
-
 `
 
 const ArrowRight = styled(KeyboardArrowRightRight)`
@@ -243,14 +182,24 @@ color: #707070;
 }
 `
 
+const BounceAnimation = keyframes`
+0% {  opacity:0; }
+100% {  opacity:1;transform:translateX(0%);}
+`
+
 const OrderRow = styled(TableRow)`
 && {
-height:66px !important;
+opacity:0;
+transform:translateY(400%);
+height:66px;
 cursor:pointer;
 position:relative;
 filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 background-color: ${props => props.muted ? `#f5f5f5` : `#ffffff`};
+animation: ${BounceAnimation} 0.5s ease-in-out forwards;
+animation-delay: ${props => props.delay}ms;
 }
+
 & > td
 {
 color: #282828;
@@ -261,8 +210,8 @@ font-family: Assistant;
 
 const TableHeader = styled(TableHead)`
 && {
-   display:block;
-   width:1100px; 
+display:block;
+width:1100px; 
 }
 && > tr > th
 {
