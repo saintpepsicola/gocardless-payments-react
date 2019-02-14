@@ -104,12 +104,12 @@ class OrderDetails extends React.Component {
                                     <Title>NOMINATED PHARMACY</Title>
                                     <Flex>
                                         <Box>
-                                            <Address>
+                                            {repeat.pharmacy && <Address>
                                                 {repeat.pharmacy.pharmacy_name}<br />
                                                 {repeat.pharmacy.address}<br />
                                                 {repeat.pharmacy.postcode}<br />
                                                 {repeat.pharmacy.telephone}<br />
-                                            </Address>
+                                            </Address>}
                                         </Box>
                                     </Flex>
                                 </Box>
