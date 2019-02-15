@@ -26,12 +26,10 @@ class QuickActions extends React.Component {
 
     render() {
         let { value } = this.state
-        let { orderID, parentOrder } = this.props
+        let { repeat, repeat: { last_gp_action }, medicines, orderID, parentOrder } = this.props
         let TabTitle = (this.props.repeat.gp_status === 'delivered' ? 'Active' : '') + " Order"
-        let { repeat, medicines } = this.props
         let showProcess = medicines && medicines.filter(remedy => !remedy.approved).length !== 0 ? true : false
         let expired = repeat.response_grace_timestamp ? new Date(repeat.response_grace_timestamp * 1000) < new Date() : true
-
         let pending = repeat.gp_status === 'delivered'
         let grace = !pending && !expired
         let completed = !pending && !grace
@@ -71,6 +69,8 @@ class QuickActions extends React.Component {
                                 {grace && <Flex justify='flex-end'>
                                     <ProcessButton label={`Complete`} {...this.props} />
                                 </Flex>}
+
+                                {(grace || completed) && <CompletionTime>Completed by {last_gp_action.name} - <FormattedDate date={last_gp_action.timestamp} /></CompletionTime>}
                             </Box>
                             <Box w={3 / 10} ><SidePanel {...this.props} chat={!completed ? true : false} /></Box>
                         </Flex>
@@ -108,6 +108,16 @@ background: none;
 color: #333;
 box-shadow: none;
 margin: 6px 0;
+}
+`
+
+const CompletionTime = styled.p`
+&&
+{ 
+font-family: Assistant;
+font-size: 14px;
+font-weight: 600;
+color: #9e9e9e;
 }
 `
 
