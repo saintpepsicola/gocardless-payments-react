@@ -1,4 +1,41 @@
-// We need to do this better later on
+import firebase from 'firebase/app'
+import 'firebase/messaging'
+
+firebase.initializeApp({
+    apiKey: "AIzaSyAw6PDvPLHS4G4qQwMl3PFTyf7-evX80FU",
+    authDomain: "healthera-connect.firebaseapp.com",
+    databaseURL: "https://healthera-connect.firebaseio.com",
+    projectId: "healthera-connect",
+    storageBucket: "healthera-connect.appspot.com",
+    messagingSenderId: "118120875233"
+})
+
+const messaging = firebase.messaging()
+messaging.usePublicVapidKey("BGfEtplyvUmXxhtlMRfl6EfUFNh74Ea_nMmMJPFtSD0UxaZlZGWcWZr4gIL3jIL-JPT0o6qfTzuLTk4ADXwvMP4");
+
+//Storing token for login
+let token
+messaging.requestPermission().then(function () {
+    console.log('Notification permission granted.')
+
+    messaging.getToken().then(function (currentToken) {
+        if (currentToken) {
+            token = currentToken
+            console.log(currentToken)
+        } else {
+            console.log('No Instance ID token available. Request permission to generate one.')
+        }
+    }).catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err)
+    })
+}).catch(function (err) {
+    console.log('Unable to get permission to notify.', err);
+})
+
+messaging.onMessage(function (payload) {
+    console.log('Message received. ', payload)
+})
+
 const REACT_APP_CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 
 // Initial State
@@ -76,6 +113,7 @@ export const resetPassword = (email) => {
 }
 
 export const logout = () => ({ type: LOGOUT_USER })
+
 export const login = (email, password) => {
     return ({
         types: [LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE],
@@ -85,7 +123,8 @@ export const login = (email, password) => {
                 method: 'POST',
                 data: {
                     username: email,
-                    user_password: password
+                    user_password: password,
+                    device_token: token
                 },
                 headers: headers
             }
