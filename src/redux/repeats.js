@@ -1,19 +1,19 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
 
-// // Initialize Firebase
+// Initialize Firebase
 firebase.initializeApp({
     apiKey: "AIzaSyDz-VMKi5TU8I7Juwy5dFWVKH4yvigXF2c",
     authDomain: "healthera-pod.firebaseapp.com",
     databaseURL: "https://healthera-pod.firebaseio.com",
     projectId: "healthera-pod",
     storageBucket: "healthera-pod.appspot.com"
-})
+}, 'pod')
 
-// // Initialize Cloud Firestore through Firebase
+// Initialize Cloud Firestore through Firebase
 let db = firebase.database()
 
-//GLOBALS
+// GLOBALS
 // Initial State
 let initialState = {
     repeats: [],
@@ -49,11 +49,9 @@ let headers = {
 // Action constants
 // All Repeats
 const TOGGLE_BLUR = 'TOGGLE_BLUR'
-
 const GET_REPEATS = 'GET_REPEATS'
 const GET_REPEATS_SUCCESS = 'GET_REPEATS_SUCCESS'
 const GET_REPEATS_FAILURE = 'GET_REPEATS_FAILURE'
-
 const GET_LOCKED_REPEATS_FROM_FIREBASE = 'GET_REPEATS_FROM_FIREBASE'
 
 // Single Repeat
