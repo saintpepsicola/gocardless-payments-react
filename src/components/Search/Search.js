@@ -35,8 +35,11 @@ class Search extends Component {
   }
 
   handleChange = (e) => {
-    this.props.history.push(`${process.env.PUBLIC_URL}/`)
-    this.props.searchRepeats(e.target.value)
+    const searchTerm = e.target.value
+    if(searchTerm && searchTerm.length > 2) {
+      this.props.history.push(`${process.env.PUBLIC_URL}/`)
+      this.props.searchRepeats(searchTerm)
+    }
   }
 
   handleSearch = () => {
