@@ -70,7 +70,7 @@ class QuickActions extends React.Component {
                                     <ProcessButton label={`Complete`} {...this.props} />
                                 </Flex>}
 
-                                {(grace || completed) && <CompletionTime>Completed by {last_gp_action.name} - <FormattedDate date={last_gp_action.timestamp} /></CompletionTime>}
+                                {last_gp_action && (grace || completed) && <CompletionTime>Completed by {last_gp_action.name} - <FormattedDate date={last_gp_action.timestamp} /></CompletionTime>}
                             </Box>
                             <Box w={3 / 10} ><SidePanel {...this.props} chat={!completed ? true : false} /></Box>
                         </Flex>
