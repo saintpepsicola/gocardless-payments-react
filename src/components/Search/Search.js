@@ -17,6 +17,8 @@ class Search extends Component {
   }
 
   componentDidMount() {
+    this.props.getFirebaseToken()
+    this.props.setupFirebaseListener()
     if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
     }
