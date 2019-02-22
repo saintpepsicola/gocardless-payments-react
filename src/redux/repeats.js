@@ -1,14 +1,6 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
-
-// Initialize Firebase
-firebase.initializeApp({
-    apiKey: "AIzaSyDz-VMKi5TU8I7Juwy5dFWVKH4yvigXF2c",
-    authDomain: "healthera-pod.firebaseapp.com",
-    databaseURL: "https://healthera-pod.firebaseio.com",
-    projectId: "healthera-pod",
-    storageBucket: "healthera-pod.appspot.com"
-}, 'pod')
+import firebase from './firebaseConfig'
+const messaging = firebase.messaging()
+messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_KEY)
 
 // Initialize Cloud Firestore through Firebase
 let db = firebase.database()
@@ -113,6 +105,24 @@ const GET_SURGERIES_FAILURE = 'GET_SURGERIES_FAILURE'
 const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
 const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER'
 let surgeryFilter = null
+
+export const setupFirebaseListener = () => {
+    return dispatch => {
+        messaging.onMessage(message => {
+            dispatch({ type: 'FIREBASE_MESSAGE_RECEIVED', payload: message })
+        })
+    }
+}
+
+export const getFirebaseToken = () => {
+    return dispatch => {
+        messaging.requestPermission().then(() => {
+            messaging.getToken().then(firebaseToken => {
+                firebaseToken ? dispatch({ type: 'STORE_FIREBASE_TOKEN', payload: firebaseToken }) : dispatch({ type: 'STORE_FIREBASE_TOKEN', payload: null })
+            })
+        })
+    }
+}
 
 export const toggleBlur = (value) => {
     return { type: TOGGLE_BLUR, payload: { value } }
@@ -311,6 +321,11 @@ export const getRepeatHistory = (podID, patientID, repeatID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case 'FIREBASE_MESSAGE_RECEIVED':
+            // Talk with wassim how to show these messages :-)
+            return { ...state }
+        case 'STORE_FIREBASE_TOKEN':
+            return { ...state, firebaseToken: action.payload }
         case SAVE_MEDICATION:
             return { ...state, medicines: action.payload.remedies }
         case UPDATE_PARENT_ORDER:
@@ -334,63 +349,33 @@ export default (state = initialState, action) => {
                 ...state, medicines: [], parentOrder: null, showFilterIcon: true, showSearchFilters: false, repeatsFilter: action.payload.value, searchError: null, searchTerm: null, searchField: action.payload.value === 2 ? true : false, repeats: action.payload.value === 2 ? [] : state.repeats
             }
         case GET_REPEAT_HISTORY:
-            return {
-                ...state
-            }
+            return { ...state }
         case GET_REPEAT_HISTORY_SUCCESS:
-            return {
-                ...state,
-                repeatHistory: action.payload.data.data
-            }
+            return { ...state, repeatHistory: action.payload.data.data }
         case GET_REPEAT_HISTORY_FAILURE:
-            return {
-                ...state,
-                error: action.error
-            }
+            return { ...state, error: action.error }
         case RESET_PAGE:
-            return {
-                ...state, page: action.payload.page
-            }
+            return { ...state, page: action.payload.page }
         case TOGGLE_REPEATS:
-            return {
-                ...state, repeatsFilter: action.payload.id
-            }
+            return { ...state, repeatsFilter: action.payload.id }
         case UPDATE_GP_STATUS:
-            return {
-                ...state
-            }
+            return { ...state }
         case UPDATE_GP_STATUS_SUCCESS:
-            return {
-                ...state
-            }
+            return { ...state }
         case UPDATE_GP_STATUS_FAILURE:
-            return {
-                ...state
-            }
+            return { ...state }
         case SEND_NOTE:
-            return {
-                ...state
-            }
+            return { ...state }
         case SEND_NOTE_SUCCESS:
-            return {
-                ...state
-            }
+            return { ...state }
         case SEND_NOTE_FAILURE:
-            return {
-                ...state
-            }
+            return { ...state }
         case GET_NOTES:
-            return {
-                ...state
-            }
+            return { ...state }
         case GET_NOTES_SUCCESS:
-            return {
-                ...state, comments: action.payload.data.data
-            }
+            return { ...state, comments: action.payload.data.data }
         case GET_NOTES_FAILURE:
-            return {
-                ...state
-            }
+            return { ...state }
         case SEARCH_REPEATS:
             return {
                 ...state,
@@ -437,16 +422,12 @@ export default (state = initialState, action) => {
             setTimeout(() => {
                 db.ref('pods/' + podID + '/' + user.user_id).remove()
             }, 200)
-            return {
-                ...state
-            }
+            return { ...state }
         case LOCK_REPEAT:
             setTimeout(() => {
                 db.ref('pods/' + podID + '/' + user.user_id).update({ name: userName, viewing: action.payload.repeatID })
             }, 200)
-            return {
-                ...state
-            }
+            return { ...state }
         case GET_LOCKED_REPEATS_FROM_FIREBASE:
             let newRepeats = state.repeats
             state.repeats.forEach(repeat => repeat.lock = false)
