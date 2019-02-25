@@ -32,7 +32,7 @@ export default connect(mapStateToProps, null)(App)
 const ProgressSpinner = (props) => {
   return (
     <div> {props.fetching && <Spin justify='center' align='center'>
-      <ReactSpinner color='#134E5E' name='double-bounce' />
+      <ReactSpinner color='#134E5E' name='line-scale-party' />
     </Spin>}
     </div>)
 }

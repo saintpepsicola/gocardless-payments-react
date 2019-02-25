@@ -44,7 +44,6 @@ class RepeatsList extends Component {
         return (
             <div>
                 {this.props.showSearchFilters && <RepeatsFilter {...this.props} />}
-                {this.props.repeats.length === 0 && <NoRepeatsMessage />}
                 {this.props.repeats.length !== 0 && <Table>
                     <TableHeader>
                         <TableRow>
@@ -65,8 +64,8 @@ class RepeatsList extends Component {
                             .map((row, index) => {
                                 let expired = row.response_grace_timestamp ? new Date(row.response_grace_timestamp * 1000) < new Date() : true
                                 return (
-                                    <OrderRow delay={index * 50} muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
-                                        <PatientName>{row.patient_forename} {row.patient_surname}</PatientName>
+                                    <OrderRow delay={index * 25} muted={this.props.repeatsFilter !== 0 || row.response_grace_timestamp} locked={row.lock ? 1 : 0} pending='true' onClick={this.handleSelect.bind(this, row.repeat_id)} key={index}>
+                                        <PatientName>{row.patient_forename} {row.patient_surname} {(!row.patient_forename && !row.patient_surname) && row.patient_username} </PatientName>
                                         <TableCell>{row.number_of_medicines} medication{row.number_of_medicines === 1 ? '' : 's'}</TableCell>
                                         <TableCell><FormattedDate date={row.date_created} /></TableCell>
                                         <Status>{(!expired) ? 'Pending' : row.gp_status === 'delivered' ? 'New Order' : row.gp_status}</Status>
@@ -100,10 +99,6 @@ class RepeatsList extends Component {
 
 export default withRouter(RepeatsList)
 
-const NoRepeatsMessage = () => {
-    return <BigBox>No Repeats found</BigBox>
-}
-
 const FormattedDate = (props) => {
     let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }
     let date = new Date(Number(props.date))
@@ -111,19 +106,6 @@ const FormattedDate = (props) => {
 }
 
 // Styled Components
-const BigBox = styled.section`
-&&
-{
-color: #6E6E6E;
-height: 60vh;
-width: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 22px;
-}
-`
-
 const ArrowRight = styled(KeyboardArrowRightRight)`
 &&
 {
@@ -184,19 +166,18 @@ color: #707070;
 
 const BounceAnimation = keyframes`
 0% {  opacity:0; }
-100% {  opacity:1;transform:translateX(0%);}
+100% {  opacity:1;}
 `
 
 const OrderRow = styled(TableRow)`
 && {
 opacity:0;
-transform:translateY(400%);
 height:66px;
 cursor:pointer;
 position:relative;
 filter: ${props => props.locked ? `opacity(0.50)` : `opacity(1)`};
 background-color: ${props => props.muted ? `#f5f5f5` : `#ffffff`};
-animation: ${BounceAnimation} 0.5s ease-in-out forwards;
+animation: ${BounceAnimation} 0.2s ease-in-out forwards;
 animation-delay: ${props => props.delay}ms;
 }
 
