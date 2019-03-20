@@ -5,9 +5,10 @@ services:
       context: .
       args:
         - PORT=3060
+        - APP_ENV=.env-local
     ports:
       - "3060:3060"
     command: npm start
     volumes:
-      - ./:/usr/app
-      - /usr/app/node_modules
+      - ./:/app
+      - /app/node_modules
