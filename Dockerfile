@@ -17,7 +17,7 @@ RUN npm install
 COPY . /app
 
 # Running tests
-RUN npm test
+RUN CI=true npm test
 
 ####################
 
