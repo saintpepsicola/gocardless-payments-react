@@ -23,7 +23,7 @@ stop:		## Stop the project.
 	docker-compose down
 
 edit-tests:	## Edit GOSS tests.
-	dgoss edit -p 3000:3000 pod:latest
+	dgoss edit -p 3060:3060 pod:latest
 
 test:		## Run GOSS tests.
-	dgoss run -p 3000:3000 pod:latest
+	dgoss run -p 3060:3060 pod:latest
