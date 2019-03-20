@@ -1,6 +1,6 @@
 FROM node:8.15-alpine AS builder
 
-ARG PORT=3060
+ARG PORT
 EXPOSE ${PORT}
 
 WORKDIR /app
@@ -23,7 +23,7 @@ RUN npm test
 
 FROM node AS runner
 
-ARG PORT=3060
+ARG PORT
 EXPOSE ${PORT}
 
 WORKDIR /app
