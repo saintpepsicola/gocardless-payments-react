@@ -3,7 +3,7 @@ FROM node:8.15-alpine AS builder
 ARG PORT
 EXPOSE ${PORT}
 
-ARG ENV
+ARG APP_ENV
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN npm install
 # Copying application code
 COPY . ./
 
-COPY ${ENV} .env
+COPY ${APP_ENV} ./.env
 
 # Running tests
 RUN CI=true npm test
@@ -30,7 +30,7 @@ FROM node:8.15-alpine AS runner
 ARG PORT
 EXPOSE ${PORT}
 
-ARG ENV
+ARG APP_ENV
 
 WORKDIR /app
 
@@ -40,6 +40,6 @@ COPY --from=builder /tmp/node_modules ./node_modules
 # Copying application code
 COPY . ./
 
-COPY ${ENV} .env
+COPY ${APP_ENV} ./.env
 
 CMD ["npm", "start"]
