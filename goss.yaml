@@ -1,0 +1,16 @@
+user:
+  node:
+    exists: true
+    uid: 1000
+    gid: 1000
+    groups:
+    - node
+    home: /home/node
+    shell: /bin/sh
+group:
+  node:
+    exists: true
+    gid: 1000
+process:
+  node:
+    running: true

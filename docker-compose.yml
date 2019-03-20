@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pod:
+    build:
+      context: .
+      args:
+        - PORT=3060
+    ports:
+      - "3060:3060"
+    command: npm start
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules
