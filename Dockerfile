@@ -25,7 +25,7 @@ RUN CI=true npm test
 
 ####################
 
-FROM node AS runner
+FROM node:8.15-alpine AS runner
 
 ARG PORT
 EXPOSE ${PORT}
