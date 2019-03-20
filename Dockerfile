@@ -5,7 +5,7 @@ EXPOSE ${PORT}
 
 WORKDIR /app
 
-COPY package.json /app
+COPY package.json ./
 
 # Creating tar of productions dependencies
 RUN npm install --production && cp -rp ./node_modules /tmp/node_modules
@@ -14,7 +14,7 @@ RUN npm install --production && cp -rp ./node_modules /tmp/node_modules
 RUN npm install
 
 # Copying application code
-COPY . /app
+COPY . ./
 
 # Running tests
 RUN CI=true npm test
@@ -29,9 +29,9 @@ EXPOSE ${PORT}
 WORKDIR /app
 
 # Adding production dependencies to image
-COPY --from=builder /tmp/node_modules /app/node_modules
+COPY --from=builder /tmp/node_modules ./node_modules
 
 # Copying application code
-COPY . /app
+COPY . ./
 
 CMD ["npm", "start"]
