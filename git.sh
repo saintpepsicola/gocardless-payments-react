@@ -26,14 +26,14 @@ changeOwn(){
 }
 
 create(){
-    git checkout master
+    git checkout develop
     git pull
     git checkout -b "$1"
     git push origin "$1"
 }
 
 prune(){
-    git branch --merged | grep -v "*" | grep -v "master" | xargs git branch -d
+    git branch --merged | grep -v "*" | grep -v "develop" | xargs git branch -d
 }
 
 getArgument "$1" "$2"
