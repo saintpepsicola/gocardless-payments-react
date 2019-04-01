@@ -18,7 +18,7 @@ RUN npm install
 # Copying application code
 COPY . .
 
-COPY .env-local .env
+COPY ${APP_ENV} .env
 RUN ls -la
 
 # Running tests
@@ -41,7 +41,7 @@ COPY --from=builder /tmp/node_modules ./node_modules
 # Copying application code
 COPY . .
 
-COPY .env-local .env
+COPY ${APP_ENV} .env
 RUN ls -la
 
 CMD ["npm", "start"]
