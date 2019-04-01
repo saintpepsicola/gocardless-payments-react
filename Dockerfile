@@ -16,9 +16,10 @@ RUN npm install --production && cp -rp ./node_modules /tmp/node_modules
 RUN npm install
 
 # Copying application code
-COPY . ./
+COPY . .
 
 COPY ${APP_ENV} .env
+RUN ls -la
 
 # Running tests
 RUN CI=true npm test
@@ -38,8 +39,9 @@ WORKDIR /app
 COPY --from=builder /tmp/node_modules ./node_modules
 
 # Copying application code
-COPY . ./
+COPY . .
 
 COPY ${APP_ENV} .env
+RUN ls -la
 
 CMD ["npm", "start"]
