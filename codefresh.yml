@@ -8,7 +8,8 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
     build_arguments:
-      - key=APP_ENV
+      - APP_ENV=.env-local
+      - PORT=3060
   PushingToDockerRegistry:
     title: Pushing to Docker Registry
     type: push
