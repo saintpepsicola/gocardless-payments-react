@@ -17,8 +17,6 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    this.props.getFirebaseToken()
-    this.props.setupFirebaseListener()
     if (this.props) {
       this.props.getRepeats(this.props.repeatsFilter === 0 ? true : false)
     }
@@ -38,7 +36,7 @@ class Search extends Component {
 
   handleChange = (e) => {
     const searchTerm = e.target.value
-    if(searchTerm && searchTerm.length > 2) {
+    if (searchTerm && searchTerm.length > 2) {
       this.props.history.push(`${process.env.PUBLIC_URL}/`)
       this.props.searchRepeats(searchTerm)
     }

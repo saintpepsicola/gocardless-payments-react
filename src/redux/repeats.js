@@ -1,6 +1,13 @@
-import firebase from './firebaseConfig'
-const messaging = firebase.messaging()
-messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_KEY)
+import firebase from 'firebase/app'
+import 'firebase/database'
+
+// // Initialize Firebase
+firebase.initializeApp({
+    apiKey: "AIzaSyDz-VMKi5TU8I7Juwy5dFWVKH4yvigXF2c",
+    databaseURL: "https://healthera-pod.firebaseio.com",
+    projectId: "healthera-pod",
+    storageBucket: "healthera-pod.appspot.com"
+})
 
 // Initialize Cloud Firestore through Firebase
 let db = firebase.database()
@@ -105,24 +112,6 @@ const GET_SURGERIES_FAILURE = 'GET_SURGERIES_FAILURE'
 const SET_SURGERIES_FILTER = 'SET_SURGERIES_FILTER'
 const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER'
 let surgeryFilter = null
-
-export const setupFirebaseListener = () => {
-    return dispatch => {
-        messaging.onMessage(message => {
-            dispatch({ type: 'FIREBASE_MESSAGE_RECEIVED', payload: message })
-        })
-    }
-}
-
-export const getFirebaseToken = () => {
-    return dispatch => {
-        messaging.requestPermission().then(() => {
-            messaging.getToken().then(firebaseToken => {
-                firebaseToken ? dispatch({ type: 'STORE_FIREBASE_TOKEN', payload: firebaseToken }) : dispatch({ type: 'STORE_FIREBASE_TOKEN', payload: null })
-            })
-        })
-    }
-}
 
 export const toggleBlur = (value) => {
     return { type: TOGGLE_BLUR, payload: { value } }
@@ -321,11 +310,6 @@ export const getRepeatHistory = (podID, patientID, repeatID) => {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'FIREBASE_MESSAGE_RECEIVED':
-            // Talk with wassim how to show these messages :-)
-            return { ...state }
-        case 'STORE_FIREBASE_TOKEN':
-            return { ...state, firebaseToken: action.payload }
         case SAVE_MEDICATION:
             return { ...state, medicines: action.payload.remedies }
         case UPDATE_PARENT_ORDER:
