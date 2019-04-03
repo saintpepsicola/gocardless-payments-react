@@ -1,12 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import store from './configureStore'
-import Routes from './components/Routes/RoutesContainer'
+import App from './App'
 import './index.css'
 
-const rootElement = <Provider store={store()}>
-    <Routes />
-</Provider>
+const rootElement = <App />
 
 ReactDOM.render(rootElement, document.getElementById('root'))
